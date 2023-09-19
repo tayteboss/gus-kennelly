@@ -29,3 +29,21 @@ export type Transitions = {
 		}
 	}
 };
+
+export type SiteSettingsType = {
+	about: [];
+	aoc: string;
+	availableForWork: boolean;
+	email: string;
+	instagram: string;
+	instagramHandle: string;
+	phone: string;
+	photographyColour: {
+		hex: string;
+	}
+	productionColour: {
+		hex: string;
+	}
+	seoDescription: string;
+	tagline: string;
+}

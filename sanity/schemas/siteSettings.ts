@@ -14,6 +14,11 @@ export default {
 			type: "string"
 		},
 		{
+			title: "Tagline",
+			name: "tagline",
+			type: "string"
+		},
+		{
 			title: "Email",
 			name: "email",
 			type: "string"
@@ -27,6 +32,11 @@ export default {
 			title: "Instagram URL",
 			name: "instagram",
 			type: "url"
+		},
+		{
+			title: "Instagram Handle",
+			name: "instagramHandle",
+			type: "string"
 		},
 		{
 			title: "Vimeo URL",

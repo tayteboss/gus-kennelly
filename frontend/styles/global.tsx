@@ -51,6 +51,8 @@ export const GlobalStyles = createGlobalStyle`
 
 	body {
 		position: relative;
+		height: 100vh;
+		height: 100dvh;
 	}
 
 	input,
@@ -61,7 +63,7 @@ export const GlobalStyles = createGlobalStyle`
 	body {
 		font-family: var(--font-default);
 		color: var(--colour-black);
-		line-height: 1.4;
+		line-height: 1;
 	}
 
 	strong,
