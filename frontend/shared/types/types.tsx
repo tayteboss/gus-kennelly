@@ -46,4 +46,36 @@ export type SiteSettingsType = {
 	}
 	seoDescription: string;
 	tagline: string;
-}
+};
+
+export type MuxMediaType = {
+	asset: {
+		playbackId: string;
+	};
+};
+
+export type ProductionType = {
+	description: [];
+	awards: [];
+	credits: [];
+	category: string;
+	featured: boolean;
+	media: MuxMediaType;
+	snippet: MuxMediaType;
+	slug: string;
+	title: string;
+	year: number;
+	_type: string;
+	client: string;
+};
+
+export type PhotographyType = {
+	category: string;
+	client: string;
+	featured: boolean;
+	imageGallery: [];
+	slug: string;
+	title: string;
+	year: number;
+	featuredImage: {};
+};

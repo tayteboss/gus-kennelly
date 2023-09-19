@@ -42,10 +42,10 @@ export const theme = {
 		innerWrapper: '1920px',
 	},
 	transitionSpeed: {
-		default: '300ms',
-		fast: '200ms',
+		default: '200ms',
+		fast: '100ms',
 		extraFast: '100ms',
-		slow: '500ms',
+		slow: '300ms',
 		extraSlow: '800ms',
 	},
 };

@@ -53,6 +53,21 @@ export const GlobalStyles = createGlobalStyle`
 		position: relative;
 		height: 100vh;
 		height: 100dvh;
+
+		transition: background-color var(--transition-speed-slow) var(--transition-ease);
+
+		&.credits-is-active {
+			.snippet-wrapper {
+				filter: brightness(0.3) !important;
+			}
+		}
+
+		&.project-is-expanded {
+			.page-wrapper {
+				filter: brightness(0.1);
+				transform: scale(1.015);
+			}
+		}
 	}
 
 	input,
@@ -146,6 +161,13 @@ export const GlobalStyles = createGlobalStyle`
 			opacity: 1;
 			transform: scale(1);
 		}
+	}
+
+	.pill-column {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		row-gap: ${pxToRem(4)};
 	}
 
 	.performance {

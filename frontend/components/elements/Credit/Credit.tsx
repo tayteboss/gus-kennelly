@@ -5,14 +5,14 @@ const Link = styled.a``;
 
 const Credit = () => {
 
-	const [title, setTitle] = useState("tayte.co");
+	const [title, setTitle] = useState("Credits");
 
 	return (
 		<Link
 			href="https://tayte.co/"
 			target="_blank"
-			onMouseOver={() => setTitle('Design + Development')}
-			onMouseOut={() => setTitle('tayte.co')}
+			onMouseOver={() => setTitle('tayte.co')}
+			onMouseOut={() => setTitle('Credits')}
 		>
 			{title}
 		</Link>

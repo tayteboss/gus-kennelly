@@ -68,5 +68,10 @@ export default {
 				layout: 'grid',
 			},
 		},
+		{
+			title: 'Featured Image',
+			name: 'featuredImage',
+			type: 'image',
+		}
 	]
 }

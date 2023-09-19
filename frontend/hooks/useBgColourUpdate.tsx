@@ -3,10 +3,10 @@ import { SiteSettingsType } from '../shared/types/types';
 
 const useBgColourUpdate = (productionIsActive: boolean, siteSettings: SiteSettingsType) => {
 	useEffect(() => {
-		const body = document.querySelector('body') as HTMLElement | null;
+		const pageWrapper = document.querySelector('.page-wrapper') as HTMLElement | null;
 		const colourElements = document.querySelectorAll('.colour-change') as NodeListOf<HTMLElement>;
 
-		if (!body) return;
+		if (!pageWrapper) return;
 
 		const hasProdColour = siteSettings?.productionColour?.hex;
 		const hasPhotoColour = siteSettings?.photographyColour?.hex;
@@ -14,9 +14,9 @@ const useBgColourUpdate = (productionIsActive: boolean, siteSettings: SiteSettin
 		const photoBgColour = hasPhotoColour ? siteSettings.photographyColour.hex : '#FFF';
 
 		if (productionIsActive) {
-			body.style.backgroundColor = prodBgColour;
+			pageWrapper.style.backgroundColor = prodBgColour;
 		} else {
-			body.style.backgroundColor = photoBgColour;
+			pageWrapper.style.backgroundColor = photoBgColour;
 		}
 
 		if (colourElements.length <= 0) return;
@@ -24,8 +24,10 @@ const useBgColourUpdate = (productionIsActive: boolean, siteSettings: SiteSettin
 		colourElements.forEach((element) => {
 			if (productionIsActive) {
 				element.style.backgroundColor = prodBgColour;
+				element.style.color = prodBgColour;
 			} else {
 				element.style.backgroundColor = photoBgColour;
+				element.style.color = photoBgColour;
 			}
 			});
 	}, [productionIsActive, siteSettings]);

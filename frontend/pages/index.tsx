@@ -1,18 +1,24 @@
 import styled from 'styled-components';
 import { NextSeo } from 'next-seo';
 import client from '../client';
-import { SiteSettingsType } from '../shared/types/types';
-import { useEffect, useState } from 'react';
-import useBgColourUpdate from '../hooks/useBgColourUpdate';
+import { PhotographyType, ProductionType, SiteSettingsType } from '../shared/types/types';
 import InformationSection from '../components/blocks/InformationSection';
+import ProjectsIndex from '../components/blocks/ProjectsIndex';
+import ProjectSnippet from '../components/blocks/ProjectSnippet';
+import { useState } from 'react';
 
-const PageWrapper = styled.div``;
+const PageWrapper = styled.div`
+	height: 100vh;
+
+	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
+`;
 
 type Props = {
 	siteSettings: SiteSettingsType;
-	productionData: any;
-	featuredProductionData: any;
-	photographyData: any;
+	productionData: ProductionType[];
+	featuredProductionData: ProductionType[];
+	photographyData: PhotographyType[];
+	featuredPhotographyData: PhotographyType[];
 };
 
 const Page = (props: Props) => {
@@ -20,35 +26,47 @@ const Page = (props: Props) => {
 		siteSettings,
 		productionData,
 		featuredProductionData,
-		photographyData
+		photographyData,
+		featuredPhotographyData
 	} = props;
 
-	const [productionIsActive, setProductionIsActive] = useState(true);
+	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredProductionData[0]);
 
-	useBgColourUpdate(productionIsActive, siteSettings);
-
-	console.log('siteSettings', siteSettings);
+	// console.log('siteSettings', siteSettings);
 	// console.log('productionData', productionData);
-	// console.log('featuredProductionData', featuredProductionData);
-	// console.log('photographyData', photographyData);
+	console.log('featuredProductionData', featuredProductionData);
+	console.log('photographyData', photographyData);
 
 	return (
-		<PageWrapper>
-			<NextSeo
-				title={`Gus Kennelly | ${siteSettings?.tagline || ''}`}
-				description={siteSettings?.seoDescription || ''}
-			/>
-			<InformationSection
-				tagline={siteSettings?.tagline}
-				email={siteSettings?.email}
-				phone={siteSettings?.phone}
-				instagram={siteSettings?.instagram}
-				instagramHandle={siteSettings?.instagramHandle}
-				aoc={siteSettings?.aoc}
-				availableForWork={siteSettings?.availableForWork}
-				about={siteSettings?.about}
-			/>
-		</PageWrapper>
+		<>
+			<PageWrapper className="page-wrapper">
+				<NextSeo
+					title={`Gus Kennelly | ${siteSettings?.tagline || ''}`}
+					description={siteSettings?.seoDescription || ''}
+				/>
+				<ProjectsIndex
+					productionData={productionData}
+					featuredProductionData={featuredProductionData}
+					photographyData={photographyData}
+					featuredPhotographyData={featuredPhotographyData}
+					productionColour={siteSettings?.productionColour?.hex}
+					photographyColour={siteSettings?.photographyColour?.hex}
+					siteSettings={siteSettings}
+					setSnippetData={setSnippetData}
+				/>
+				<InformationSection
+					tagline={siteSettings?.tagline}
+					email={siteSettings?.email}
+					phone={siteSettings?.phone}
+					instagram={siteSettings?.instagram}
+					instagramHandle={siteSettings?.instagramHandle}
+					aoc={siteSettings?.aoc}
+					availableForWork={siteSettings?.availableForWork}
+					about={siteSettings?.about}
+				/>
+			</PageWrapper>
+			<ProjectSnippet snippetData={snippetData} />
+		</>
 	);
 };
 
@@ -67,14 +85,6 @@ export async function getStaticProps() {
 		}
 	`;
 
-	const featuredProductionDataQuery = `
-		*[_type == 'production' && featured == true] | order(orderRank) [0...100] {
-			...,
-			media{asset->},
-			snippet{asset->}
-		}
-	`;
-
 	const photographyDataQuery = `
 		*[_type == 'photography'] | order(orderRank) [0...100] {
 			...,
@@ -84,20 +94,24 @@ export async function getStaticProps() {
 					asset->
 				},
 			},
+			'featuredImage': featuredImage.asset->url,
 		}
 	`;
 
 	const siteSettings = await client.fetch(siteSettingsQuery);
 	const productionData = await client.fetch(productionDataQuery);
-	const featuredProductionData = await client.fetch(featuredProductionDataQuery);
 	const photographyData = await client.fetch(photographyDataQuery);
+
+	const featuredProductionData = productionData.filter((project: any) => project.featured);
+	const featuredPhotographyData = photographyData.filter((project: any) => project.featured);
 
 	return {
 		props: {
 			siteSettings,
 			productionData,
 			featuredProductionData,
-			photographyData
+			photographyData,
+			featuredPhotographyData
 		},
 	};
 }
