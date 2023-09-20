@@ -11,7 +11,6 @@ type Props = {
 const SeekBarWrapper = styled.div`
 	flex: 1;
 	width: 100%;
-	cursor: pointer;
 	height: 100%;
 	display: flex;
 	align-items: center;
@@ -22,6 +21,8 @@ const SeekBarWrapper = styled.div`
 const SeekBarInner = styled.div`
 	position: relative;
 	width: 100%;
+	height: 100%;
+	cursor: pointer;
 `;
 
 const FullBar = styled.div`
@@ -37,7 +38,7 @@ const FullBar = styled.div`
 	border-radius: 5px;
 `;
 
-const CurrentTimeBar = styled.div<{ width: number }>`
+const CurrentTimeBar = styled.div`
 	position: absolute;
 	top: 50%;
 	left: 0;
@@ -45,16 +46,17 @@ const CurrentTimeBar = styled.div<{ width: number }>`
 	z-index: 2;
 	background: var(--colour-white);
 	height: 1px;
-	width: ${(props) => props.width}%; /* Use width prop to set the current time bar's width */
 	border-radius: 5px;
 
-	transition: all var(--transition-speed-slow) linear;
+	transition: all 300ms linear;
 `;
 
 const ProgressWrapper = styled.div`
 	display: flex;
 	align-items: center;
+	justify-content: flex-end;
 	column-gap: ${pxToRem(4)};
+	min-width: 90px;
 `;
 
 const Current = styled.div``;
@@ -100,7 +102,7 @@ const SeekBar = (props: Props) => {
 		<SeekBarWrapper onClick={handleSeekBarClick}>
 			<SeekBarInner>
 				<FullBar />
-				<CurrentTimeBar width={currentTimePercentage} />
+				<CurrentTimeBar style={{ width: `${currentTimePercentage}%` }} />
 			</SeekBarInner>
 			<ProgressWrapper>
 				<Current>{currentTimeFormatted}</Current>

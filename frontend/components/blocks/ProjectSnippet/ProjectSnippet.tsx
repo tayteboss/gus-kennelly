@@ -124,6 +124,17 @@ const ProjectSnippet = (props: Props) => {
 	}, [isExpanded]);
 
 	useEffect(() => {
+		// pause the video when isPLaying is false
+		if (muxPlayerRef.current) {
+			if (isPlaying) {
+				muxPlayerRef.current.play();
+			} else {
+				muxPlayerRef.current.pause();
+			}
+		}
+	}, [isPlaying]);
+
+	useEffect(() => {
 		setVideoLength(snippetData?.media?.asset?.data?.duration);
 
 		// Get the current time of the video
@@ -194,7 +205,6 @@ const ProjectSnippet = (props: Props) => {
 								thumbnailTime={0}
 								preload="auto"
 								muted={isMuted}
-								paused={!isPlaying}
 								playsInline={true}
 								style={{ aspectRatio: 16/9 }}
 								onLoadStart={() => setIsLoading(true)}

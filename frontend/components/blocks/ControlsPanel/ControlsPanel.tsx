@@ -6,6 +6,7 @@ import CloseProjectTrigger from '../../elements/CloseProjectTrigger';
 import PlayTrigger from '../../elements/PlayTrigger';
 import MuteTrigger from '../../elements/MuteTrigger';
 import SeekBar from '../../elements/SeekBar';
+import { ProductionType } from '../../../shared/types/types';
 
 type Props = {
 	creditsIsActive: boolean;
@@ -13,6 +14,7 @@ type Props = {
 	isPlaying: boolean;
 	currentTime: number;
 	videoLength: number;
+	data: ProductionType;
 	setCreditsIsActive: (creditsIsActive: boolean) => void;
 	setIsExpanded: (isExpanded: boolean) => void;
 	setIsMuted: (isMuted: boolean) => void;
@@ -35,7 +37,11 @@ const TopBar = styled.div`
 	justify-content: space-between;
 `;
 
-const TitleWrapper = styled.div``;
+const TitleWrapper = styled.div`
+	opacity: ${(props: { $isActive: boolean }) => props.$isActive ? 1 : 0};
+
+	transition: all var(--transition-speed-default) var(--transition-ease);
+`;
 
 const Title = styled.h1`
 	color: var(--colour-white);
@@ -57,6 +63,7 @@ const ControlsPanel = (props: Props) => {
 		isPlaying,
 		currentTime,
 		videoLength,
+		data,
 		setCreditsIsActive,
 		setIsExpanded,
 		setIsMuted,
@@ -74,9 +81,13 @@ const ControlsPanel = (props: Props) => {
 				<ProjectsNavigationTrigger />
 				<CloseProjectTrigger setIsExpanded={setIsExpanded} />
 			</TopBar>
-			<TitleWrapper>
-				<Title>Project Title</Title>
-				<Client>Project Client</Client>
+			<TitleWrapper $isActive={!creditsIsActive}>
+				{data?.title && (
+					<Title>{data.title}</Title>
+				)}
+				{data?.client && (
+					<Client>{data.client}</Client>
+				)}
 			</TitleWrapper>
 			<BottomBar>
 				<PlayTrigger

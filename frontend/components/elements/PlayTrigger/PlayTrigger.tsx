@@ -15,6 +15,7 @@ const PlayTriggerWrapper = styled.button`
 	color: var(--colour-white);
 	width: 43px;
 	margin-right: ${pxToRem(16)};
+	text-align: left;
 `;
 
 const PlayTrigger = (props: Props) => {

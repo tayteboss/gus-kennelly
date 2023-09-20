@@ -4,6 +4,7 @@ import CreditPanel from '../CreditPanel';
 import ControlsPanel from '../ControlsPanel';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ProductionType } from '../../../shared/types/types';
+import throttle from 'lodash.throttle';
 
 type Props = {
 	isExpanded: boolean;
@@ -62,6 +63,7 @@ const ExpandedVideoControls = (props: Props) => {
 	} = props;
 
 	const [creditsIsActive, setCreditsIsActive] = useState(false);
+	const [isActive, setIsActive] = useState(true);
 
 	useEffect(() => {
 		const body = document.querySelector('body');
@@ -75,9 +77,48 @@ const ExpandedVideoControls = (props: Props) => {
 		}
 	}, [creditsIsActive]);
 
+	useEffect(() => {
+		let timeout: any;
+
+		const handleMouseInactive = () => {
+			if (!creditsIsActive) {
+				timeout = setTimeout(() => {
+					setIsActive(false);
+				}, 3000);
+			} else {
+				clearTimeout(timeout);
+				setIsActive(true);
+			}
+		};
+
+		// Call handleMouseInactive initially
+		handleMouseInactive();
+	
+		const handleMouseActive = () => {
+			clearTimeout(timeout);
+			setIsActive(true);
+
+			// Restart the timer when the mouse becomes active again
+			if (creditsIsActive) {
+				clearTimeout(timeout);
+				setIsActive(true);
+			} else {
+				handleMouseInactive();
+			}
+		};
+
+		const throttledHandleMouseMove = throttle(handleMouseActive, 200);
+		window.addEventListener('mousemove', throttledHandleMouseMove);
+
+		return () => {
+			window.removeEventListener('mousemove', handleMouseActive);
+			clearTimeout(timeout);
+		};
+	}, [creditsIsActive, isActive]);
+
 	return (
 		<AnimatePresence>
-			{isExpanded &&
+			{(isExpanded && isActive) &&
 				<ExpandedVideoControlsWrapper
 					variants={wrapperVariants}
 					initial='hidden'
@@ -94,6 +135,7 @@ const ExpandedVideoControls = (props: Props) => {
 						isPlaying={isPlaying}
 						currentTime={currentTime}
 						videoLength={videoLength}
+						data={data}
 						setCreditsIsActive={setCreditsIsActive}
 						setIsExpanded={setIsExpanded}
 						setIsMuted={setIsMuted}

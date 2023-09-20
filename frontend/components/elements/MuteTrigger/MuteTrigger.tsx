@@ -10,6 +10,7 @@ const MuteTriggerWrapper = styled.button`
 	width: 47px;
 	color: var(--colour-white);
 	margin-right: ${pxToRem(32)};
+	text-align: left;
 `;
 
 const MuteTrigger = (props: Props) => {
