@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import pxToRem from '../../../utils/pxToRem';
 import MuxPlayer from '@mux/mux-player-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Loading from '../../elements/Loading';
 import ExpandTrigger from '../../elements/ExpandTrigger';
 import MuteControls from '../../elements/MuteControls';
@@ -74,7 +74,12 @@ const ProjectSnippet = (props: Props) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [isMuted, setIsMuted] = useState(true);
+	const [isPlaying, setIsPlaying] = useState(true);
 	const [ratioHeight, setRatioHeight] = useState(0);
+	const [currentTime, setCurrentTime] = useState(0);
+	const [videoLength, setVideoLength] = useState(snippetData?.media?.asset?.data?.duration);
+
+	const muxPlayerRef = useRef<any>(null);
 
 	const type = snippetData._type;
 	let data: string = '';
@@ -85,13 +90,25 @@ const ProjectSnippet = (props: Props) => {
 		data = snippetData?.featuredImage;
 	}
 
-	const handleClick = () => {
-		if (snippetData?._type === 'production') return;
-	}
+	const handleHasEnded = () => {
+
+	};
+
+	const handleSeek = (time: number) => {
+		if (muxPlayerRef.current) {
+			muxPlayerRef.current.currentTime = time;
+		}
+	};
 
 	useEffect(() => {
+		// Create 16:9 ratio for video player
 		const ratioHeight = (window.innerWidth / 100) * 41.6666666667 * (9 / 16);
 		setRatioHeight(ratioHeight);
+
+		window.addEventListener('resize', () => {
+			const ratioHeight = (window.innerWidth / 100) * 41.6666666667 * (9 / 16);
+			setRatioHeight(ratioHeight);
+		});
 	}, []);
 
 	useEffect(() => {
@@ -106,11 +123,25 @@ const ProjectSnippet = (props: Props) => {
 		}
 	}, [isExpanded]);
 
+	useEffect(() => {
+		setVideoLength(snippetData?.media?.asset?.data?.duration);
+
+		// Get the current time of the video
+		const interval = setInterval(() => {
+			if (muxPlayerRef.current) {
+				let currentTime = muxPlayerRef.current?.currentTime;
+
+				setCurrentTime(currentTime);
+			}
+		}, 250);
+
+		return () => clearInterval(interval);
+	}, [snippetData]);
+
 	return (
 		<ProjectSnippetWrapper
 			onMouseOver={() => setIsHovered(true)}
 			onMouseOut={() => setIsHovered(false)}
-			onClick={() => handleClick()}
 			$isExpanded={isExpanded}
 		>
 			<Inner
@@ -119,6 +150,7 @@ const ProjectSnippet = (props: Props) => {
 			>
 
 
+				{/* Minimised Controls */}
 				<Loading isLoading={isLoading} />
 				<MuteControls
 					isMuted={isMuted}
@@ -131,10 +163,18 @@ const ProjectSnippet = (props: Props) => {
 				/>
 
 
+				{/* Expanded Controls */}
 				<ExpandedVideoControls
 					isExpanded={isExpanded}
-					setIsExpanded={setIsExpanded}
+					isMuted={isMuted}
+					isPlaying={isPlaying}
+					currentTime={currentTime}
+					videoLength={videoLength}
 					data={snippetData}
+					setIsExpanded={setIsExpanded}
+					setIsMuted={setIsMuted}
+					setIsPlaying={setIsPlaying}
+					handleSeek={handleSeek}
 				/>
 
 
@@ -146,6 +186,7 @@ const ProjectSnippet = (props: Props) => {
 
 						{type === 'production' && (
 							<MuxPlayer
+								ref={muxPlayerRef}
 								streamType="on-demand"
 								playbackId={data}
 								autoPlay="muted"
@@ -153,10 +194,12 @@ const ProjectSnippet = (props: Props) => {
 								thumbnailTime={0}
 								preload="auto"
 								muted={isMuted}
+								paused={!isPlaying}
 								playsInline={true}
 								style={{ aspectRatio: 16/9 }}
 								onLoadStart={() => setIsLoading(true)}
 								onPlaying={() => setIsLoading(false)}
+								onEnded={() => handleHasEnded()}
 							/>
 						)}
 

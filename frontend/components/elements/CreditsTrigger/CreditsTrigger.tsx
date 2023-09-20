@@ -16,6 +16,13 @@ const CreditsTriggerWrapper = styled.button`
 	align-items: center;
 	column-gap: ${pxToRem(8)};
 	width: 136px;
+	flex: 1;
+
+	&:hover {
+		.credits-trigger__icon {
+			background: var(--colour-white);
+		}
+	}
 `;
 
 const Icon = styled.div<StyledProps>`
@@ -39,7 +46,10 @@ const CreditsTrigger = (props: Props) => {
 			onClick={() => setCreditsIsActive(!creditsIsActive)}
 		>
 			{creditsIsActive ? 'Hide Project Details' : 'Show Project Details'}
-			<Icon $creditsIsActive={creditsIsActive} />
+			<Icon
+				className="credits-trigger__icon"
+				$creditsIsActive={creditsIsActive}
+			/>
 		</CreditsTriggerWrapper>
 	);
 };

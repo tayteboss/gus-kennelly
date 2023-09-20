@@ -7,8 +7,15 @@ import { ProductionType } from '../../../shared/types/types';
 
 type Props = {
 	isExpanded: boolean;
-	setIsExpanded: (isExpanded: boolean) => void;
+	isMuted: boolean;
+	isPlaying: boolean;
+	currentTime: number;
+	videoLength: number;
 	data: ProductionType;
+	setIsExpanded: (isExpanded: boolean) => void;
+	setIsMuted: (isMuted: boolean) => void;
+	setIsPlaying: (isPlaying: boolean) => void;
+	handleSeek: (time: number) => void;
 };
 
 const ExpandedVideoControlsWrapper = styled(motion.div)`
@@ -43,8 +50,15 @@ const wrapperVariants = {
 const ExpandedVideoControls = (props: Props) => {
 	const {
 		isExpanded,
+		isMuted,
+		isPlaying,
+		currentTime,
+		videoLength,
+		data,
 		setIsExpanded,
-		data
+		setIsMuted,
+		setIsPlaying,
+		handleSeek
 	} = props;
 
 	const [creditsIsActive, setCreditsIsActive] = useState(false);
@@ -76,8 +90,15 @@ const ExpandedVideoControls = (props: Props) => {
 					/>
 					<ControlsPanel
 						creditsIsActive={creditsIsActive}
+						isMuted={isMuted}
+						isPlaying={isPlaying}
+						currentTime={currentTime}
+						videoLength={videoLength}
 						setCreditsIsActive={setCreditsIsActive}
 						setIsExpanded={setIsExpanded}
+						setIsMuted={setIsMuted}
+						setIsPlaying={setIsPlaying}
+						handleSeek={handleSeek}
 					/>
 				</ExpandedVideoControlsWrapper>
 			}
