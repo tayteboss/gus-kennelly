@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 type Props = {
 	isActive: boolean;
 	setIsExpanded: (isExpanded: boolean) => void;
+	isProduction: boolean;
 };
 
 const ExpandTriggerWrapper = styled(motion.button)`
@@ -41,7 +42,8 @@ const wrapperVariants = {
 const ExpandTrigger = (props: Props) => {
 	const {
 		isActive,
-		setIsExpanded
+		setIsExpanded,
+		isProduction
 	} = props;
 
 	return (
@@ -54,7 +56,7 @@ const ExpandTrigger = (props: Props) => {
 					exit='hidden'
 					onClick={() => setIsExpanded(true)}
 				>
-					Expand
+					{isProduction ? 'Expand' : 'View Project'}
 					<ArrowSvg />
 				</ExpandTriggerWrapper>
 			)}

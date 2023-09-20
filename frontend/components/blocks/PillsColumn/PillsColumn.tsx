@@ -116,10 +116,12 @@ const PillsColumn = (props: Props) => {
 					<Pill
 						key={i}
 						title={item?.title}
+						slug={item?.slug?.current}
 						isActive={activeProject === item.title}
 						activeColour={productionIsActive ? productionColour: photographyColour}
 						isProject
 						projectData={item}
+						isProduction={productionIsActive}
 						handleChangeProject={handleChangeProject}
 						handleChangeProjectSnippet={handleChangeProjectSnippet}
 						setIsExpanded={setIsExpanded}

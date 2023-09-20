@@ -62,7 +62,9 @@ export type ProductionType = {
 	featured: boolean;
 	media: MuxMediaType;
 	snippet: MuxMediaType;
-	slug: string;
+	slug: {
+		current: string;
+	};
 	title: string;
 	year: number;
 	_type: string;
@@ -74,7 +76,9 @@ export type PhotographyType = {
 	client: string;
 	featured: boolean;
 	imageGallery: [];
-	slug: string;
+	slug: {
+		current: string;
+	};
 	title: string;
 	year: number;
 	featuredImage: {};

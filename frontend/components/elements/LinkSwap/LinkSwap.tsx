@@ -24,6 +24,7 @@ const LinkSwap = (props: Props) => {
 			<LinkTag
 				onMouseOver={() => setTitle(swap)}
 				onMouseOut={() => setTitle(initial)}
+				target="_blank"
 			>
 				{title}
 			</LinkTag>

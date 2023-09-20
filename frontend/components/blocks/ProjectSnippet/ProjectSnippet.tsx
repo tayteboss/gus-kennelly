@@ -7,6 +7,7 @@ import ExpandTrigger from '../../elements/ExpandTrigger';
 import MuteControls from '../../elements/MuteControls';
 import ExpandedVideoControls from '../ExpandedVideoControls';
 import MinimisedProgressTimer from '../../elements/MinimisedProgressTimer';
+import Image from 'next/image';
 
 type StyledProps = {
 	$isLoading?: boolean;
@@ -60,12 +61,6 @@ const SnippetWrapper = styled.div<StyledProps>`
 
 		transition: all var(--transition-speed-slow) var(--transition-ease);
 	}
-`;
-
-const Image = styled.img`
-	object-fit: cover;
-	width: 100%;
-	height: 100%;
 `;
 
 const ProjectSnippet = (props: Props) => {
@@ -169,15 +164,16 @@ const ProjectSnippet = (props: Props) => {
 				<Loading isLoading={isLoading} />
 				<MuteControls
 					isMuted={isMuted}
-					isActive={isHovered && !isExpanded}
+					isActive={isHovered && !isExpanded && type === 'production'}
 					setIsMuted={setIsMuted}
 				/>
 				<ExpandTrigger
 					isActive={isHovered && !isExpanded}
 					setIsExpanded={setIsExpanded}
+					isProduction={type === 'production'}
 				/>
 				<MinimisedProgressTimer
-					isActive={isHovered && !isExpanded}
+					isActive={isHovered && !isExpanded && type === 'production'}
 					currentTime={currentTime}
 					videoLength={videoLength}
 				/>
@@ -223,7 +219,12 @@ const ProjectSnippet = (props: Props) => {
 						)}
 
 						{type === 'photography' && (
-							<Image src={data} />
+							<Image
+								src={data}
+								layout="fill"
+								objectFit="cover"
+								priority={true}
+							/>
 						)}
 
 					</SnippetWrapper>
