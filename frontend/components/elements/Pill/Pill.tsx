@@ -32,11 +32,6 @@ type Props = {
 const OuterWrapper = styled.div`
 	padding-bottom: ${pxToRem(4)};
 	width: 100%;
-	cursor: none;
-
-	* {
-		cursor: none;
-	}
 `;
 
 const PillWrapper = styled.button`
