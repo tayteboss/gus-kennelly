@@ -13,10 +13,14 @@ type Props = {
 	currentTime: number;
 	videoLength: number;
 	data: ProductionType;
+	hasNextProject: boolean;
+	hasPreviousProject: boolean;
 	setIsExpanded: (isExpanded: boolean) => void;
 	setIsMuted: (isMuted: boolean) => void;
 	setIsPlaying: (isPlaying: boolean) => void;
 	handleSeek: (time: number) => void;
+	handleNextProject: () => void;
+	handlePreviousProject: () => void;
 };
 
 const ExpandedVideoControlsWrapper = styled(motion.div)`
@@ -79,10 +83,14 @@ const ExpandedVideoControls = (props: Props) => {
 		currentTime,
 		videoLength,
 		data,
+		hasNextProject,
+		hasPreviousProject,
 		setIsExpanded,
 		setIsMuted,
 		setIsPlaying,
-		handleSeek
+		handleSeek,
+		handleNextProject,
+		handlePreviousProject
 	} = props;
 
 	const [creditsIsActive, setCreditsIsActive] = useState(false);
@@ -165,33 +173,39 @@ const ExpandedVideoControls = (props: Props) => {
 					exit='hidden'
 					key={1}
 				>
-					{isActive && (
-						<Inner
-							variants={innerVariants}
-							initial='hidden'
-							animate='visible'
-							exit='hidden'
-							key={2}
-						>
-							<CreditPanel
-								creditsIsActive={creditsIsActive}
-								data={data}
-							/>
-							<ControlsPanel
-								creditsIsActive={creditsIsActive}
-								isMuted={isMuted}
-								isPlaying={isPlaying}
-								currentTime={currentTime}
-								videoLength={videoLength}
-								data={data}
-								setCreditsIsActive={setCreditsIsActive}
-								setIsExpanded={setIsExpanded}
-								setIsMuted={setIsMuted}
-								setIsPlaying={setIsPlaying}
-								handleSeek={handleSeek}
-							/>
-						</Inner>
-					)}
+					<AnimatePresence>
+						{isActive && (
+							<Inner
+								variants={innerVariants}
+								initial='hidden'
+								animate='visible'
+								exit='hidden'
+								key={2}
+							>
+								<CreditPanel
+									creditsIsActive={creditsIsActive}
+									data={data}
+								/>
+								<ControlsPanel
+									creditsIsActive={creditsIsActive}
+									isMuted={isMuted}
+									isPlaying={isPlaying}
+									currentTime={currentTime}
+									videoLength={videoLength}
+									data={data}
+									hasNextProject={hasNextProject}
+									hasPreviousProject={hasPreviousProject}
+									setCreditsIsActive={setCreditsIsActive}
+									setIsExpanded={setIsExpanded}
+									setIsMuted={setIsMuted}
+									setIsPlaying={setIsPlaying}
+									handleSeek={handleSeek}
+									handleNextProject={handleNextProject}
+									handlePreviousProject={handlePreviousProject}
+								/>
+							</Inner>
+						)}
+					</AnimatePresence>
 				</ExpandedVideoControlsWrapper>
 			}
 		</AnimatePresence>

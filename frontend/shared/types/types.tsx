@@ -55,6 +55,7 @@ export type MuxMediaType = {
 };
 
 export type ProductionType = {
+	_id: string;
 	description: [];
 	awards: [];
 	credits: [];
@@ -72,6 +73,7 @@ export type ProductionType = {
 };
 
 export type PhotographyType = {
+	_id: string;
 	category: string;
 	client: string;
 	featured: boolean;

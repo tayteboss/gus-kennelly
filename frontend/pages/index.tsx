@@ -6,7 +6,6 @@ import InformationSection from '../components/blocks/InformationSection';
 import ProjectsIndex from '../components/blocks/ProjectsIndex';
 import ProjectSnippet from '../components/blocks/ProjectSnippet';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 const PageWrapper = styled.div`
 	height: 100vh;
@@ -32,8 +31,68 @@ const Page = (props: Props) => {
 	} = props;
 
 	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredProductionData[0]);
+	const [nextProject, setNextProject] = useState<ProductionType | undefined>(undefined);
+	const [previousProject, setPreviousProject] = useState<ProductionType | undefined>(undefined);
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [hasVisited, setHasVisited] = useState(false);
+
+	const handleNextProject = () => {
+		if (nextProject) {
+			setSnippetData(nextProject);
+		}
+	};
+
+	const handlePreviousProject = () => {
+		if (previousProject) {
+			setSnippetData(previousProject);
+		}
+	};
+
+	useEffect(() => {
+		if (snippetData) {
+			const currentProjectIndex = productionData.findIndex((project: ProductionType) => project._id === snippetData._id);
+			const nextProject = productionData[currentProjectIndex + 1];
+			const previousProject = productionData[currentProjectIndex - 1];
+
+			setNextProject(nextProject);
+			setPreviousProject(previousProject);
+
+			if (nextProject) {
+				const nextProjectMedia = nextProject.media.asset.playbackId;
+				const nextProjectSnippet = nextProject.snippet.asset.playbackId;
+
+				const nextProjectMediaPreload = document.createElement('link');
+				nextProjectMediaPreload.rel = 'preload';
+				nextProjectMediaPreload.as = 'video';
+				nextProjectMediaPreload.href = `https://stream.mux.com/${nextProjectMedia}.m3u8`;
+				document.head.appendChild(nextProjectMediaPreload);
+
+				const nextProjectSnippetPreload = document.createElement('link');
+				nextProjectSnippetPreload.rel = 'preload';
+				nextProjectSnippetPreload.as = 'video';
+				nextProjectSnippetPreload.href = `https://stream.mux.com/${nextProjectSnippet}.m3u8`;
+				document.head.appendChild(nextProjectSnippetPreload);
+			}
+
+			// if there is a previous project, preload it
+			if (previousProject) {
+				const previousProjectMedia = previousProject.media.asset.playbackId;
+				const previousProjectSnippet = previousProject.snippet.asset.playbackId;
+
+				const previousProjectMediaPreload = document.createElement('link');
+				previousProjectMediaPreload.rel = 'preload';
+				previousProjectMediaPreload.as = 'video';
+				previousProjectMediaPreload.href = `https://stream.mux.com/${previousProjectMedia}.m3u8`;
+				document.head.appendChild(previousProjectMediaPreload);
+
+				const previousProjectSnippetPreload = document.createElement('link');
+				previousProjectSnippetPreload.rel = 'preload';
+				previousProjectSnippetPreload.as = 'video';
+				previousProjectSnippetPreload.href = `https://stream.mux.com/${previousProjectSnippet}.m3u8`;
+				document.head.appendChild(previousProjectSnippetPreload);
+			}
+		}
+	}, [snippetData]);
 
 	// console.log('siteSettings', siteSettings);
 	// console.log('productionData', productionData);
@@ -55,9 +114,9 @@ const Page = (props: Props) => {
 					productionColour={siteSettings?.productionColour?.hex}
 					photographyColour={siteSettings?.photographyColour?.hex}
 					siteSettings={siteSettings}
+					hasVisited={hasVisited}
 					setSnippetData={setSnippetData}
 					setIsExpanded={setIsExpanded}
-					hasVisited={hasVisited}
 				/>
 				<InformationSection
 					tagline={siteSettings?.tagline}
@@ -74,9 +133,13 @@ const Page = (props: Props) => {
 			</PageWrapper>
 			<ProjectSnippet
 				snippetData={snippetData}
-				setIsExpanded={setIsExpanded}
 				isExpanded={isExpanded}
 				hasVisited={hasVisited}
+				hasNextProject={!!nextProject}
+				hasPreviousProject={!!previousProject}
+				setIsExpanded={setIsExpanded}
+				handleNextProject={handleNextProject}
+				handlePreviousProject={handlePreviousProject}
 			/>
 		</>
 	);

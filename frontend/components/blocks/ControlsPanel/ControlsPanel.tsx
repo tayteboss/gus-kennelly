@@ -15,11 +15,15 @@ type Props = {
 	currentTime: number;
 	videoLength: number;
 	data: ProductionType;
+	hasNextProject: boolean;
+	hasPreviousProject: boolean;
 	setCreditsIsActive: (creditsIsActive: boolean) => void;
 	setIsExpanded: (isExpanded: boolean) => void;
 	setIsMuted: (isMuted: boolean) => void;
 	setIsPlaying: (isPlaying: boolean) => void;
 	handleSeek: (time: number) => void;
+	handleNextProject: () => void;
+	handlePreviousProject: () => void;
 };
 
 const ControlsPanelWrapper = styled.div`
@@ -64,6 +68,10 @@ const ControlsPanel = (props: Props) => {
 		currentTime,
 		videoLength,
 		data,
+		hasNextProject,
+		hasPreviousProject,
+		handleNextProject,
+		handlePreviousProject,
 		setCreditsIsActive,
 		setIsExpanded,
 		setIsMuted,
@@ -78,7 +86,12 @@ const ControlsPanel = (props: Props) => {
 					creditsIsActive={creditsIsActive}
 					setCreditsIsActive={setCreditsIsActive}
 				/>
-				<ProjectsNavigationTrigger />
+				<ProjectsNavigationTrigger
+					handleNextProject={handleNextProject}
+					handlePreviousProject={handlePreviousProject}
+					hasNextProject={hasNextProject}
+					hasPreviousProject={hasPreviousProject}
+				/>
 				<CloseProjectTrigger setIsExpanded={setIsExpanded} />
 			</TopBar>
 			<TitleWrapper $isActive={!creditsIsActive}>

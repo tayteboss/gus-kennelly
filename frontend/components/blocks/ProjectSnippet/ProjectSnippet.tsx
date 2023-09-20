@@ -18,9 +18,13 @@ type StyledProps = {
 
 type Props = {
 	snippetData: any;
-	setIsExpanded: (isExpanded: boolean) => void;
 	isExpanded: boolean;
 	hasVisited: boolean;
+	hasNextProject: boolean;
+	hasPreviousProject: boolean;
+	setIsExpanded: (isExpanded: boolean) => void;
+	handleNextProject: () => void;
+	handlePreviousProject: () => void;
 };
 
 const ProjectSnippetWrapper = styled.div<StyledProps>`
@@ -49,7 +53,7 @@ const SnippetWrapper = styled.div<StyledProps>`
 	inset: 0;
 	height: 100%;
 	width: 100%;
-	filter: ${(props) => props.$isLoading ? 'brightness(0.5) blur(1px)' : 'brightness(1) blur(0px)'};
+	filter: ${(props) => props.$isLoading ? 'brightness(0.3) blur(1px)' : 'brightness(1) blur(0px)'};
 	transform: ${(props) => props.$isLoading ? 'scale(1.01)' : 'scale(1)'};
 
 	transition: filter 500ms var(--transition-ease), transform 2000ms var(--transition-ease);
@@ -69,9 +73,13 @@ const SnippetWrapper = styled.div<StyledProps>`
 const ProjectSnippet = (props: Props) => {
 	const {
 		snippetData,
-		setIsExpanded,
 		isExpanded,
-		hasVisited
+		hasVisited,
+		hasNextProject,
+		hasPreviousProject,
+		setIsExpanded,
+		handleNextProject,
+		handlePreviousProject
 	} = props;
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -188,10 +196,14 @@ const ProjectSnippet = (props: Props) => {
 					currentTime={currentTime}
 					videoLength={videoLength}
 					data={snippetData}
+					hasNextProject={hasNextProject}
+					hasPreviousProject={hasPreviousProject}
 					setIsExpanded={setIsExpanded}
 					setIsMuted={setIsMuted}
 					setIsPlaying={setIsPlaying}
 					handleSeek={handleSeek}
+					handleNextProject={handleNextProject}
+					handlePreviousProject={handlePreviousProject}
 				/>
 
 
