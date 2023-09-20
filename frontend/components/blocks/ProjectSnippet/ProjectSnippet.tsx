@@ -55,7 +55,7 @@ const SnippetWrapper = styled.div<StyledProps>`
 	transition: filter 500ms var(--transition-ease), transform 2000ms var(--transition-ease);
 
 	mux-player {
-		--media-object-fit: cover;
+		--media-object-fit: contain;
 		--media-object-position: center;
 		--controls: none;
 

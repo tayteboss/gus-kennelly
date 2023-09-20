@@ -5,7 +5,8 @@ import { PhotographyType, ProductionType, SiteSettingsType } from '../shared/typ
 import InformationSection from '../components/blocks/InformationSection';
 import ProjectsIndex from '../components/blocks/ProjectsIndex';
 import ProjectSnippet from '../components/blocks/ProjectSnippet';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const PageWrapper = styled.div`
 	height: 100vh;

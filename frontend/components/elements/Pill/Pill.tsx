@@ -90,15 +90,15 @@ const hoverVariants = {
 	hidden: {
 		opacity: 0,
 		transition: {
-			duration: 0.1,
-			ease: 'easeInOut'
+			duration: 0.05,
+			ease: 'linear'
 		}
 	},
 	visible: {
 		opacity: 1,
 		transition: {
-			duration: 0.1,
-			ease: 'easeInOut'
+			duration: 0.05,
+			ease: 'linear'
 		}
 	}
 };
