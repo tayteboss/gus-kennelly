@@ -172,7 +172,7 @@ export const GlobalStyles = createGlobalStyle`
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		row-gap: ${pxToRem(4)};
+		/* row-gap: ${pxToRem(4)}; */
 	}
 
 	.performance {

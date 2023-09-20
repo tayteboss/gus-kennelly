@@ -54,6 +54,7 @@ const PillsColumn = (props: Props) => {
 						activeColour={productionColour}
 						isProjectType
 						handleChangeProjectType={handleChangeProjectType}
+						columnId={1}
 					/>
 					<Pill
 						title="Photography"
@@ -61,6 +62,7 @@ const PillsColumn = (props: Props) => {
 						activeColour={photographyColour}
 						isProjectType
 						handleChangeProjectType={handleChangeProjectType}
+						columnId={1}
 					/>
 				</>
 			)}
@@ -73,6 +75,7 @@ const PillsColumn = (props: Props) => {
 						activeColour={productionIsActive ? productionColour: photographyColour}
 						isCategory
 						handleChangeCategory={handleChangeCategory}
+						columnId={2}
 					/>
 					<Pill
 						title="Commercial"
@@ -80,6 +83,7 @@ const PillsColumn = (props: Props) => {
 						activeColour={productionIsActive ? productionColour: photographyColour}
 						isCategory
 						handleChangeCategory={handleChangeCategory}
+						columnId={2}
 					/>
 					{productionIsActive && (
 						<>
@@ -89,6 +93,7 @@ const PillsColumn = (props: Props) => {
 								activeColour={productionIsActive ? productionColour: photographyColour}
 								isCategory
 								handleChangeCategory={handleChangeCategory}
+								columnId={2}
 							/>
 							<Pill
 								title="Music Video"
@@ -96,6 +101,7 @@ const PillsColumn = (props: Props) => {
 								activeColour={productionIsActive ? productionColour: photographyColour}
 								isCategory
 								handleChangeCategory={handleChangeCategory}
+								columnId={2}
 							/>
 						</>
 					)}
@@ -106,6 +112,7 @@ const PillsColumn = (props: Props) => {
 							activeColour={productionIsActive ? productionColour: photographyColour}
 							isCategory
 							handleChangeCategory={handleChangeCategory}
+							columnId={2}
 						/>
 					)}
 				</>
@@ -125,6 +132,7 @@ const PillsColumn = (props: Props) => {
 						handleChangeProject={handleChangeProject}
 						handleChangeProjectSnippet={handleChangeProjectSnippet}
 						setIsExpanded={setIsExpanded}
+						columnId={3}
 					/>
 				))
 			)}
