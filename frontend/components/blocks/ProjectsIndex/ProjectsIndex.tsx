@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import { PhotographyType, ProductionType, SiteSettingsType } from '../../../shared/types/types';
 import LayoutWrapper from '../../common/LayoutWrapper';
 import LayoutGrid from '../../common/LayoutGrid';
-import ProjectSnippet from '../ProjectSnippet';
 import ProjectsDirectory from '../ProjectsDirectory';
-import { useState } from 'react';
 import pxToRem from '../../../utils/pxToRem';
 
 type Props = {
@@ -16,6 +14,7 @@ type Props = {
 	photographyColour: string;
 	siteSettings: SiteSettingsType;
 	setSnippetData: (data: ProductionType | PhotographyType) => void;
+	setIsExpanded: (isExpanded: boolean) => void;
 };
 
 const ProjectsIndexWrapper = styled.div`
@@ -31,7 +30,8 @@ const ProjectsIndex = (props: Props) => {
 		productionColour,
 		photographyColour,
 		siteSettings,
-		setSnippetData
+		setSnippetData,
+		setIsExpanded
 	} = props;
 
 	return (
@@ -47,6 +47,7 @@ const ProjectsIndex = (props: Props) => {
 						photographyColour={photographyColour}
 						siteSettings={siteSettings}
 						handleChangeProjectSnippet={(data) => setSnippetData(data)}
+						setIsExpanded={setIsExpanded}
 					/>
 				</LayoutGrid>
 			</LayoutWrapper>

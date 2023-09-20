@@ -31,6 +31,7 @@ const Page = (props: Props) => {
 	} = props;
 
 	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredProductionData[0]);
+	const [isExpanded, setIsExpanded] = useState(false);
 
 	// console.log('siteSettings', siteSettings);
 	// console.log('productionData', productionData);
@@ -53,6 +54,7 @@ const Page = (props: Props) => {
 					photographyColour={siteSettings?.photographyColour?.hex}
 					siteSettings={siteSettings}
 					setSnippetData={setSnippetData}
+					setIsExpanded={setIsExpanded}
 				/>
 				<InformationSection
 					tagline={siteSettings?.tagline}
@@ -65,7 +67,11 @@ const Page = (props: Props) => {
 					about={siteSettings?.about}
 				/>
 			</PageWrapper>
-			<ProjectSnippet snippetData={snippetData} />
+			<ProjectSnippet
+				snippetData={snippetData}
+				setIsExpanded={setIsExpanded}
+				isExpanded={isExpanded}
+			/>
 		</>
 	);
 };

@@ -6,6 +6,7 @@ import Loading from '../../elements/Loading';
 import ExpandTrigger from '../../elements/ExpandTrigger';
 import MuteControls from '../../elements/MuteControls';
 import ExpandedVideoControls from '../ExpandedVideoControls';
+import MinimisedProgressTimer from '../../elements/MinimisedProgressTimer';
 
 type StyledProps = {
 	$isLoading?: boolean;
@@ -15,6 +16,8 @@ type StyledProps = {
 
 type Props = {
 	snippetData: any;
+	setIsExpanded: (isExpanded: boolean) => void;
+	isExpanded: boolean;
 };
 
 const ProjectSnippetWrapper = styled.div<StyledProps>`
@@ -67,12 +70,13 @@ const Image = styled.img`
 
 const ProjectSnippet = (props: Props) => {
 	const {
-		snippetData
+		snippetData,
+		setIsExpanded,
+		isExpanded,
 	} = props;
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isHovered, setIsHovered] = useState(false);
-	const [isExpanded, setIsExpanded] = useState(false);
 	const [isMuted, setIsMuted] = useState(true);
 	const [isPlaying, setIsPlaying] = useState(true);
 	const [ratioHeight, setRatioHeight] = useState(0);
@@ -171,6 +175,11 @@ const ProjectSnippet = (props: Props) => {
 				<ExpandTrigger
 					isActive={isHovered && !isExpanded}
 					setIsExpanded={setIsExpanded}
+				/>
+				<MinimisedProgressTimer
+					isActive={isHovered && !isExpanded}
+					currentTime={currentTime}
+					videoLength={videoLength}
 				/>
 
 

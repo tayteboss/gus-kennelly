@@ -105,7 +105,6 @@ const InformationSection = (props: Props) => {
 		email,
 		phone,
 		instagram,
-		aoc,
 		availableForWork,
 		about,
 		instagramHandle

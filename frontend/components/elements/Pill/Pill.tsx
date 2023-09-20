@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import pxToRem from '../../../utils/pxToRem';
 import { PhotographyType, ProductionType } from '../../../shared/types/types';
+import ArrowSvg from '../../Svgs/ArrowSvg';
 
 type StyledProps = {
 	$isActive: boolean;
@@ -14,11 +15,12 @@ type Props = {
 	isProjectType?: boolean;
 	isCategory?: boolean;
 	isProject?: boolean;
-	projectData?: ProductionType | PhotographyType;
+	projectData?: any;
 	handleChangeProjectType?: (isProduction: boolean) => void;
 	handleChangeCategory?: (category: string) => void;
 	handleChangeProject?: (project: string) => void;
 	handleChangeProjectSnippet?: (project: ProductionType | PhotographyType) => void;
+	setIsExpanded?: (isExpanded: boolean) => void;
 };
 
 const PillWrapper = styled.button<StyledProps>`
@@ -29,6 +31,9 @@ const PillWrapper = styled.button<StyledProps>`
 	width: 100%;
 	text-align: left;
 	padding: 0 ${pxToRem(8)};
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 
 	transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -49,7 +54,8 @@ const Pill = (props: Props) => {
 		handleChangeProjectType,
 		handleChangeCategory,
 		handleChangeProject,
-		handleChangeProjectSnippet
+		handleChangeProjectSnippet,
+		setIsExpanded
 	} = props;
 
 	const handleClick = () => {
@@ -62,8 +68,12 @@ const Pill = (props: Props) => {
 		}
 
 		if (isProject && handleChangeProject && handleChangeProjectSnippet) {
-			handleChangeProject(title);
-			handleChangeProjectSnippet(projectData)
+			if (isActive && setIsExpanded) {
+				setIsExpanded(true);
+			} else {
+				handleChangeProject(title);
+				handleChangeProjectSnippet(projectData)
+			}
 		}
 	}
 
@@ -74,6 +84,9 @@ const Pill = (props: Props) => {
 			onClick={() => handleClick()}
 		>
 			{title && title}
+			{(isProject && isActive) && (
+				<ArrowSvg color={activeColour} />
+			)}
 		</PillWrapper>
 	);
 };

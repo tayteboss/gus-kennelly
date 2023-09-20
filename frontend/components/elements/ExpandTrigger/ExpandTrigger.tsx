@@ -10,7 +10,7 @@ type Props = {
 
 const ExpandTriggerWrapper = styled(motion.button)`
 	position: absolute;
-	bottom: ${pxToRem(8)};
+	top: ${pxToRem(8)};
 	right: ${pxToRem(10)};
 	z-index: 10;
 	color: var(--colour-white);

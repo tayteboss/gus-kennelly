@@ -16,6 +16,7 @@ type Props = {
 	handleChangeCategory?: (category: string) => void;
 	handleChangeProject?: (project: string) => void;
 	handleChangeProjectSnippet?: (project: ProductionType | PhotographyType) => void;
+	setIsExpanded?: (isExpanded: boolean) => void;
 };
 
 const PillsColumnWrapper = styled.div`
@@ -36,7 +37,8 @@ const PillsColumn = (props: Props) => {
 		handleChangeProjectType,
 		handleChangeCategory,
 		handleChangeProject,
-		handleChangeProjectSnippet
+		handleChangeProjectSnippet,
+		setIsExpanded
 	} = props;
 
 	const hasProjectData = projectPills && projectPills.length > 0;
@@ -120,6 +122,7 @@ const PillsColumn = (props: Props) => {
 						projectData={item}
 						handleChangeProject={handleChangeProject}
 						handleChangeProjectSnippet={handleChangeProjectSnippet}
+						setIsExpanded={setIsExpanded}
 					/>
 				))
 			)}

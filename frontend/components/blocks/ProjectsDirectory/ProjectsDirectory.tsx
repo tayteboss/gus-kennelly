@@ -15,6 +15,7 @@ type Props = {
 	photographyColour: string;
 	siteSettings: SiteSettingsType;
 	handleChangeProjectSnippet: (project: ProductionType | PhotographyType) => void;
+	setIsExpanded: (isExpanded: boolean) => void;
 };
 
 const ProjectsDirectoryWrapper = styled.div`
@@ -37,7 +38,8 @@ const ProjectsDirectory = (props: Props) => {
 		productionColour,
 		photographyColour,
 		siteSettings,
-		handleChangeProjectSnippet
+		handleChangeProjectSnippet,
+		setIsExpanded
 	} = props;
 
 	const [productionIsActive, setProductionIsActive] = useState(true);
@@ -111,6 +113,7 @@ const ProjectsDirectory = (props: Props) => {
 						(project: string) => setActiveProject(project)
 					}
 					handleChangeProjectSnippet={handleChangeProjectSnippet}
+					setIsExpanded={setIsExpanded}
 				/>
 			</Grid>
 		</ProjectsDirectoryWrapper>
