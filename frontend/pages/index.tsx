@@ -32,11 +32,12 @@ const Page = (props: Props) => {
 
 	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredProductionData[0]);
 	const [isExpanded, setIsExpanded] = useState(false);
+	const [hasVisited, setHasVisited] = useState(false);
 
 	// console.log('siteSettings', siteSettings);
 	// console.log('productionData', productionData);
-	console.log('featuredProductionData', featuredProductionData);
-	console.log('photographyData', photographyData);
+	// console.log('featuredProductionData', featuredProductionData);
+	// console.log('photographyData', photographyData);
 
 	return (
 		<>
@@ -55,6 +56,7 @@ const Page = (props: Props) => {
 					siteSettings={siteSettings}
 					setSnippetData={setSnippetData}
 					setIsExpanded={setIsExpanded}
+					hasVisited={hasVisited}
 				/>
 				<InformationSection
 					tagline={siteSettings?.tagline}
@@ -65,12 +67,15 @@ const Page = (props: Props) => {
 					aoc={siteSettings?.aoc}
 					availableForWork={siteSettings?.availableForWork}
 					about={siteSettings?.about}
+					hasVisited={hasVisited}
+					setHasVisited={setHasVisited}
 				/>
 			</PageWrapper>
 			<ProjectSnippet
 				snippetData={snippetData}
 				setIsExpanded={setIsExpanded}
 				isExpanded={isExpanded}
+				hasVisited={hasVisited}
 			/>
 		</>
 	);

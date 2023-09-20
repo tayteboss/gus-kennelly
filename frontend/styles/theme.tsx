@@ -2,6 +2,7 @@ export const theme = {
 	colours: {
 		black: '#000',
 		white: '#FFF',
+		black600: '#545456'
 	},
 	fonts: {
 		default: 'civil',

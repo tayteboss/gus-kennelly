@@ -6,6 +6,7 @@ export const GlobalStyles = createGlobalStyle`
 	:root {
 		--colour-white: ${theme.colours.white};
 		--colour-black: ${theme.colours.black};
+		--colour-black-600: ${theme.colours.black600};
 		--font-default: ${theme.fonts.default};
 		--transition-speed-default: ${theme.transitionSpeed.default};
 		--transition-speed-fast: ${theme.transitionSpeed.fast};
@@ -67,6 +68,10 @@ export const GlobalStyles = createGlobalStyle`
 				filter: brightness(0.1);
 				transform: scale(1.015);
 			}
+		}
+
+		&.hide-cursor {
+			cursor: none;
 		}
 	}
 

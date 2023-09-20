@@ -5,6 +5,10 @@ import LayoutGrid from '../../common/LayoutGrid';
 import ProjectsDirectory from '../ProjectsDirectory';
 import pxToRem from '../../../utils/pxToRem';
 
+type StyledProps = {
+	$hasVisited: boolean;
+};
+
 type Props = {
 	productionData: ProductionType[];
 	featuredProductionData: ProductionType[];
@@ -15,10 +19,14 @@ type Props = {
 	siteSettings: SiteSettingsType;
 	setSnippetData: (data: ProductionType | PhotographyType) => void;
 	setIsExpanded: (isExpanded: boolean) => void;
+	hasVisited: boolean;
 };
 
-const ProjectsIndexWrapper = styled.div`
+const ProjectsIndexWrapper = styled.div<StyledProps>`
 	padding: ${pxToRem(16)} 0;
+	opacity: ${(props) => (props.$hasVisited ? 1 : 0)};
+
+	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
 `;
 
 const ProjectsIndex = (props: Props) => {
@@ -30,12 +38,13 @@ const ProjectsIndex = (props: Props) => {
 		productionColour,
 		photographyColour,
 		siteSettings,
+		hasVisited,
 		setSnippetData,
 		setIsExpanded
 	} = props;
 
 	return (
-		<ProjectsIndexWrapper>
+		<ProjectsIndexWrapper $hasVisited={hasVisited}>
 			<LayoutWrapper>
 				<LayoutGrid>
 					<ProjectsDirectory

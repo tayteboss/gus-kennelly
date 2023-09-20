@@ -25,10 +25,15 @@ const ExpandedVideoControlsWrapper = styled(motion.div)`
 	left: 0;
 	width: 100%;
 	height: 100vh;
-	display: flex;
 	z-index: 10;
 	color: var(--colour-white);
 	mix-blend-mode: difference;
+`;
+
+const Inner = styled(motion.div)`
+	width: 100%;
+	height: 100%;
+	display: flex;
 `;
 
 const wrapperVariants = {
@@ -43,7 +48,25 @@ const wrapperVariants = {
 		opacity: 1,
 		transition: {
 			duration: 0.3,
+			ease: 'easeInOut',
+			delay: 0.6
+		}
+	}
+};
+
+const innerVariants = {
+	hidden: {
+		opacity: 0,
+		transition: {
+			duration: 0.3,
 			ease: 'easeInOut'
+		}
+	},
+	visible: {
+		opacity: 1,
+		transition: {
+			duration: 0.3,
+			ease: 'easeInOut',
 		}
 	}
 };
@@ -66,6 +89,12 @@ const ExpandedVideoControls = (props: Props) => {
 	const [isActive, setIsActive] = useState(true);
 
 	useEffect(() => {
+		if (!isExpanded) {
+			setCreditsIsActive(false);
+		}
+	}, [isExpanded]);
+
+	useEffect(() => {
 		const body = document.querySelector('body');
 
 		if (!body) return;
@@ -80,11 +109,21 @@ const ExpandedVideoControls = (props: Props) => {
 	useEffect(() => {
 		let timeout: any;
 
+		const body = document.querySelector('body');
+
+		if (!body) return;
+
+		if (!isActive) {
+			body.classList.add('hide-cursor');
+		} else {
+			body.classList.remove('hide-cursor');
+		}
+
 		const handleMouseInactive = () => {
 			if (!creditsIsActive) {
 				timeout = setTimeout(() => {
 					setIsActive(false);
-				}, 3000);
+				}, 2000);
 			} else {
 				clearTimeout(timeout);
 				setIsActive(true);
@@ -118,30 +157,41 @@ const ExpandedVideoControls = (props: Props) => {
 
 	return (
 		<AnimatePresence>
-			{(isExpanded && isActive) &&
+			{isExpanded &&
 				<ExpandedVideoControlsWrapper
 					variants={wrapperVariants}
 					initial='hidden'
 					animate='visible'
 					exit='hidden'
+					key={1}
 				>
-					<CreditPanel
-						creditsIsActive={creditsIsActive}
-						data={data}
-					/>
-					<ControlsPanel
-						creditsIsActive={creditsIsActive}
-						isMuted={isMuted}
-						isPlaying={isPlaying}
-						currentTime={currentTime}
-						videoLength={videoLength}
-						data={data}
-						setCreditsIsActive={setCreditsIsActive}
-						setIsExpanded={setIsExpanded}
-						setIsMuted={setIsMuted}
-						setIsPlaying={setIsPlaying}
-						handleSeek={handleSeek}
-					/>
+					{isActive && (
+						<Inner
+							variants={innerVariants}
+							initial='hidden'
+							animate='visible'
+							exit='hidden'
+							key={2}
+						>
+							<CreditPanel
+								creditsIsActive={creditsIsActive}
+								data={data}
+							/>
+							<ControlsPanel
+								creditsIsActive={creditsIsActive}
+								isMuted={isMuted}
+								isPlaying={isPlaying}
+								currentTime={currentTime}
+								videoLength={videoLength}
+								data={data}
+								setCreditsIsActive={setCreditsIsActive}
+								setIsExpanded={setIsExpanded}
+								setIsMuted={setIsMuted}
+								setIsPlaying={setIsPlaying}
+								handleSeek={handleSeek}
+							/>
+						</Inner>
+					)}
 				</ExpandedVideoControlsWrapper>
 			}
 		</AnimatePresence>

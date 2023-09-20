@@ -13,12 +13,14 @@ type StyledProps = {
 	$isLoading?: boolean;
 	$isExpanded?: boolean;
 	$ratioHeight?: number;
+	$hasVisited?: boolean;
 };
 
 type Props = {
 	snippetData: any;
 	setIsExpanded: (isExpanded: boolean) => void;
 	isExpanded: boolean;
+	hasVisited: boolean;
 };
 
 const ProjectSnippetWrapper = styled.div<StyledProps>`
@@ -27,6 +29,7 @@ const ProjectSnippetWrapper = styled.div<StyledProps>`
 	right: 16px;
 	transform: ${(props) => props.$isExpanded ? 'translate(16px, -16px)' : 'translate(0, 0)'};
 	z-index: 100;
+	opacity: ${(props) => props.$hasVisited ? 1 : 0};
 
 	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
 `;
@@ -68,13 +71,14 @@ const ProjectSnippet = (props: Props) => {
 		snippetData,
 		setIsExpanded,
 		isExpanded,
+		hasVisited
 	} = props;
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isHovered, setIsHovered] = useState(false);
 	const [isMuted, setIsMuted] = useState(true);
 	const [isPlaying, setIsPlaying] = useState(true);
-	const [ratioHeight, setRatioHeight] = useState(0);
+	const [ratioHeight, setRatioHeight] = useState(350);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [videoLength, setVideoLength] = useState(snippetData?.media?.asset?.data?.duration);
 
@@ -88,10 +92,6 @@ const ProjectSnippet = (props: Props) => {
 	} else {
 		data = snippetData?.featuredImage;
 	}
-
-	const handleHasEnded = () => {
-
-	};
 
 	const handleSeek = (time: number) => {
 		if (muxPlayerRef.current) {
@@ -153,6 +153,7 @@ const ProjectSnippet = (props: Props) => {
 			onMouseOver={() => setIsHovered(true)}
 			onMouseOut={() => setIsHovered(false)}
 			$isExpanded={isExpanded}
+			$hasVisited={hasVisited}
 		>
 			<Inner
 				$isExpanded={isExpanded}
@@ -214,7 +215,6 @@ const ProjectSnippet = (props: Props) => {
 								style={{ aspectRatio: 16/9 }}
 								onLoadStart={() => setIsLoading(true)}
 								onPlaying={() => setIsLoading(false)}
-								onEnded={() => handleHasEnded()}
 							/>
 						)}
 

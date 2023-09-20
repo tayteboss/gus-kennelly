@@ -91,10 +91,7 @@ const Pill = (props: Props) => {
 				}
 			}
 		}
-	}
-
-	console.log('slug', slug);
-	
+	};
 
 	return (
 		<PillWrapper

@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../styles/fonts.css';
 import { ThemeProvider } from 'styled-components';
 import { useRouter } from 'next/router';
 import { AnimatePresence } from 'framer-motion';
-import Cookies from 'js-cookie';
 import Layout from '../components/layout';
 import { theme } from '../styles/theme';
 import { GlobalStyles } from '../styles/global';
@@ -27,8 +26,6 @@ const App = (props: Props) => {
 		pageProps
 	} = props;
 
-	const [hasVisited, setHasVisited] = useState<boolean>(false);
-
 	const router= useRouter();
 	const routerEvents = router.events;
 
@@ -38,22 +35,6 @@ const App = (props: Props) => {
 
 	use1vh();
 	useHeaderHeight();
-
-	useEffect(() => {
-		const hasCookies = Cookies.get('visited');
-
-		if (hasCookies) {
-			setHasVisited(true);
-		}
-
-		const timer = setTimeout(() => {
-			Cookies.set('visited', 'true', { expires: 1, path: '' });
-		}, 5000);
-
-		return () => {
-			clearTimeout(timer);
-		}
-	}, []);
 
 	return (
 		<>
