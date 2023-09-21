@@ -33,6 +33,7 @@ const PreviousTrigger = styled.button<StyledProps>`
 	flex: 1;
 	pointer-events: ${(props) => (props.$hasPreviousProject ? 'auto' : 'none')};
 	opacity: ${(props) => (props.$hasPreviousProject ? 1 : 0.3)};
+	white-space: nowrap;
 
 	transition: all var(--transition-speed-default) var(--transition-ease);
 
@@ -51,6 +52,7 @@ const NextTrigger = styled.button<StyledProps>`
 	flex: 1;
 	pointer-events: ${(props) => (props.$hasNextProject ? 'auto' : 'none')};
 	opacity: ${(props) => (props.$hasNextProject ? 1 : 0.3)};
+	white-space: nowrap;
 
 	transition: all var(--transition-speed-default) var(--transition-ease);
 

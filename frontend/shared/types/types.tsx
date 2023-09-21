@@ -72,12 +72,18 @@ export type ProductionType = {
 	client: string;
 };
 
+export type ImageType = {
+	imageType: string;
+	singleImageUrl?: string;
+	twoImagesUrls: string[];
+}
+
 export type PhotographyType = {
 	_id: string;
 	category: string;
 	client: string;
 	featured: boolean;
-	imageGallery: [];
+	imageGallery: ImageType[];
 	slug: {
 		current: string;
 	};

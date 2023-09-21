@@ -8,20 +8,26 @@ import { useState } from 'react';
 import PhotographyCreditsPanel from '../PhotographyCreditsPanel';
 import { PhotographyType } from '../../../shared/types/types';
 
+type StyledProps = {
+	$bgColour: string;
+}
+
 type Props = {
 	hasNextProject: boolean;
 	hasPreviousProject: boolean;
 	data: PhotographyType;
+	bgColour: string;
 	handleNextProject: () => void;
 	handlePreviousProject: () => void;
 }
 
-const ProjectHeaderWrapper = styled.div`
+const ProjectHeaderWrapper = styled.div<StyledProps>`
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
-	background: var(--colour-white);
+	background-color: ${(props: any) => props.$bgColour};
+	z-index: 10;
 `;
 
 const Inner = styled.div`
@@ -35,6 +41,7 @@ const ProjectHeader = (props: Props) => {
 		hasNextProject,
 		hasPreviousProject,
 		data,
+		bgColour,
 		handleNextProject,
 		handlePreviousProject,
 	} = props;
@@ -42,7 +49,7 @@ const ProjectHeader = (props: Props) => {
 	const [creditsIsActive, setCreditsIsActive] = useState(false);
 
 	return (
-		<ProjectHeaderWrapper>
+		<ProjectHeaderWrapper $bgColour={bgColour}>
 			<LayoutWrapper>
 				<Inner>
 					<CreditsTrigger

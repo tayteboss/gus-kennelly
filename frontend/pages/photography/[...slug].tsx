@@ -7,13 +7,19 @@ import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+type StyledProps = {
+	$bgColour: string;
+}
+
 type Props = {
 	data: PhotographyType;
 	allPhotographyData: PhotographyType[];
 	siteSettings: SiteSettingsType;
 };
 
-const PageWrapper = styled.div``;
+const PageWrapper = styled.div<StyledProps>`
+	background-color: ${(props: any) => props.$bgColour};
+`;
 
 const Page = (props: Props) => {
 	const {
@@ -51,7 +57,7 @@ const Page = (props: Props) => {
 	}, [data]);
 
 	return (
-		<PageWrapper>
+		<PageWrapper $bgColour={siteSettings?.photographyColour?.hex}>
 			<NextSeo
 				title={`Gus Kennelly | ${data?.title || ''}}`}
 				description={siteSettings?.seoDescription || ''}
@@ -62,8 +68,9 @@ const Page = (props: Props) => {
 				hasNextProject={nextProjectSlug.length > 0}
 				hasPreviousProject={previousProjectSlug.length > 0}
 				data={data}
+				bgColour={siteSettings?.photographyColour?.hex}
 			/>
-			<PhotographyGallery />
+			<PhotographyGallery data={data} />
 		</PageWrapper>
 	);
 };
@@ -96,11 +103,11 @@ export async function getStaticProps({ params }: any) {
 	const photographyQuery = `
 		*[_type == 'photography' && slug.current == "${params.slug[0]}"][0] {
 			...,
-			imageGallery[] {
-				...,
-				_type == "image" => {
-					asset->
-				},
+			'imageGallery': imageGallery[] {
+				_key,
+				imageType,
+				'singleImageUrl': singleImage.asset->url,
+				'twoImagesUrls': twoImages[].asset->url,
 			},
 			'featuredImage': featuredImage.asset->url,
 		}

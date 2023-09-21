@@ -143,14 +143,24 @@ export const GlobalStyles = createGlobalStyle`
 	.view-element-bottom-top
 	{
 		opacity: 0;
-		transform: translateY(15px);
+		transform: translateY(10px);
 
-		transition: opacity 300ms cubic-bezier(0.65, 0, 0.35, 1), transform 300ms cubic-bezier(0.65, 0, 0.35, 1);
+		transition: opacity 750ms cubic-bezier(0.65, 0, 0.35, 1), transform 750ms cubic-bezier(0.65, 0, 0.35, 1);
+
+		img {
+			transform: scale(1.05);
+
+			transition: all 5000ms var(--transition-ease);
+		}
 
 		&--in-view
 		{
 			opacity: 1;
 			transform: translateY(0);
+
+			img {
+				transform: scale(1);
+			}
 		}
 	}
 
