@@ -94,11 +94,6 @@ const Page = (props: Props) => {
 		}
 	}, [snippetData]);
 
-	// console.log('siteSettings', siteSettings);
-	// console.log('productionData', productionData);
-	// console.log('featuredProductionData', featuredProductionData);
-	// console.log('photographyData', photographyData);
-
 	return (
 		<>
 			<PageWrapper className="page-wrapper">

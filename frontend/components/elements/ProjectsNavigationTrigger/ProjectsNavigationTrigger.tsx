@@ -5,6 +5,7 @@ import pxToRem from '../../../utils/pxToRem';
 type StyledProps = {
 	$hasNextProject?: boolean;
 	$hasPreviousProject?: boolean;
+	$isPhotographyType?: boolean;
 };
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 	handlePreviousProject: () => void;
 	hasNextProject: boolean;
 	hasPreviousProject: boolean;
+	isPhotographyType?: boolean;
 };
 
 const ProjectsNavigationTriggerWrapper = styled.div`
@@ -23,7 +25,7 @@ const ProjectsNavigationTriggerWrapper = styled.div`
 `;
 
 const PreviousTrigger = styled.button<StyledProps>`
-	color: var(--colour-white);
+	color: ${(props) => props.$isPhotographyType ? 'var(--colour-black)' : 'var(--colour-white)'};
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -42,7 +44,7 @@ const PreviousTrigger = styled.button<StyledProps>`
 `;
 
 const NextTrigger = styled.button<StyledProps>`
-	color: var(--colour-white);
+	color: ${(props) => props.$isPhotographyType ? 'var(--colour-black)' : 'var(--colour-white)'};
 	display: flex;
 	align-items: center;
 	column-gap: ${pxToRem(8)};
@@ -63,6 +65,7 @@ const ProjectsNavigationTrigger = (props: Props) => {
 	const {
 		hasNextProject,
 		hasPreviousProject,
+		isPhotographyType,
 		handleNextProject,
 		handlePreviousProject
 	} = props;
@@ -72,16 +75,18 @@ const ProjectsNavigationTrigger = (props: Props) => {
 			<PreviousTrigger
 				onClick={() => handlePreviousProject()}
 				$hasPreviousProject={hasPreviousProject}
+				$isPhotographyType={isPhotographyType}
 			>
-				<ArrowSvg />
+				<ArrowSvg color={isPhotographyType ? '#000000' : '#FFFFFF'} />
 				Previous Project
 			</PreviousTrigger>
 			<NextTrigger
 				onClick={() => handleNextProject()}
 				$hasNextProject={hasNextProject}
+				$isPhotographyType={isPhotographyType}
 			>
 				Next Project
-				<ArrowSvg />
+				<ArrowSvg color={isPhotographyType ? '#000000' : '#FFFFFF'} />
 			</NextTrigger>
 		</ProjectsNavigationTriggerWrapper>
 	);

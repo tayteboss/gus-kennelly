@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import CrossSvg from '../../Svgs/CrossSvg';
 import pxToRem from '../../../utils/pxToRem';
-import { useRouter } from 'next/router';
 
 type StyledProps = {
 	$isPhotographyType?: boolean;
@@ -9,10 +8,10 @@ type StyledProps = {
 
 type Props = {
 	isPhotographyType?: boolean;
-	setIsExpanded?: (isExpanded: boolean) => void;
+	handleCloseProject: () => void;
 };
 
-const CloseTriggerWrapper = styled.button<StyledProps>`
+const ClosePhotographyTriggerWrapper = styled.button<StyledProps>`
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -34,29 +33,17 @@ const CloseTriggerWrapper = styled.button<StyledProps>`
 const CloseProjectTrigger = (props: Props) => {
 	const {
 		isPhotographyType,
-		setIsExpanded
+		handleCloseProject
 	} = props;
 
-	const router = useRouter();
-
-	const handleClick = () => {
-		if (isPhotographyType) {
-			router.push('/');
-		}
-
-		if (setIsExpanded) {
-			setIsExpanded(false);
-		}
-	}
-
 	return (
-		<CloseTriggerWrapper
-			onClick={() => handleClick()}
+		<ClosePhotographyTriggerWrapper
+			onClick={() => handleCloseProject()}
 			$isPhotographyType={isPhotographyType}
 		>
 			Close Project
 			<CrossSvg color={isPhotographyType ? '#000000' : '#FFFFFF'} />
-		</CloseTriggerWrapper>
+		</ClosePhotographyTriggerWrapper>
 	);
 };
 
