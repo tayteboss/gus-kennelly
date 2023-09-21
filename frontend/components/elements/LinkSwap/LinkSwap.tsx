@@ -20,7 +20,7 @@ const LinkSwap = (props: Props) => {
 	const [title, setTitle] = useState(initial);
 
 	return (
-		<Link href={link} passHref>
+		<Link href={link} passHref scroll={false}>
 			<LinkTag
 				onMouseOver={() => setTitle(swap)}
 				onMouseOut={() => setTitle(initial)}

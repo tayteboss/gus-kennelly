@@ -9,8 +9,8 @@ type StyledProps = {
 };
 
 type Props = {
-	handleNextProject: () => void;
-	handlePreviousProject: () => void;
+	handleNextProject?: (() => void | undefined) | undefined;
+	handlePreviousProject?: (() => void | undefined) | undefined;
 	hasNextProject: boolean;
 	hasPreviousProject: boolean;
 	isPhotographyType?: boolean;
@@ -75,7 +75,11 @@ const ProjectsNavigationTrigger = (props: Props) => {
 	return (
 		<ProjectsNavigationTriggerWrapper>
 			<PreviousTrigger
-				onClick={() => handlePreviousProject()}
+				onClick={() => {
+					if (handlePreviousProject) {
+						handlePreviousProject()
+					}
+				}}
 				$hasPreviousProject={hasPreviousProject}
 				$isPhotographyType={isPhotographyType}
 			>
@@ -83,7 +87,11 @@ const ProjectsNavigationTrigger = (props: Props) => {
 				Previous Project
 			</PreviousTrigger>
 			<NextTrigger
-				onClick={() => handleNextProject()}
+				onClick={() => {
+					if (handleNextProject) {
+						handleNextProject()
+					}
+				}}
 				$hasNextProject={hasNextProject}
 				$isPhotographyType={isPhotographyType}
 			>

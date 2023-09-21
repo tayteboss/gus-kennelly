@@ -18,13 +18,13 @@ type StyledProps = {
 
 type Props = {
 	snippetData: any;
-	isExpanded: boolean;
+	isExpanded?: boolean;
 	hasVisited: boolean;
-	hasNextProject: boolean;
-	hasPreviousProject: boolean;
-	setIsExpanded: (isExpanded: boolean) => void;
-	handleNextProject: () => void;
-	handlePreviousProject: () => void;
+	hasNextProject?: boolean;
+	hasPreviousProject?: boolean;
+	setIsExpanded?: (isExpanded: boolean | undefined) => void | undefined;
+	handleNextProject?: (() => void | undefined) | undefined;
+	handlePreviousProject?: (() => void | undefined) | undefined;
 };
 
 const ProjectSnippetWrapper = styled.div<StyledProps>`
@@ -73,10 +73,10 @@ const SnippetWrapper = styled.div<StyledProps>`
 const ProjectSnippet = (props: Props) => {
 	const {
 		snippetData,
-		isExpanded,
+		isExpanded = false,
 		hasVisited,
-		hasNextProject,
-		hasPreviousProject,
+		hasNextProject = false,
+		hasPreviousProject = false,
 		setIsExpanded,
 		handleNextProject,
 		handlePreviousProject
@@ -92,7 +92,7 @@ const ProjectSnippet = (props: Props) => {
 
 	const muxPlayerRef = useRef<any>(null);
 
-	const type = snippetData._type;
+	const type = snippetData._type ? snippetData._type : 'photography';
 	let data: string = '';
 
 	if (type === 'production') {
@@ -110,10 +110,13 @@ const ProjectSnippet = (props: Props) => {
 	useEffect(() => {
 		// Create 16:9 ratio for video player
 		const ratioHeight = (window.innerWidth / 100) * 41.6666666667 * (9 / 16);
+		document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
 		setRatioHeight(ratioHeight);
+
 
 		window.addEventListener('resize', () => {
 			const ratioHeight = (window.innerWidth / 100) * 41.6666666667 * (9 / 16);
+			document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
 			setRatioHeight(ratioHeight);
 		});
 	}, []);

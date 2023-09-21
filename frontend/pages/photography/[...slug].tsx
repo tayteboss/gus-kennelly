@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import client from '../../client';
-import { PhotographyType, SiteSettingsType } from '../../shared/types/types';
+import { PhotographyType, ProductionType, SiteSettingsType, Transitions } from '../../shared/types/types';
 import ProjectHeader from '../../components/blocks/ProjectHeader';
 import PhotographyGallery from '../../components/blocks/PhotographyGallery';
 import { NextSeo } from 'next-seo';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import PhotographyFooter from '../../components/blocks/PhotographyFooter';
+import { motion } from 'framer-motion';
 
 type StyledProps = {
 	$bgColour: string;
@@ -15,9 +17,11 @@ type Props = {
 	data: PhotographyType;
 	allPhotographyData: PhotographyType[];
 	siteSettings: SiteSettingsType;
+	featuredPhotographyData: PhotographyType[];
+	pageTransitionVariants: Transitions;
 };
 
-const PageWrapper = styled.div<StyledProps>`
+const PageWrapper = styled(motion.div)<StyledProps>`
 	background-color: ${(props: any) => props.$bgColour};
 `;
 
@@ -25,8 +29,14 @@ const Page = (props: Props) => {
 	const {
 		data,
 		allPhotographyData,
-		siteSettings
+		featuredPhotographyData,
+		siteSettings,
+		pageTransitionVariants
 	} = props;
+
+	console.log('allPhotographyData', allPhotographyData);
+	console.log('featuredPhotographyData', featuredPhotographyData);
+	console.log('siteSettings', siteSettings);
 
 	const [nextProjectSlug, setNextProjectSlug] = useState('');
 	const [previousProjectSlug, setPreviousProjectSlug] = useState('');
@@ -57,7 +67,13 @@ const Page = (props: Props) => {
 	}, [data]);
 
 	return (
-		<PageWrapper $bgColour={siteSettings?.photographyColour?.hex}>
+		<PageWrapper
+			$bgColour={siteSettings?.photographyColour?.hex}
+			variants={pageTransitionVariants}
+			initial='hidden'
+			animate='visible'
+			exit='hidden'
+		>
 			<NextSeo
 				title={`Gus Kennelly | ${data?.title || ''}}`}
 				description={siteSettings?.seoDescription || ''}
@@ -65,12 +81,18 @@ const Page = (props: Props) => {
 			<ProjectHeader
 				handleNextProject={handleNextProject}
 				handlePreviousProject={handlePreviousProject}
-				hasNextProject={nextProjectSlug.length > 0}
-				hasPreviousProject={previousProjectSlug.length > 0}
+				hasNextProject={nextProjectSlug?.length > 0}
+				hasPreviousProject={previousProjectSlug?.length > 0}
 				data={data}
 				bgColour={siteSettings?.photographyColour?.hex}
 			/>
 			<PhotographyGallery data={data} />
+			<PhotographyFooter
+				bgColour={siteSettings?.photographyColour?.hex}
+				featuredPhotographyData={featuredPhotographyData}
+				photographyData={allPhotographyData}
+				siteSettings={siteSettings}
+			/>
 		</PageWrapper>
 	);
 };
@@ -86,7 +108,7 @@ export async function getStaticPaths() {
 
 	return {
 		paths: allPhotography.map((item: any) => {
-			return `/photography/${item?.slug}`;
+			return `/photography/${item?.slug?.current}`;
 		}),
 		fallback: true
 	};
@@ -94,9 +116,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
 	const allPhotographyQuery = `
-		*[_type == 'photography'] [0...100] {
+		*[_type == 'photography'] | order(orderRank) [0...100] {
 			_id,
-			slug
+			title,
+			slug,
+			category,
+			featured,
+			'featuredImage': featuredImage.asset->url,
 		}
 	`;
 
@@ -123,10 +149,13 @@ export async function getStaticProps({ params }: any) {
 	const allPhotographyData = await client.fetch(allPhotographyQuery);
 	const siteSettings = await client.fetch(siteSettingsQuery);
 
+	const featuredPhotographyData = allPhotographyData.filter((project: any) => project.featured);
+
 	return {
 		props: {
 			data,
 			allPhotographyData,
+			featuredPhotographyData,
 			siteSettings,
 		},
 	};

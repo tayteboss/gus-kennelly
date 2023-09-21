@@ -50,11 +50,11 @@ const CreditsTrigger = (props: Props) => {
 			$isPhotographyType={isPhotographyType}
 		>
 			{creditsIsActive ? 'Hide Project Details' : 'Show Project Details'}
-			<Icon
+			{/* <Icon
 				className="credits-trigger__icon"
 				$creditsIsActive={creditsIsActive}
 				$isPhotographyType={isPhotographyType}
-			/>
+			/> */}
 		</CreditsTriggerWrapper>
 	);
 };

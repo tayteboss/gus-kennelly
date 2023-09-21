@@ -2,20 +2,20 @@ import styled from 'styled-components';
 import { PhotographyType, ProductionType, SiteSettingsType } from '../../../shared/types/types';
 import pxToRem from '../../../utils/pxToRem';
 import { useEffect, useState } from 'react';
-import ProjectTypePillsColumn from '../PillsColumn';
 import useBgColourUpdate from '../../../hooks/useBgColourUpdate';
 import PillsColumn from '../PillsColumn';
 
 type Props = {
-	productionData: ProductionType[];
-	featuredProductionData: ProductionType[];
+	productionData?: ProductionType[];
+	featuredProductionData?: ProductionType[];
 	photographyData: PhotographyType[];
 	featuredPhotographyData: PhotographyType[];
-	productionColour: string;
+	productionColour?: string;
 	photographyColour: string;
 	siteSettings: SiteSettingsType;
+	isPhotographyFooter?: boolean;
 	handleChangeProjectSnippet: (project: ProductionType | PhotographyType) => void;
-	setIsExpanded: (isExpanded: boolean) => void;
+	setIsExpanded?: (isExpanded: boolean) => void;
 };
 
 const ProjectsDirectoryWrapper = styled.div`
@@ -38,14 +38,15 @@ const ProjectsDirectory = (props: Props) => {
 		productionColour,
 		photographyColour,
 		siteSettings,
+		isPhotographyFooter,
 		handleChangeProjectSnippet,
 		setIsExpanded
 	} = props;
 
-	const [productionIsActive, setProductionIsActive] = useState(true);
+	const [productionIsActive, setProductionIsActive] = useState(isPhotographyFooter ? false : true);
 	const [activeCategory, setActiveCategory] = useState('Featured');
-	const [activeProject, setActiveProject] = useState<string>(featuredProductionData[0].title);
-	const [projectPills, setProjectPills] = useState<ProductionType[] | PhotographyType[]>(featuredProductionData);
+	const [activeProject, setActiveProject] = useState<string>(featuredProductionData ? featuredProductionData[0].title : featuredPhotographyData[0].title);
+	const [projectPills, setProjectPills] = useState<ProductionType[] | PhotographyType[] | undefined>(featuredProductionData ? featuredProductionData : featuredPhotographyData);
 
 	useBgColourUpdate(productionIsActive, siteSettings);
 
@@ -88,6 +89,7 @@ const ProjectsDirectory = (props: Props) => {
 					productionIsActive={productionIsActive}
 					productionColour={productionColour}
 					photographyColour={photographyColour}
+					isPhotographyFooter={isPhotographyFooter}
 					handleChangeProjectType={
 						(isProduction: boolean) => setProductionIsActive(isProduction)
 					}

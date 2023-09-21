@@ -146,6 +146,7 @@ export const GlobalStyles = createGlobalStyle`
 		transform: translateY(10px);
 
 		transition: opacity 750ms cubic-bezier(0.65, 0, 0.35, 1), transform 750ms cubic-bezier(0.65, 0, 0.35, 1);
+		transition-delay: 300ms;
 
 		img {
 			transform: scale(1.05);

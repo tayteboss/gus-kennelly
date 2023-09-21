@@ -20,7 +20,6 @@ const SingleImageCardWrapper = styled.div`
 const Inner = styled.div`
 	position: absolute;
 	inset: 0;
-	background: var(--colour-white);
 `;
 
 const SingleImageCard = (props: Props) => {

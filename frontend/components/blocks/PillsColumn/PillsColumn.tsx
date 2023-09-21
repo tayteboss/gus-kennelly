@@ -4,7 +4,7 @@ import { PhotographyType, ProductionType } from '../../../shared/types/types';
 
 type Props = {
 	productionIsActive: boolean;
-	productionColour: string;
+	productionColour?: string;
 	photographyColour: string;
 	isProjectTypeColumn?: boolean;
 	isCategoryColumn?: boolean;
@@ -12,6 +12,7 @@ type Props = {
 	activeCategory?: string;
 	projectPills?: ProductionType[] | PhotographyType[];
 	activeProject?: string;
+	isPhotographyFooter?: boolean;
 	handleChangeProjectType?: (isProduction: boolean) => void;
 	handleChangeCategory?: (category: string) => void;
 	handleChangeProject?: (project: string) => void;
@@ -34,6 +35,7 @@ const PillsColumn = (props: Props) => {
 		activeCategory,
 		projectPills,
 		activeProject,
+		isPhotographyFooter,
 		handleChangeProjectType,
 		handleChangeCategory,
 		handleChangeProject,
@@ -48,14 +50,16 @@ const PillsColumn = (props: Props) => {
 
 			{isProjectTypeColumn && (
 				<>
-					<Pill
-						title="Production"
-						isActive={productionIsActive}
-						activeColour={productionColour}
-						isProjectType
-						handleChangeProjectType={handleChangeProjectType}
-						columnId={1}
-					/>
+					{!isPhotographyFooter && (
+						<Pill
+							title="Production"
+							isActive={productionIsActive}
+							activeColour={productionColour ? productionColour : photographyColour}
+							isProjectType
+							handleChangeProjectType={handleChangeProjectType}
+							columnId={1}
+						/>
+					)}
 					<Pill
 						title="Photography"
 						isActive={!productionIsActive}
@@ -72,7 +76,7 @@ const PillsColumn = (props: Props) => {
 					<Pill
 						title="Featured"
 						isActive={activeCategory === "Featured"}
-						activeColour={productionIsActive ? productionColour: photographyColour}
+						activeColour={productionIsActive ? productionColour : photographyColour}
 						isCategory
 						handleChangeCategory={handleChangeCategory}
 						columnId={2}
@@ -80,7 +84,7 @@ const PillsColumn = (props: Props) => {
 					<Pill
 						title="Commercial"
 						isActive={activeCategory === "Commercial"}
-						activeColour={productionIsActive ? productionColour: photographyColour}
+						activeColour={productionIsActive ? productionColour : photographyColour}
 						isCategory
 						handleChangeCategory={handleChangeCategory}
 						columnId={2}
@@ -90,7 +94,7 @@ const PillsColumn = (props: Props) => {
 							<Pill
 								title="Narrative"
 								isActive={activeCategory === "Narrative"}
-								activeColour={productionIsActive ? productionColour: photographyColour}
+								activeColour={productionIsActive ? productionColour : photographyColour}
 								isCategory
 								handleChangeCategory={handleChangeCategory}
 								columnId={2}
@@ -98,7 +102,7 @@ const PillsColumn = (props: Props) => {
 							<Pill
 								title="Music Video"
 								isActive={activeCategory === "Music Video"}
-								activeColour={productionIsActive ? productionColour: photographyColour}
+								activeColour={productionIsActive ? productionColour : photographyColour}
 								isCategory
 								handleChangeCategory={handleChangeCategory}
 								columnId={2}
@@ -109,7 +113,7 @@ const PillsColumn = (props: Props) => {
 						<Pill
 							title="Personal"
 							isActive={activeCategory === "Personal"}
-							activeColour={productionIsActive ? productionColour: photographyColour}
+							activeColour={productionIsActive ? productionColour : photographyColour}
 							isCategory
 							handleChangeCategory={handleChangeCategory}
 							columnId={2}
@@ -125,7 +129,7 @@ const PillsColumn = (props: Props) => {
 						title={item?.title}
 						slug={item?.slug?.current}
 						isActive={activeProject === item.title}
-						activeColour={productionIsActive ? productionColour: photographyColour}
+						activeColour={productionIsActive ? productionColour : photographyColour}
 						isProject
 						projectData={item}
 						isProduction={productionIsActive}

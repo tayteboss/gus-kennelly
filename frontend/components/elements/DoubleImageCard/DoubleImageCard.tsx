@@ -33,7 +33,6 @@ const Outer = styled.div`
 const Inner = styled.div`
 	position: absolute;
 	inset: 0;
-	background: var(--colour-white);
 `;
 
 const DoubleImageCard = (props: Props) => {
@@ -58,8 +57,9 @@ const DoubleImageCard = (props: Props) => {
 					className={`view-element-bottom-top ${
 						inView ? 'view-element-bottom-top--in-view' : ''
 					}`}
+					key={i}
 				>
-					<Inner key={i}>
+					<Inner>
 						<Image
 							src={item}
 							layout="fill"

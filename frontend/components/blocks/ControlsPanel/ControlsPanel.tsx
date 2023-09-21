@@ -18,12 +18,12 @@ type Props = {
 	hasNextProject: boolean;
 	hasPreviousProject: boolean;
 	setCreditsIsActive: (creditsIsActive: boolean) => void;
-	setIsExpanded: (isExpanded: boolean) => void;
+	setIsExpanded?: (isExpanded: boolean | undefined) => void | undefined;
 	setIsMuted: (isMuted: boolean) => void;
 	setIsPlaying: (isPlaying: boolean) => void;
 	handleSeek: (time: number) => void;
-	handleNextProject: () => void;
-	handlePreviousProject: () => void;
+	handleNextProject?: (() => void | undefined) | undefined;
+	handlePreviousProject?: (() => void | undefined) | undefined;
 };
 
 const ControlsPanelWrapper = styled.div`

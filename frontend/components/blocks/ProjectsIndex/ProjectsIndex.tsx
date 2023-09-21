@@ -10,16 +10,17 @@ type StyledProps = {
 };
 
 type Props = {
-	productionData: ProductionType[];
-	featuredProductionData: ProductionType[];
+	productionData?: ProductionType[];
+	featuredProductionData?: ProductionType[];
 	photographyData: PhotographyType[];
 	featuredPhotographyData: PhotographyType[];
-	productionColour: string;
+	productionColour?: string;
 	photographyColour: string;
 	siteSettings: SiteSettingsType;
-	setSnippetData: (data: ProductionType | PhotographyType) => void;
-	setIsExpanded: (isExpanded: boolean) => void;
 	hasVisited: boolean;
+	isPhotographyFooter?: boolean;
+	setSnippetData: (data: ProductionType | PhotographyType) => void;
+	setIsExpanded?: (isExpanded: boolean) => void;
 };
 
 const ProjectsIndexWrapper = styled.div<StyledProps>`
@@ -39,6 +40,7 @@ const ProjectsIndex = (props: Props) => {
 		photographyColour,
 		siteSettings,
 		hasVisited,
+		isPhotographyFooter = false,
 		setSnippetData,
 		setIsExpanded
 	} = props;
@@ -55,6 +57,7 @@ const ProjectsIndex = (props: Props) => {
 						productionColour={productionColour}
 						photographyColour={photographyColour}
 						siteSettings={siteSettings}
+						isPhotographyFooter={isPhotographyFooter}
 						handleChangeProjectSnippet={(data) => setSnippetData(data)}
 						setIsExpanded={setIsExpanded}
 					/>

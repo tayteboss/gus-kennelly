@@ -33,7 +33,7 @@ const Page = (props: Props) => {
 	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredProductionData[0]);
 	const [nextProject, setNextProject] = useState<ProductionType | undefined>(undefined);
 	const [previousProject, setPreviousProject] = useState<ProductionType | undefined>(undefined);
-	const [isExpanded, setIsExpanded] = useState(false);
+	const [isExpanded, setIsExpanded] = useState<boolean | undefined>(false);
 	const [hasVisited, setHasVisited] = useState(false);
 
 	const handleNextProject = () => {

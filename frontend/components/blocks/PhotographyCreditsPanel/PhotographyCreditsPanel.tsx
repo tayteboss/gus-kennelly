@@ -4,19 +4,24 @@ import { PhotographyType } from '../../../shared/types/types';
 import pxToRem from '../../../utils/pxToRem';
 import { AnimatePresence, motion } from 'framer-motion';
 
+type StyledProps = {
+	$bgColour: string;
+};
+
 type Props = {
 	data: PhotographyType;
 	creditsIsActive: boolean;
+	bgColour: string;
 };
 
-const PhotographyCreditsPanelWrapper = styled(motion.div)`
+const PhotographyCreditsPanelWrapper = styled(motion.div)<StyledProps>`
 	position: absolute;
 	top: 100%;
 	left: 0;
-	padding: ${pxToRem(16)};
+	padding: ${pxToRem(16)} ${pxToRem(240)} ${pxToRem(16)} ${pxToRem(16)};
 	height: 100vh;
 	height: 100dvh;
-	background: rgba(255, 255, 255, 0.9);
+	background: ${(props) => props.$bgColour};
 	backdrop-filter: blur(5px);
 
 	* {
@@ -30,17 +35,20 @@ const CreditElementChildren = styled.p`
 
 const wrapperVariants = {
 	hidden: {
-		opacity: 0,
+		x: '-100%',
 		transition: {
-			duration: 0.3,
-			ease: 'easeInOut'
+			duration: 0.5,
+			ease: 'easeInOut',
+			when: 'afterChildren'
 		}
 	},
 	visible: {
-		opacity: 1,
+		x: 0,
 		transition: {
-			duration: 0.3,
-			ease: 'easeInOut'
+			duration: 0.5,
+			ease: 'easeInOut',
+			staggerChildren: 0.1,
+			when: 'beforeChildren'
 		}
 	}
 };
@@ -48,7 +56,8 @@ const wrapperVariants = {
 const PhotographyCreditsPanel = (props: Props) => {
 	const {
 		data,
-		creditsIsActive
+		creditsIsActive,
+		bgColour
 	} = props;
 
 	return (
@@ -59,6 +68,7 @@ const PhotographyCreditsPanel = (props: Props) => {
 					initial='hidden'
 					animate='visible'
 					exit='hidden'
+					$bgColour={bgColour}
 				>
 					{data?.title && (
 						<CreditElement title="Title">

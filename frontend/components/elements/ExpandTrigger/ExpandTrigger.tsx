@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 type Props = {
 	isActive: boolean;
-	setIsExpanded: (isExpanded: boolean) => void;
+	setIsExpanded?: (isExpanded: boolean | undefined) => void | undefined;
 	isProduction: boolean;
 };
 
@@ -54,7 +54,11 @@ const ExpandTrigger = (props: Props) => {
 					initial='hidden'
 					animate='visible'
 					exit='hidden'
-					onClick={() => setIsExpanded(true)}
+					onClick={() => {
+						if (setIsExpanded) {
+							setIsExpanded(true)
+						}
+					}}
 				>
 					{isProduction ? 'Expand' : 'View Project'}
 					<ArrowSvg />
