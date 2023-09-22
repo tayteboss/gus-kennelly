@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 import { NextSeo } from 'next-seo';
 import client from '../client';
-import { PhotographyType, ProductionType, SiteSettingsType } from '../shared/types/types';
+import { PhotographyType, ProductionType, SiteSettingsType, Transitions } from '../shared/types/types';
 import InformationSection from '../components/blocks/InformationSection';
 import ProjectsIndex from '../components/blocks/ProjectsIndex';
 import ProjectSnippet from '../components/blocks/ProjectSnippet';
 import { useEffect, useState } from 'react';
+import useBgColourUpdate from '../hooks/useBgColourUpdate';
+import { motion } from 'framer-motion';
 
-const PageWrapper = styled.div`
+const PageWrapper = styled(motion.div)`
 	height: 100vh;
 
 	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
@@ -19,6 +21,7 @@ type Props = {
 	featuredProductionData: ProductionType[];
 	photographyData: PhotographyType[];
 	featuredPhotographyData: PhotographyType[];
+	pageTransitionVariants: Transitions;
 };
 
 const Page = (props: Props) => {
@@ -27,7 +30,8 @@ const Page = (props: Props) => {
 		productionData,
 		featuredProductionData,
 		photographyData,
-		featuredPhotographyData
+		featuredPhotographyData,
+		pageTransitionVariants
 	} = props;
 
 	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredProductionData[0]);
@@ -35,6 +39,19 @@ const Page = (props: Props) => {
 	const [previousProject, setPreviousProject] = useState<ProductionType | undefined>(undefined);
 	const [isExpanded, setIsExpanded] = useState<boolean | undefined>(false);
 	const [hasVisited, setHasVisited] = useState(false);
+	const [productionIsActive, setProductionIsActive] = useState(true);
+	const [activeCategory, setActiveCategory] = useState('featured');
+	const [projectPills, setProjectPills] = useState<ProductionType[] | PhotographyType[]>(featuredProductionData || featuredPhotographyData || []);
+
+	useBgColourUpdate(productionIsActive, siteSettings);
+
+	const format = (string: string) => {
+		return string.toLowerCase().replace(/\s/g, '-');
+	};
+
+	const handleChangeCategory = (category: string) => {
+		setActiveCategory(category);
+	}
 
 	const handleNextProject = () => {
 		if (nextProject) {
@@ -48,18 +65,51 @@ const Page = (props: Props) => {
 		}
 	};
 
+	// Reset state when productionIsActive changes
+	useEffect(() => {
+		const initialCategory = 'featured';
+		const initialData = productionIsActive ? featuredProductionData : featuredPhotographyData;
+		if (!initialData) return;
+
+		setActiveCategory(initialCategory);
+		setProjectPills(initialData);
+		setSnippetData(initialData[0]);
+	}, [productionIsActive]);
+
+	// Handle changes in activeCategory
+	useEffect(() => {
+		if (activeCategory === 'featured') {
+			const initialData = productionIsActive ? featuredProductionData : featuredPhotographyData;
+			if (!initialData) return;
+
+			setProjectPills(initialData);
+			setSnippetData(initialData[0]);
+		} else {
+			// Filter projects by category
+			const filteredProjects = productionIsActive
+				? productionData.filter((project) => project.category == format(activeCategory))
+				: photographyData.filter((project) => project.category == format(activeCategory));
+		
+			if (filteredProjects.length > 0) {
+				setProjectPills(filteredProjects);
+				setSnippetData(filteredProjects[0]);
+			}
+		}
+	}, [activeCategory, productionIsActive]);
+
+	// Handling next / prev projects when snippetData changes
 	useEffect(() => {
 		if (snippetData) {
-			const currentProjectIndex = productionData.findIndex((project: ProductionType) => project._id === snippetData._id);
-			const nextProject = productionData[currentProjectIndex + 1];
-			const previousProject = productionData[currentProjectIndex - 1];
+			const currentProjectIndex = projectPills.findIndex((project: any) => project._id === snippetData._id);
+			const nextProject: any = projectPills[currentProjectIndex + 1];
+			const previousProject: any = projectPills[currentProjectIndex - 1];
 
 			setNextProject(nextProject);
 			setPreviousProject(previousProject);
 
 			if (nextProject) {
-				const nextProjectMedia = nextProject.media.asset.playbackId;
-				const nextProjectSnippet = nextProject.snippet.asset.playbackId;
+				const nextProjectMedia = nextProject?.media?.asset?.playbackId;
+				const nextProjectSnippet = nextProject?.snippet?.asset?.playbackId;
 
 				const nextProjectMediaPreload = document.createElement('link');
 				nextProjectMediaPreload.rel = 'preload';
@@ -76,8 +126,8 @@ const Page = (props: Props) => {
 
 			// if there is a previous project, preload it
 			if (previousProject) {
-				const previousProjectMedia = previousProject.media.asset.playbackId;
-				const previousProjectSnippet = previousProject.snippet.asset.playbackId;
+				const previousProjectMedia = previousProject?.media?.asset?.playbackId;
+				const previousProjectSnippet = previousProject?.snippet?.asset?.playbackId;
 
 				const previousProjectMediaPreload = document.createElement('link');
 				previousProjectMediaPreload.rel = 'preload';
@@ -96,22 +146,33 @@ const Page = (props: Props) => {
 
 	return (
 		<>
-			<PageWrapper className="page-wrapper">
+			<PageWrapper
+				className="page-wrapper"
+				variants={pageTransitionVariants}
+				initial='hidden'
+				animate='visible'
+				exit='hidden'
+			>
 				<NextSeo
 					title={`Gus Kennelly | ${siteSettings?.tagline || ''}`}
 					description={siteSettings?.seoDescription || ''}
 				/>
 				<ProjectsIndex
-					productionData={productionData}
-					featuredProductionData={featuredProductionData}
 					photographyData={photographyData}
 					featuredPhotographyData={featuredPhotographyData}
 					productionColour={siteSettings?.productionColour?.hex}
 					photographyColour={siteSettings?.photographyColour?.hex}
 					siteSettings={siteSettings}
 					hasVisited={hasVisited}
+					snippetData={snippetData}
+					activeCategory={activeCategory}
+					projectPills={projectPills}
+					productionIsActive={productionIsActive}
+					setProductionIsActive={setProductionIsActive}
 					setSnippetData={setSnippetData}
 					setIsExpanded={setIsExpanded}
+					setProjectPills={setProjectPills}
+					handleChangeCategory={handleChangeCategory}
 				/>
 				<InformationSection
 					tagline={siteSettings?.tagline}

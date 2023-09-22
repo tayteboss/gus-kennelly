@@ -10,8 +10,6 @@ type StyledProps = {
 };
 
 type Props = {
-	productionData?: ProductionType[];
-	featuredProductionData?: ProductionType[];
 	photographyData: PhotographyType[];
 	featuredPhotographyData: PhotographyType[];
 	productionColour?: string;
@@ -19,8 +17,15 @@ type Props = {
 	siteSettings: SiteSettingsType;
 	hasVisited: boolean;
 	isPhotographyFooter?: boolean;
+	snippetData: ProductionType | PhotographyType;
+	activeCategory: string;
+	projectPills: ProductionType[] | PhotographyType[];
+	productionIsActive: boolean;
+	setProjectPills: (pills: ProductionType[] | PhotographyType[]) => void;
+	setProductionIsActive: (productionIsActive: boolean) => void;
 	setSnippetData: (data: ProductionType | PhotographyType) => void;
 	setIsExpanded?: (isExpanded: boolean) => void;
+	handleChangeCategory: (category: string) => void;
 };
 
 const ProjectsIndexWrapper = styled.div<StyledProps>`
@@ -32,8 +37,6 @@ const ProjectsIndexWrapper = styled.div<StyledProps>`
 
 const ProjectsIndex = (props: Props) => {
 	const {
-		productionData,
-		featuredProductionData,
 		photographyData,
 		featuredPhotographyData,
 		productionColour,
@@ -41,8 +44,15 @@ const ProjectsIndex = (props: Props) => {
 		siteSettings,
 		hasVisited,
 		isPhotographyFooter = false,
+		snippetData,
+		activeCategory,
+		projectPills,
+		productionIsActive,
+		setProjectPills,
+		setProductionIsActive,
 		setSnippetData,
-		setIsExpanded
+		setIsExpanded,
+		handleChangeCategory
 	} = props;
 
 	return (
@@ -50,16 +60,21 @@ const ProjectsIndex = (props: Props) => {
 			<LayoutWrapper>
 				<LayoutGrid>
 					<ProjectsDirectory
-						productionData={productionData}
-						featuredProductionData={featuredProductionData}
 						photographyData={photographyData}
 						featuredPhotographyData={featuredPhotographyData}
 						productionColour={productionColour}
 						photographyColour={photographyColour}
 						siteSettings={siteSettings}
 						isPhotographyFooter={isPhotographyFooter}
+						snippetData={snippetData}
+						activeCategory={activeCategory}
+						projectPills={projectPills}
+						productionIsActive={productionIsActive}
+						setProjectPills={setProjectPills}
+						setProductionIsActive={setProductionIsActive}
 						handleChangeProjectSnippet={(data) => setSnippetData(data)}
 						setIsExpanded={setIsExpanded}
+						handleChangeCategory={handleChangeCategory}
 					/>
 				</LayoutGrid>
 			</LayoutWrapper>

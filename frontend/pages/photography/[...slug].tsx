@@ -34,10 +34,6 @@ const Page = (props: Props) => {
 		pageTransitionVariants
 	} = props;
 
-	console.log('allPhotographyData', allPhotographyData);
-	console.log('featuredPhotographyData', featuredPhotographyData);
-	console.log('siteSettings', siteSettings);
-
 	const [nextProjectSlug, setNextProjectSlug] = useState('');
 	const [previousProjectSlug, setPreviousProjectSlug] = useState('');
 

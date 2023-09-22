@@ -38,7 +38,6 @@ const PillsColumn = (props: Props) => {
 		isPhotographyFooter,
 		handleChangeProjectType,
 		handleChangeCategory,
-		handleChangeProject,
 		handleChangeProjectSnippet,
 		setIsExpanded
 	} = props;
@@ -75,7 +74,7 @@ const PillsColumn = (props: Props) => {
 				<>
 					<Pill
 						title="Featured"
-						isActive={activeCategory === "Featured"}
+						isActive={activeCategory === "featured"}
 						activeColour={productionIsActive ? productionColour : photographyColour}
 						isCategory
 						handleChangeCategory={handleChangeCategory}
@@ -83,7 +82,7 @@ const PillsColumn = (props: Props) => {
 					/>
 					<Pill
 						title="Commercial"
-						isActive={activeCategory === "Commercial"}
+						isActive={activeCategory === "commercial"}
 						activeColour={productionIsActive ? productionColour : photographyColour}
 						isCategory
 						handleChangeCategory={handleChangeCategory}
@@ -93,7 +92,7 @@ const PillsColumn = (props: Props) => {
 						<>
 							<Pill
 								title="Narrative"
-								isActive={activeCategory === "Narrative"}
+								isActive={activeCategory === "narrative"}
 								activeColour={productionIsActive ? productionColour : photographyColour}
 								isCategory
 								handleChangeCategory={handleChangeCategory}
@@ -101,7 +100,7 @@ const PillsColumn = (props: Props) => {
 							/>
 							<Pill
 								title="Music Video"
-								isActive={activeCategory === "Music Video"}
+								isActive={activeCategory === "music-video"}
 								activeColour={productionIsActive ? productionColour : photographyColour}
 								isCategory
 								handleChangeCategory={handleChangeCategory}
@@ -112,7 +111,7 @@ const PillsColumn = (props: Props) => {
 					{!productionIsActive && (
 						<Pill
 							title="Personal"
-							isActive={activeCategory === "Personal"}
+							isActive={activeCategory === "personal"}
 							activeColour={productionIsActive ? productionColour : photographyColour}
 							isCategory
 							handleChangeCategory={handleChangeCategory}
@@ -133,7 +132,6 @@ const PillsColumn = (props: Props) => {
 						isProject
 						projectData={item}
 						isProduction={productionIsActive}
-						handleChangeProject={handleChangeProject}
 						handleChangeProjectSnippet={handleChangeProjectSnippet}
 						setIsExpanded={setIsExpanded}
 						columnId={3}

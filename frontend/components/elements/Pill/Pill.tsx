@@ -8,13 +8,13 @@ import { useState } from 'react';
 
 type StyledProps = {
 	$isActive: boolean;
-	$activeColour: string;
+	$activeColour?: string;
 };
 
 type Props = {
 	title: string;
 	isActive: boolean;
-	activeColour: string;
+	activeColour: string | undefined;
 	isProjectType?: boolean;
 	isCategory?: boolean;
 	isProject?: boolean;
@@ -85,14 +85,14 @@ const hoverVariants = {
 	hidden: {
 		opacity: 0,
 		transition: {
-			duration: 0.05,
+			duration: 0.2,
 			ease: 'linear'
 		}
 	},
 	visible: {
 		opacity: 1,
 		transition: {
-			duration: 0.05,
+			duration: 0.2,
 			ease: 'linear'
 		}
 	}
@@ -112,7 +112,6 @@ const Pill = (props: Props) => {
 		columnId,
 		handleChangeProjectType,
 		handleChangeCategory,
-		handleChangeProject,
 		handleChangeProjectSnippet,
 		setIsExpanded
 	} = props;
@@ -121,28 +120,30 @@ const Pill = (props: Props) => {
 
 	const router = useRouter();
 
+	const format = (string: string) => {
+		return string.toLowerCase().replace(/\s/g, '-');
+	};
+
 	const handleClick = () => {
 		if (isProjectType && handleChangeProjectType) {
 			handleChangeProjectType(title === 'Production');
 		}
 
 		if (isCategory && handleChangeCategory) {
-			handleChangeCategory(title);
+			handleChangeCategory(format(title));
 		}
 
-		if (isProject && handleChangeProject && handleChangeProjectSnippet) {
+		if (isProject && handleChangeProjectSnippet) {
 			if (isProduction) {
 				if (isActive && setIsExpanded) {
 					setIsExpanded(true);
 				} else {
-					handleChangeProject(title);
 					handleChangeProjectSnippet(projectData)
 				}
 			} else {
 				if (isActive) {
 					router.push(`/photography/${slug}`);
 				} else {
-					handleChangeProject(title);
 					handleChangeProjectSnippet(projectData)
 				}
 			}

@@ -37,10 +37,51 @@ const PhotographyFooter = (props: Props) => {
 		siteSettings
 	} = props;
 
-	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType | undefined>(featuredPhotographyData ? featuredPhotographyData[0] : undefined);
 	const [topSectionHeight, setTopSectionHeight] = useState(0);
+	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredPhotographyData[0]);
+	const [productionIsActive, setProductionIsActive] = useState(false);
+	const [activeCategory, setActiveCategory] = useState('featured');
+	const [projectPills, setProjectPills] = useState<ProductionType[] | PhotographyType[]>(featuredPhotographyData);
 
 	const ref = useRef<HTMLDivElement>(null);
+
+	const format = (string: string) => {
+		return string.toLowerCase().replace(/\s/g, '-');
+	};
+
+	const handleChangeCategory = (category: string) => {
+		setActiveCategory(category);
+	}
+
+	// Reset state when productionIsActive changes
+	useEffect(() => {
+		const initialCategory = 'featured';
+		const initialData = featuredPhotographyData;
+		if (!initialData) return;
+
+		setActiveCategory(initialCategory);
+		setProjectPills(initialData);
+		setSnippetData(initialData[0]);
+	}, [productionIsActive]);
+
+	// Handle changes in activeCategory
+	useEffect(() => {
+		if (activeCategory === 'featured') {
+			const initialData = featuredPhotographyData;
+			if (!initialData) return;
+
+			setProjectPills(initialData);
+			setSnippetData(initialData[0]);
+		} else {
+			// Filter projects by category
+			const filteredProjects = photographyData.filter((project) => project.category == format(activeCategory))
+		
+			if (filteredProjects.length > 0) {
+				setProjectPills(filteredProjects);
+				setSnippetData(filteredProjects[0]);
+			}
+		}
+	}, [activeCategory, productionIsActive]);
 
 	useEffect(() => {
 		if (ref.current) {
@@ -57,11 +98,19 @@ const PhotographyFooter = (props: Props) => {
 				<ProjectsIndex
 					photographyData={photographyData}
 					featuredPhotographyData={featuredPhotographyData}
-					photographyColour={bgColour}
+					productionColour={siteSettings?.productionColour?.hex}
+					photographyColour={siteSettings?.photographyColour?.hex}
 					siteSettings={siteSettings}
 					hasVisited={true}
+					snippetData={snippetData}
+					activeCategory={activeCategory}
+					projectPills={projectPills}
+					productionIsActive={productionIsActive}
+					isPhotographyFooter={true}
+					setProductionIsActive={setProductionIsActive}
 					setSnippetData={setSnippetData}
-					isPhotographyFooter
+					setProjectPills={setProjectPills}
+					handleChangeCategory={handleChangeCategory}
 				/>
 				<ProjectSnippet
 					snippetData={snippetData}

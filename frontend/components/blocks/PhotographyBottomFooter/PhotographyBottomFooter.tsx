@@ -32,6 +32,8 @@ const PhotographyBottomFooter = (props: Props) => {
 		siteSettings,
 	} = props;
 
+	if (!siteSettings) return <></>;
+
 	const {
 		email,
 		phone,

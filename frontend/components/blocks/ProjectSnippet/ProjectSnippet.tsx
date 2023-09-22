@@ -92,7 +92,7 @@ const ProjectSnippet = (props: Props) => {
 
 	const muxPlayerRef = useRef<any>(null);
 
-	const type = snippetData._type ? snippetData._type : 'photography';
+	const type = snippetData?._type ? snippetData?._type : 'photography';
 	let data: string = '';
 
 	if (type === 'production') {
@@ -102,7 +102,7 @@ const ProjectSnippet = (props: Props) => {
 	}
 
 	const handleSeek = (time: number) => {
-		if (muxPlayerRef.current) {
+		if (muxPlayerRef?.current) {
 			muxPlayerRef.current.currentTime = time;
 		}
 	};
@@ -210,7 +210,7 @@ const ProjectSnippet = (props: Props) => {
 				/>
 
 
-				{data.length > 0 && (
+				{data?.length > 0 && (
 					<SnippetWrapper
 						$isLoading={isLoading}
 						className="snippet-wrapper"
