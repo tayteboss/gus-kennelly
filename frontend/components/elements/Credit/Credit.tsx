@@ -1,8 +1,14 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import styled from 'styled-components';
+import pxToRem from '../../../utils/pxToRem';
 
-const Link = styled(motion.a)``;
+const Link = styled(motion.a)`
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-top: ${pxToRem(16)};
+		display: inline-block;
+	}
+`;
 
 const wrapperVariants = {
 	hidden: {

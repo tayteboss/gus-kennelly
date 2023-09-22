@@ -8,7 +8,7 @@ import { PortableText } from '@portabletext/react';
 import AvailableForWork from '../../elements/AvailableForWork';
 import Credit from '../../elements/Credit'
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 type StyledProps = {
@@ -38,6 +38,11 @@ const InformationSectionWrapper = styled(motion.section)<StyledProps>`
 	border-top-left-radius: ${pxToRem(6)};
 	border-top-right-radius: ${pxToRem(6)};
 	cursor: ${(props) => props.$hasVisited ? 'default' : 'pointer'};
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		position: relative;
+		z-index: initial;
+	}
 `;
 
 const Inner = styled.div`
@@ -108,7 +113,7 @@ const MobileTopWrapper = styled.div`
 const MobileBottomWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	row-gap: ${pxToRem(24)};
+	position: relative;
 `;
 
 const AOCWrapper = styled(motion.div)``;
@@ -120,6 +125,23 @@ const AOC = styled.p`
 
 const Hint = styled.p`
 	color: var(--colour-black-600);
+`;
+
+const MotionOuterWrapper = styled(motion.div)``;
+
+const MotionInnerWrapper = styled(motion.div)`
+	padding-top: ${pxToRem(24)};
+`;
+
+const ShowMoreTrigger = styled.button`
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	text-align: right;
+	padding: 0 ${pxToRem(8)};
+	background: var(--colour-black);
+	color: var(--colour-white);
+	border-radius: 100px;
 `;
 
 const wrapperVariants = {
@@ -157,6 +179,40 @@ const childVariants = {
 	}
 };
 
+const outerVariants = {
+	hidden: {
+		height: 0,
+		transition: {
+			duration: 0.5,
+			ease: 'easeInOut'
+		}
+	},
+	visible: {
+		height: 'auto',
+		transition: {
+			duration: 0.5,
+			ease: 'easeInOut'
+		}
+	}
+};
+
+const innerVariants = {
+	hidden: {
+		opacity: 0,
+		transition: {
+			duration: 0.3,
+			ease: 'easeInOut'
+		}
+	},
+	visible: {
+		opacity: 1,
+		transition: {
+			duration: 0.3,
+			ease: 'easeInOut'
+		}
+	}
+};
+
 const InformationSection = (props: Props) => {
 	const {
 		tagline,
@@ -171,6 +227,10 @@ const InformationSection = (props: Props) => {
 		setHasVisited
 	} = props;
 
+	const [mobileShowMore, setMobileShowMore] = useState(false);
+
+	const ref = useRef<HTMLDivElement>(null);
+
 	const handleClick = () => {
 		if (hasVisited) return;
 		setHasVisited(true);
@@ -183,6 +243,25 @@ const InformationSection = (props: Props) => {
 		if (hasCookies) {
 			setHasVisited(true);
 		}
+
+		const timer = setTimeout(() => {
+			if (ref?.current) {
+				const height = ref.current.offsetHeight;
+				document.documentElement.style.setProperty('--information-height', `${height}px`);
+			}
+		}, 500);
+
+		window.addEventListener('resize', () => {
+			if (ref?.current) {
+				const height = ref.current.offsetHeight;
+				document.documentElement.style.setProperty('--information-height', `${height}px`);
+			}
+		});
+
+		return () => {
+			clearTimeout(timer);
+			window.removeEventListener('resize', () => {});
+		}
 	}, []);
 
 	return (
@@ -193,7 +272,7 @@ const InformationSection = (props: Props) => {
 			onClick={() => handleClick()}
 			$hasVisited={hasVisited}
 		>
-			<Inner>
+			<Inner ref={ref}>
 				<LayoutWrapper>
 					<DesktopWrapper>
 						<AnimatePresence mode="wait">
@@ -310,13 +389,27 @@ const InformationSection = (props: Props) => {
 									/>
 								)}
 							</InformationElement>
-							<InformationElement title="About">
-								{about && (
-									<PortableText
-										value={about}
-									/>
-								)}
-							</InformationElement>
+							<ShowMoreTrigger
+								onClick={() => setMobileShowMore(!mobileShowMore)}
+							>
+								See {mobileShowMore ? 'Less' : 'More'}
+							</ShowMoreTrigger>
+							<MotionOuterWrapper
+								variants={outerVariants}
+								initial='hidden'
+								animate={mobileShowMore ? 'visible' : 'hidden'}
+							>
+								<MotionInnerWrapper variants={innerVariants}>
+									<InformationElement title="About">
+										{about && (
+											<PortableText
+												value={about}
+											/>
+										)}
+									</InformationElement>
+									<Credit key={6} />
+								</MotionInnerWrapper>
+							</MotionOuterWrapper>
 						</MobileBottomWrapper>
 					</MobileWrapper>
 				</LayoutWrapper>

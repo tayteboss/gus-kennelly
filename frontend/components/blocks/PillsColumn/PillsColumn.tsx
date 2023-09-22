@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import Pill from '../../elements/Pill';
 import { PhotographyType, ProductionType } from '../../../shared/types/types';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
+import { useEffect, useState } from 'react';
+import MobilePillsColumn from '../MobilePillsColumn';
 
 type Props = {
 	productionIsActive: boolean;
@@ -22,6 +25,10 @@ type Props = {
 
 const PillsColumnWrapper = styled.div`
 	grid-column: span 2;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletMedium} {
+		grid-column: span 2;
+	}
 `;
 
 const PillsColumn = (props: Props) => {
@@ -42,12 +49,36 @@ const PillsColumn = (props: Props) => {
 		setIsExpanded
 	} = props;
 
+	const [isMobile, setIsMobile] = useState(false);
+
 	const hasProjectData = projectPills && projectPills.length > 0;
+
+	const windowDimensions = useWindowDimensions();
+
+	const checkIfMobile = () => {
+		if (windowDimensions.width <= 768) {
+			setIsMobile(true);
+		} else {
+			setIsMobile(false);
+		}
+	}
+
+	useEffect(() => {
+		checkIfMobile();
+
+		window.addEventListener('resize', () => {
+			checkIfMobile();
+		});
+	}, []);
 
 	return (
 		<PillsColumnWrapper className="pill-column">
 
-			{isProjectTypeColumn && (
+			{isMobile && (
+				<MobilePillsColumn />
+			)}
+
+			{(isProjectTypeColumn && !isMobile) && (
 				<>
 					{!isPhotographyFooter && (
 						<Pill
@@ -70,7 +101,7 @@ const PillsColumn = (props: Props) => {
 				</>
 			)}
 
-			{isCategoryColumn && (
+			{(isCategoryColumn && !isMobile) && (
 				<>
 					<Pill
 						title="Featured"
@@ -121,7 +152,7 @@ const PillsColumn = (props: Props) => {
 				</>
 			)}
 
-			{isProjectsColumn && (
+			{(isProjectsColumn && !isMobile) && (
 				hasProjectData && projectPills?.map((item, i) => (
 					<Pill
 						key={i}

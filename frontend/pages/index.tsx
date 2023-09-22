@@ -13,6 +13,12 @@ const PageWrapper = styled(motion.div)`
 	height: 100vh;
 
 	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
 `;
 
 type Props = {

@@ -8,6 +8,7 @@ import MuteControls from '../../elements/MuteControls';
 import ExpandedVideoControls from '../ExpandedVideoControls';
 import MinimisedProgressTimer from '../../elements/MinimisedProgressTimer';
 import Image from 'next/image';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
 
 type StyledProps = {
 	$isLoading?: boolean;
@@ -36,6 +37,17 @@ const ProjectSnippetWrapper = styled.div<StyledProps>`
 	opacity: ${(props) => props.$hasVisited ? 1 : 0};
 
 	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletMedium} {
+		top: unset;
+		bottom: calc(var(--information-height) + 16px);
+	}
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		right: ${pxToRem(8)};
+		bottom: unset;
+		top: ${pxToRem(8)};
+	}
 `;
 
 const Inner = styled.div<StyledProps>`
@@ -46,6 +58,16 @@ const Inner = styled.div<StyledProps>`
 	overflow: hidden;
 
 	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletMedium} {
+		height: ${(props) => props.$isExpanded ? '100vh' : `${props.$ratioHeight}px`};
+		width: ${(props) => props.$isExpanded ? '100vw' : 'calc(66.66vw - 32px)'};
+	}
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		height: ${(props) => props.$isExpanded ? '100vh' : `${props.$ratioHeight}px`};
+		width: ${(props) => props.$isExpanded ? '100vw' : 'calc(100vw - 16px)'};
+	}
 `;
 
 const SnippetWrapper = styled.div<StyledProps>`
@@ -91,6 +113,9 @@ const ProjectSnippet = (props: Props) => {
 	const [videoLength, setVideoLength] = useState(snippetData?.media?.asset?.data?.duration);
 
 	const muxPlayerRef = useRef<any>(null);
+	const snippetWrapperRef = useRef<HTMLDivElement>(null);
+
+	const windowDimensions = useWindowDimensions();
 
 	const type = snippetData?._type ? snippetData?._type : 'photography';
 	let data: string = '';
@@ -108,17 +133,38 @@ const ProjectSnippet = (props: Props) => {
 	};
 
 	useEffect(() => {
+		if (windowDimensions?.width < 768) {
+			setIsHovered(true);
+		}
+
 		// Create 16:9 ratio for video player
-		const ratioHeight = (window.innerWidth / 100) * 41.6666666667 * (9 / 16);
+		const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
+		const windowWidth = window.innerWidth;
+
+		if (!snippetWrapperWidth) return;
+
+		const snippetWrapperWidthPercentage = (snippetWrapperWidth / windowWidth) * 100;
+
+		const ratioHeight = (window.innerWidth / 100) * snippetWrapperWidthPercentage * (9 / 16);
 		document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
 		setRatioHeight(ratioHeight);
 
 
 		window.addEventListener('resize', () => {
-			const ratioHeight = (window.innerWidth / 100) * 41.6666666667 * (9 / 16);
+			const windowWidth = window.innerWidth;
+
+			if (!snippetWrapperWidth) return;
+
+			const snippetWrapperWidthPercentage = (snippetWrapperWidth / windowWidth) * 100;
+
+			const ratioHeight = (window.innerWidth / 100) * snippetWrapperWidthPercentage * (9 / 16);
 			document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
 			setRatioHeight(ratioHeight);
 		});
+
+		return () => {
+			window.removeEventListener('resize', () => {});
+		}
 	}, []);
 
 	useEffect(() => {
@@ -214,6 +260,7 @@ const ProjectSnippet = (props: Props) => {
 					<SnippetWrapper
 						$isLoading={isLoading}
 						className="snippet-wrapper"
+						ref={snippetWrapperRef}
 					>
 
 						{type === 'production' && (

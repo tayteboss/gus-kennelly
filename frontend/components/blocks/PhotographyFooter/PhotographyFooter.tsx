@@ -38,7 +38,7 @@ const PhotographyFooter = (props: Props) => {
 	} = props;
 
 	const [topSectionHeight, setTopSectionHeight] = useState(0);
-	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredPhotographyData[0]);
+	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType | undefined>(featuredPhotographyData ? featuredPhotographyData[0] : undefined);
 	const [productionIsActive, setProductionIsActive] = useState(false);
 	const [activeCategory, setActiveCategory] = useState('featured');
 	const [projectPills, setProjectPills] = useState<ProductionType[] | PhotographyType[]>(featuredPhotographyData);
@@ -76,7 +76,7 @@ const PhotographyFooter = (props: Props) => {
 			// Filter projects by category
 			const filteredProjects = photographyData.filter((project) => project.category == format(activeCategory))
 		
-			if (filteredProjects.length > 0) {
+			if (filteredProjects?.length > 0) {
 				setProjectPills(filteredProjects);
 				setSnippetData(filteredProjects[0]);
 			}

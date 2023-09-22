@@ -17,7 +17,7 @@ type Props = {
 	siteSettings: SiteSettingsType;
 	hasVisited: boolean;
 	isPhotographyFooter?: boolean;
-	snippetData: ProductionType | PhotographyType;
+	snippetData: ProductionType | PhotographyType | undefined;
 	activeCategory: string;
 	projectPills: ProductionType[] | PhotographyType[];
 	productionIsActive: boolean;

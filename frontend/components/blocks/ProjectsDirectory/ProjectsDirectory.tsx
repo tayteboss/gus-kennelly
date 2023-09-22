@@ -10,7 +10,7 @@ type Props = {
 	photographyColour: string;
 	siteSettings: SiteSettingsType;
 	isPhotographyFooter?: boolean;
-	snippetData: ProductionType | PhotographyType;
+	snippetData: ProductionType | PhotographyType | undefined;
 	activeCategory: string;
 	projectPills: ProductionType[] | PhotographyType[];
 	productionIsActive: boolean;
@@ -23,6 +23,10 @@ type Props = {
 
 const ProjectsDirectoryWrapper = styled.div`
 	grid-column: 1 / 7;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletMedium} {
+		grid-column: 1 / -1;
+	}
 `;
 
 const Grid = styled.div`

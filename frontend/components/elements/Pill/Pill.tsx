@@ -41,6 +41,7 @@ const PillWrapper = styled.button`
 	align-items: center;
 	justify-content: space-between;
 	position: relative;
+	overflow: hidden;
 
 	transition: all var(--transition-speed-slow) var(--transition-ease);
 
@@ -55,6 +56,7 @@ const Title = styled.div<StyledProps>`
 	z-index: 5;
 	text-align: left;
 	color: ${(props) => props.$isActive ? props.$activeColour : 'var(--colour-black)'};
+	white-space: nowrap;
 
 	transition: all var(--transition-speed-slow) var(--transition-ease);
 `;
