@@ -75,10 +75,6 @@ const LeftWrapper = styled.div`
 
 const Logo = styled.p`
 	margin-bottom: ${pxToRem(32)};
-
-	@media ${(props) => props.theme.mediaBreakpoints.tabletLandscape} {
-		margin-bottom: ${pxToRem(24)};
-	}
 `;
 
 const MiddleWrapper = styled.div`
@@ -91,10 +87,6 @@ const MiddleWrapper = styled.div`
 
 const Tagline = styled(motion.p)`
 	margin-bottom: ${pxToRem(32)};
-
-	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
-		margin-bottom: ${pxToRem(24)};
-	}
 `;
 
 const RightWrapper = styled.div`
@@ -412,32 +404,6 @@ const InformationSection = (props: Props) => {
 							)}
 							{hasVisited && (
 								<>
-									<InformationElement title="Contact + Social">
-										{email && (
-											<LinkSwap
-												initial="Email"
-												swap={email}
-												link={`mailto: ${email}`}
-												isMobile={isMobile}
-											/>
-										)}
-										{phone && (
-											<LinkSwap
-												initial="Phone"
-												swap={phone}
-												link={`tel:${phone}`}
-												isMobile={isMobile}
-											/>
-										)}
-										{instagram && (
-											<LinkSwap
-												initial="Instagram"
-												swap={instagramHandle}
-												link={instagram}
-												isMobile={isMobile}
-											/>
-										)}
-									</InformationElement>
 									<ShowMoreTrigger
 										onClick={() => setMobileShowMore(!mobileShowMore)}
 									>
@@ -449,6 +415,32 @@ const InformationSection = (props: Props) => {
 										animate={mobileShowMore ? 'visible' : 'hidden'}
 									>
 										<MotionInnerWrapper variants={innerVariants}>
+											<InformationElement title="Contact + Social">
+												{email && (
+													<LinkSwap
+														initial="Email"
+														swap={email}
+														link={`mailto: ${email}`}
+														isMobile={isMobile}
+													/>
+												)}
+												{phone && (
+													<LinkSwap
+														initial="Phone"
+														swap={phone}
+														link={`tel:${phone}`}
+														isMobile={isMobile}
+													/>
+												)}
+												{instagram && (
+													<LinkSwap
+														initial="Instagram"
+														swap={instagramHandle}
+														link={instagram}
+														isMobile={isMobile}
+													/>
+												)}
+											</InformationElement>
 											<InformationElement title="About">
 												{about && (
 													<PortableText

@@ -7,7 +7,11 @@ type Props = {
 	title?: string;
 };
 
-const InformationElementWrapper = styled(motion.div)``;
+const InformationElementWrapper = styled(motion.div)`
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		margin-bottom: ${pxToRem(24)};
+	}
+`;
 
 const Title = styled.h3`
 	margin-bottom: ${pxToRem(8)};

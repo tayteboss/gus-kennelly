@@ -34,7 +34,7 @@ const LinkSwap = (props: Props) => {
 				onMouseOut={() => setTitle(initial)}
 				target="_blank"
 			>
-				{isMobile ? swap : title}
+				{isMobile ? initial : title}
 			</LinkTag>
 		</Link>
 	);

@@ -39,7 +39,7 @@ const ControlsPanelWrapper = styled.div`
 	padding: ${pxToRem(16)};
 
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
-		padding: ${pxToRem(8)};
+		padding: ${pxToRem(16)} ${pxToRem(8)};
 	}
 `;
 
@@ -73,6 +73,7 @@ const Client = styled.h2`
 const BottomBar = styled.div`
 	display: flex;
 	align-items: center;
+	position: relative;
 `;
 
 const ControlsPanel = (props: Props) => {
@@ -94,7 +95,6 @@ const ControlsPanel = (props: Props) => {
 		setIsMuted,
 		setIsPlaying,
 		handleSeek,
-		setIsActive
 	} = props;
 
 	return (
@@ -117,10 +117,7 @@ const ControlsPanel = (props: Props) => {
 					isMobile={isMobile}
 				/>
 			</TopBar>
-			<TitleWrapper
-				$isActive={!creditsIsActive}
-				onClick={() => setIsActive(!isActive)}
-			>
+			<TitleWrapper $isActive={!creditsIsActive}>
 				{data?.title && (
 					<Title>{data.title}</Title>
 				)}

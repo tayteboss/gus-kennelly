@@ -30,6 +30,7 @@ const ExpandedVideoControlsWrapper = styled(motion.div)`
 	left: 0;
 	width: 100%;
 	height: 100vh;
+	height: 100dvh;
 	z-index: 10;
 	color: var(--colour-white);
 	mix-blend-mode: difference;
