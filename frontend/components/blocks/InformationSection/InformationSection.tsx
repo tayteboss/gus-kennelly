@@ -10,6 +10,7 @@ import Credit from '../../elements/Credit'
 import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useClickOutside } from '../../../hooks/useClickOutside';
 
 type StyledProps = {
 	$hasVisited: boolean;
@@ -41,7 +42,9 @@ const InformationSectionWrapper = styled(motion.section)<StyledProps>`
 
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
 		position: relative;
-		z-index: initial;
+		z-index: 20;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
 	}
 `;
 
@@ -229,7 +232,12 @@ const InformationSection = (props: Props) => {
 
 	const [mobileShowMore, setMobileShowMore] = useState(false);
 
-	const ref = useRef<HTMLDivElement>(null);
+	const ref = useRef<HTMLDivElement>(null!);
+
+	useClickOutside(ref, () => {
+		if (!mobileShowMore) return;
+		setMobileShowMore(false);
+	});
 
 	const handleClick = () => {
 		if (hasVisited) return;

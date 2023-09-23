@@ -40,13 +40,14 @@ const ProjectSnippetWrapper = styled.div<StyledProps>`
 
 	@media ${(props) => props.theme.mediaBreakpoints.tabletMedium} {
 		top: unset;
-		bottom: calc(var(--information-height) + 16px);
+		right: ${(props) => props.$isExpanded ? '0' : '16px)'};
+		bottom: ${(props) => props.$isExpanded ? '0' : 'calc(var(--information-height) + 16px)'};
+		transform: ${(props) => props.$isExpanded ? 'translate(0, 0)' : 'translate(0, 0)'};
 	}
 
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
-		right: ${pxToRem(8)};
-		bottom: unset;
-		top: ${pxToRem(8)};
+		right: ${(props) => props.$isExpanded ? '0' : '8px'};
+		z-index: 10;
 	}
 `;
 
@@ -133,10 +134,15 @@ const ProjectSnippet = (props: Props) => {
 	};
 
 	useEffect(() => {
-		if (windowDimensions?.width < 768) {
+		if (windowDimensions.width < 768) {
 			setIsHovered(true);
+		} else {
+			setIsHovered(false);
 		}
+	}, [windowDimensions.width]);
+	
 
+	useEffect(() => {
 		// Create 16:9 ratio for video player
 		const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
 		const windowWidth = window.innerWidth;
@@ -229,6 +235,7 @@ const ProjectSnippet = (props: Props) => {
 					isActive={isHovered && !isExpanded}
 					setIsExpanded={setIsExpanded}
 					isProduction={type === 'production'}
+					snippetData={snippetData}
 				/>
 				<MinimisedProgressTimer
 					isActive={isHovered && !isExpanded && type === 'production'}

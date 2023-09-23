@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import pxToRem from '../../../utils/pxToRem';
 import ArrowSvg from '../../Svgs/ArrowSvg';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 type Props = {
 	isActive: boolean;
 	setIsExpanded?: (isExpanded: boolean | undefined) => void | undefined;
 	isProduction: boolean;
+	snippetData: any;
 };
 
 const ExpandTriggerWrapper = styled(motion.button)`
@@ -43,8 +45,15 @@ const ExpandTrigger = (props: Props) => {
 	const {
 		isActive,
 		setIsExpanded,
-		isProduction
+		isProduction,
+		snippetData
 	} = props;
+
+	const router = useRouter();
+
+	const handlePhotographyPush = () => {
+		router.push(`/photography/${snippetData?.slug?.current}`);
+	};
 
 	return (
 		<AnimatePresence>
@@ -56,7 +65,9 @@ const ExpandTrigger = (props: Props) => {
 					exit='hidden'
 					onClick={() => {
 						if (setIsExpanded) {
-							setIsExpanded(true)
+							setIsExpanded(true);
+						} else {
+							handlePhotographyPush();
 						}
 					}}
 				>

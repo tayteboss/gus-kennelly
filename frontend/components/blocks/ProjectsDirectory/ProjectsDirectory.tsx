@@ -34,6 +34,10 @@ const Grid = styled.div`
 	grid-template-columns: repeat(6, minmax(0, 1fr));
 	grid-column-gap: ${pxToRem(16)};
 	align-items: start;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		row-gap: ${pxToRem(16)};
+	}
 `;
 
 const ProjectsDirectory = (props: Props) => {

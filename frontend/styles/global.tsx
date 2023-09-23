@@ -52,8 +52,6 @@ export const GlobalStyles = createGlobalStyle`
 
 	body {
 		position: relative;
-		height: 100vh;
-		height: 100dvh;
 
 		transition: background-color var(--transition-speed-slow) var(--transition-ease);
 
@@ -123,8 +121,8 @@ export const GlobalStyles = createGlobalStyle`
 
 		@media ${theme.mediaBreakpoints.mobile}
 		{
-			font-size: ${pxToRem(12)};
-			line-height: ${pxToRem(16)};
+			font-size: ${pxToRem(13)};
+			line-height: ${pxToRem(18)};
 		}
 	}
 
@@ -177,13 +175,6 @@ export const GlobalStyles = createGlobalStyle`
 			opacity: 1;
 			transform: scale(1);
 		}
-	}
-
-	.pill-column {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		/* row-gap: ${pxToRem(4)}; */
 	}
 
 	.performance {

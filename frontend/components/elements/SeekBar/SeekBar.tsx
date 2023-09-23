@@ -16,6 +16,10 @@ const SeekBarWrapper = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	column-gap: ${pxToRem(32)};
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		column-gap: ${pxToRem(8)};
+	}
 `;
 
 const SeekBarInner = styled.div`

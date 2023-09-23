@@ -9,11 +9,12 @@ type StyledProps = {
 };
 
 type Props = {
-	handleNextProject?: (() => void | undefined) | undefined;
-	handlePreviousProject?: (() => void | undefined) | undefined;
 	hasNextProject: boolean;
 	hasPreviousProject: boolean;
 	isPhotographyType?: boolean;
+	isMobile?: boolean;
+	handleNextProject?: (() => void | undefined) | undefined;
+	handlePreviousProject?: (() => void | undefined) | undefined;
 };
 
 const ProjectsNavigationTriggerWrapper = styled.div`
@@ -68,6 +69,7 @@ const ProjectsNavigationTrigger = (props: Props) => {
 		hasNextProject,
 		hasPreviousProject,
 		isPhotographyType,
+		isMobile,
 		handleNextProject,
 		handlePreviousProject
 	} = props;
@@ -84,7 +86,7 @@ const ProjectsNavigationTrigger = (props: Props) => {
 				$isPhotographyType={isPhotographyType}
 			>
 				<ArrowSvg color={isPhotographyType ? '#000000' : '#FFFFFF'} />
-				Previous Project
+				{isMobile ? 'Previous' : 'Previous Project'}
 			</PreviousTrigger>
 			<NextTrigger
 				onClick={() => {
@@ -95,7 +97,7 @@ const ProjectsNavigationTrigger = (props: Props) => {
 				$hasNextProject={hasNextProject}
 				$isPhotographyType={isPhotographyType}
 			>
-				Next Project
+				{isMobile ? 'Next' : 'Next Project'}
 				<ArrowSvg color={isPhotographyType ? '#000000' : '#FFFFFF'} />
 			</NextTrigger>
 		</ProjectsNavigationTriggerWrapper>

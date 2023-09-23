@@ -33,6 +33,10 @@ const ProjectsIndexWrapper = styled.div<StyledProps>`
 	opacity: ${(props) => (props.$hasVisited ? 1 : 0)};
 
 	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		padding: ${pxToRem(8)} 0;
+	}
 `;
 
 const ProjectsIndex = (props: Props) => {

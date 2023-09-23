@@ -16,6 +16,10 @@ const PlayTriggerWrapper = styled.button`
 	width: 43px;
 	margin-right: ${pxToRem(16)};
 	text-align: left;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-right: ${pxToRem(8)};
+	}
 `;
 
 const PlayTrigger = (props: Props) => {

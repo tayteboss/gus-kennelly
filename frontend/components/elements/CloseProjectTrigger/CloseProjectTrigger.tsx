@@ -9,6 +9,7 @@ type StyledProps = {
 
 type Props = {
 	isPhotographyType?: boolean;
+	isMobile?: boolean;
 	setIsExpanded?: (isExpanded: boolean) => void;
 };
 
@@ -34,6 +35,7 @@ const CloseTriggerWrapper = styled.button<StyledProps>`
 const CloseProjectTrigger = (props: Props) => {
 	const {
 		isPhotographyType,
+		isMobile,
 		setIsExpanded
 	} = props;
 
@@ -54,7 +56,7 @@ const CloseProjectTrigger = (props: Props) => {
 			onClick={() => handleClick()}
 			$isPhotographyType={isPhotographyType}
 		>
-			Close Project
+			{isMobile ? 'Close' : 'Close Project'}
 			<CrossSvg color={isPhotographyType ? '#000000' : '#FFFFFF'} />
 		</CloseTriggerWrapper>
 	);

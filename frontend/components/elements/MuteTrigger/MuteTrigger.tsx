@@ -11,6 +11,10 @@ const MuteTriggerWrapper = styled.button`
 	color: var(--colour-white);
 	margin-right: ${pxToRem(32)};
 	text-align: left;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-right: ${pxToRem(16)};
+	}
 `;
 
 const MuteTrigger = (props: Props) => {

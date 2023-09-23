@@ -17,6 +17,8 @@ type Props = {
 	data: ProductionType;
 	hasNextProject: boolean;
 	hasPreviousProject: boolean;
+	isMobile: boolean;
+	isActive: boolean;
 	setCreditsIsActive: (creditsIsActive: boolean) => void;
 	setIsExpanded?: (isExpanded: boolean | undefined) => void | undefined;
 	setIsMuted: (isMuted: boolean) => void;
@@ -24,6 +26,7 @@ type Props = {
 	handleSeek: (time: number) => void;
 	handleNextProject?: (() => void | undefined) | undefined;
 	handlePreviousProject?: (() => void | undefined) | undefined;
+	setIsActive: (isActive: boolean) => void;
 };
 
 const ControlsPanelWrapper = styled.div`
@@ -34,6 +37,10 @@ const ControlsPanelWrapper = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	padding: ${pxToRem(16)};
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		padding: ${pxToRem(8)};
+	}
 `;
 
 const TopBar = styled.div`
@@ -45,6 +52,14 @@ const TitleWrapper = styled.div`
 	opacity: ${(props: { $isActive: boolean }) => props.$isActive ? 1 : 0};
 
 	transition: all var(--transition-speed-default) var(--transition-ease);
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		flex: 1;
+		padding-top: ${pxToRem(42)};
+	}
 `;
 
 const Title = styled.h1`
@@ -70,13 +85,16 @@ const ControlsPanel = (props: Props) => {
 		data,
 		hasNextProject,
 		hasPreviousProject,
+		isMobile,
+		isActive,
 		handleNextProject,
 		handlePreviousProject,
 		setCreditsIsActive,
 		setIsExpanded,
 		setIsMuted,
 		setIsPlaying,
-		handleSeek
+		handleSeek,
+		setIsActive
 	} = props;
 
 	return (
@@ -85,16 +103,24 @@ const ControlsPanel = (props: Props) => {
 				<CreditsTrigger
 					creditsIsActive={creditsIsActive}
 					setCreditsIsActive={setCreditsIsActive}
+					isMobile={isMobile}
 				/>
 				<ProjectsNavigationTrigger
 					handleNextProject={handleNextProject}
 					handlePreviousProject={handlePreviousProject}
 					hasNextProject={hasNextProject}
 					hasPreviousProject={hasPreviousProject}
+					isMobile={isMobile}
 				/>
-				<CloseProjectTrigger setIsExpanded={setIsExpanded} />
+				<CloseProjectTrigger
+					setIsExpanded={setIsExpanded}
+					isMobile={isMobile}
+				/>
 			</TopBar>
-			<TitleWrapper $isActive={!creditsIsActive}>
+			<TitleWrapper
+				$isActive={!creditsIsActive}
+				onClick={() => setIsActive(!isActive)}
+			>
 				{data?.title && (
 					<Title>{data.title}</Title>
 				)}

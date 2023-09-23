@@ -32,18 +32,32 @@ type Props = {
 const OuterWrapper = styled.div`
 	padding-bottom: ${pxToRem(4)};
 	width: 100%;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		width: unset;
+		padding-bottom: 0;
+	}
 `;
 
-const PillWrapper = styled.button`
+const PillWrapper = styled.button<StyledProps>`
 	width: 100%;
 	padding: 0 ${pxToRem(8)};
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	position: relative;
-	overflow: hidden;
-
+	
 	transition: all var(--transition-speed-slow) var(--transition-ease);
+	
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		overflow: hidden;
+		column-gap: ${pxToRem(4)};
+		padding: ${pxToRem(2)} ${pxToRem(8)};
+		background: ${(props) => props.$isActive ? 'var(--colour-black)' : 'transparent'};
+		border-radius: 100px;
+
+		transition: all var(--transition-speed-default) var(--transition-ease);
+	}
 
 	.arrow-svg {
 		position: relative;
@@ -59,6 +73,10 @@ const Title = styled.div<StyledProps>`
 	white-space: nowrap;
 
 	transition: all var(--transition-speed-slow) var(--transition-ease);
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		font-size: ${pxToRem(13)};
+	}
 `;
 
 const CursorPill = styled(motion.div)`
@@ -70,6 +88,10 @@ const CursorPill = styled(motion.div)`
 	background: var(--colour-black);
 	border-radius: 100px;
 	z-index: 1;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		display: none;
+	}
 `;
 
 const HoverPill = styled(motion.div)`
@@ -81,6 +103,10 @@ const HoverPill = styled(motion.div)`
 	border: 1px solid var(--colour-black);
 	border-radius: 100px;
 	z-index: 1;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		display: none;
+	}
 `;
 
 const hoverVariants = {
@@ -157,7 +183,10 @@ const Pill = (props: Props) => {
 			onMouseOver={() => setIsHovered(true)}
 			onMouseOut={() => setIsHovered(false)}
 		>
-			<PillWrapper onClick={() => handleClick()}>
+			<PillWrapper
+				onClick={() => handleClick()}
+				$isActive={isActive}
+			>
 				<Title
 					$isActive={isActive}
 					$activeColour={activeColour}

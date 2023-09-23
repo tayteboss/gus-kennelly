@@ -11,13 +11,14 @@ import { motion } from 'framer-motion';
 
 const PageWrapper = styled(motion.div)`
 	height: 100vh;
+	overflow: hidden;
 
 	transition: all var(--transition-speed-extra-slow) var(--transition-ease);
 
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-end;
+		justify-content: space-between;
 	}
 `;
 
@@ -30,6 +31,11 @@ type Props = {
 	pageTransitionVariants: Transitions;
 };
 
+// Helper function to format strings
+const formatString = (string: string) => {
+	return string.toLowerCase().replace(/\s/g, '-');
+};
+
 const Page = (props: Props) => {
 	const {
 		siteSettings,
@@ -40,6 +46,7 @@ const Page = (props: Props) => {
 		pageTransitionVariants
 	} = props;
 
+	// State variables
 	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredProductionData[0]);
 	const [nextProject, setNextProject] = useState<ProductionType | undefined>(undefined);
 	const [previousProject, setPreviousProject] = useState<ProductionType | undefined>(undefined);
@@ -49,22 +56,22 @@ const Page = (props: Props) => {
 	const [activeCategory, setActiveCategory] = useState('featured');
 	const [projectPills, setProjectPills] = useState<ProductionType[] | PhotographyType[]>(featuredProductionData || featuredPhotographyData || []);
 
+	// Custom hook for background color update
 	useBgColourUpdate(productionIsActive, siteSettings);
 
-	const format = (string: string) => {
-		return string.toLowerCase().replace(/\s/g, '-');
-	};
-
+	// Function to handle category change
 	const handleChangeCategory = (category: string) => {
 		setActiveCategory(category);
-	}
+	};
 
+	// Function to handle next project
 	const handleNextProject = () => {
 		if (nextProject) {
 			setSnippetData(nextProject);
 		}
 	};
 
+	// Function to handle previous project
 	const handlePreviousProject = () => {
 		if (previousProject) {
 			setSnippetData(previousProject);
@@ -93,9 +100,9 @@ const Page = (props: Props) => {
 		} else {
 			// Filter projects by category
 			const filteredProjects = productionIsActive
-				? productionData.filter((project) => project.category == format(activeCategory))
-				: photographyData.filter((project) => project.category == format(activeCategory));
-		
+				? productionData.filter((project) => project.category == formatString(activeCategory))
+				: photographyData.filter((project) => project.category == formatString(activeCategory));
+
 			if (filteredProjects.length > 0) {
 				setProjectPills(filteredProjects);
 				setSnippetData(filteredProjects[0]);
@@ -106,47 +113,14 @@ const Page = (props: Props) => {
 	// Handling next / prev projects when snippetData changes
 	useEffect(() => {
 		if (snippetData) {
-			const currentProjectIndex = projectPills.findIndex((project: any) => project._id === snippetData._id);
+			const currentProjectIndex = projectPills.findIndex(
+				(project: any) => project._id === snippetData._id
+			);
 			const nextProject: any = projectPills[currentProjectIndex + 1];
 			const previousProject: any = projectPills[currentProjectIndex - 1];
 
 			setNextProject(nextProject);
 			setPreviousProject(previousProject);
-
-			if (nextProject) {
-				const nextProjectMedia = nextProject?.media?.asset?.playbackId;
-				const nextProjectSnippet = nextProject?.snippet?.asset?.playbackId;
-
-				const nextProjectMediaPreload = document.createElement('link');
-				nextProjectMediaPreload.rel = 'preload';
-				nextProjectMediaPreload.as = 'video';
-				nextProjectMediaPreload.href = `https://stream.mux.com/${nextProjectMedia}.m3u8`;
-				document.head.appendChild(nextProjectMediaPreload);
-
-				const nextProjectSnippetPreload = document.createElement('link');
-				nextProjectSnippetPreload.rel = 'preload';
-				nextProjectSnippetPreload.as = 'video';
-				nextProjectSnippetPreload.href = `https://stream.mux.com/${nextProjectSnippet}.m3u8`;
-				document.head.appendChild(nextProjectSnippetPreload);
-			}
-
-			// if there is a previous project, preload it
-			if (previousProject) {
-				const previousProjectMedia = previousProject?.media?.asset?.playbackId;
-				const previousProjectSnippet = previousProject?.snippet?.asset?.playbackId;
-
-				const previousProjectMediaPreload = document.createElement('link');
-				previousProjectMediaPreload.rel = 'preload';
-				previousProjectMediaPreload.as = 'video';
-				previousProjectMediaPreload.href = `https://stream.mux.com/${previousProjectMedia}.m3u8`;
-				document.head.appendChild(previousProjectMediaPreload);
-
-				const previousProjectSnippetPreload = document.createElement('link');
-				previousProjectSnippetPreload.rel = 'preload';
-				previousProjectSnippetPreload.as = 'video';
-				previousProjectSnippetPreload.href = `https://stream.mux.com/${previousProjectSnippet}.m3u8`;
-				document.head.appendChild(previousProjectSnippetPreload);
-			}
 		}
 	}, [snippetData]);
 

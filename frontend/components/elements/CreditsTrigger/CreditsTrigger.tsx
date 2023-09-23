@@ -8,8 +8,9 @@ type StyledProps = {
 
 type Props = {
 	creditsIsActive: boolean;
-	setCreditsIsActive: (creditsIsActive: boolean) => void;
 	isPhotographyType?: boolean;
+	isMobile?: boolean;
+	setCreditsIsActive: (creditsIsActive: boolean) => void;
 };
 
 const CreditsTriggerWrapper = styled.button<StyledProps>`
@@ -40,8 +41,9 @@ const Icon = styled.div<StyledProps>`
 const CreditsTrigger = (props: Props) => {
 	const {
 		creditsIsActive,
+		isPhotographyType,
+		isMobile,
 		setCreditsIsActive,
-		isPhotographyType
 	} = props;
 
 	return (
@@ -49,7 +51,11 @@ const CreditsTrigger = (props: Props) => {
 			onClick={() => setCreditsIsActive(!creditsIsActive)}
 			$isPhotographyType={isPhotographyType}
 		>
-			{creditsIsActive ? 'Hide Project Details' : 'Show Project Details'}
+			{isMobile ? (
+				creditsIsActive ? 'Hide Details' : 'Show Details'
+			) : (
+				creditsIsActive ? 'Hide Project Details' : 'Show Project Details'
+			)}
 			{/* <Icon
 				className="credits-trigger__icon"
 				$creditsIsActive={creditsIsActive}

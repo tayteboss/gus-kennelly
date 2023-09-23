@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
+import pxToRem from '../../../utils/pxToRem';
 
 type Props = {
 	initial: string;
@@ -8,7 +9,12 @@ type Props = {
 	link: string;
 };
 
-const LinkTag = styled.a``;
+const LinkTag = styled.a`
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-bottom: ${pxToRem(2)};
+		display: inline-block;
+	}
+`;
 
 const LinkSwap = (props: Props) => {
 	const {

@@ -5,6 +5,7 @@ import ControlsPanel from '../ControlsPanel';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ProductionType } from '../../../shared/types/types';
 import throttle from 'lodash.throttle';
+import useViewportWidth from '../../../hooks/useViewportWidth';
 
 type Props = {
 	isExpanded: boolean;
@@ -38,6 +39,7 @@ const Inner = styled(motion.div)`
 	width: 100%;
 	height: 100%;
 	display: flex;
+	position: relative;
 `;
 
 const wrapperVariants = {
@@ -95,6 +97,17 @@ const ExpandedVideoControls = (props: Props) => {
 
 	const [creditsIsActive, setCreditsIsActive] = useState(false);
 	const [isActive, setIsActive] = useState(true);
+	const [isMobile, setIsMobile] = useState(false);
+
+	const viewportWidth = useViewportWidth();
+
+	useEffect(() => {
+		if (viewportWidth === 'mobile') {
+			setIsMobile(true);
+		} else {
+			setIsMobile(false);
+		}
+	}, [viewportWidth]);
 
 	useEffect(() => {
 		if (!isExpanded) {
@@ -115,6 +128,8 @@ const ExpandedVideoControls = (props: Props) => {
 	}, [creditsIsActive]);
 
 	useEffect(() => {
+		if (!isExpanded) return;
+
 		let timeout: any;
 
 		const body = document.querySelector('body');
@@ -131,7 +146,7 @@ const ExpandedVideoControls = (props: Props) => {
 			if (!creditsIsActive) {
 				timeout = setTimeout(() => {
 					setIsActive(false);
-				}, 2000);
+				}, isMobile ? 6000 : 2000);
 			} else {
 				clearTimeout(timeout);
 				setIsActive(true);
@@ -185,6 +200,8 @@ const ExpandedVideoControls = (props: Props) => {
 								<CreditPanel
 									creditsIsActive={creditsIsActive}
 									data={data}
+									isMobile={isMobile}
+									setCreditsIsActive={setCreditsIsActive}
 								/>
 								<ControlsPanel
 									creditsIsActive={creditsIsActive}
@@ -195,6 +212,8 @@ const ExpandedVideoControls = (props: Props) => {
 									data={data}
 									hasNextProject={hasNextProject}
 									hasPreviousProject={hasPreviousProject}
+									isMobile={isMobile}
+									isActive={isActive}
 									setCreditsIsActive={setCreditsIsActive}
 									setIsExpanded={setIsExpanded}
 									setIsMuted={setIsMuted}
@@ -202,6 +221,7 @@ const ExpandedVideoControls = (props: Props) => {
 									handleSeek={handleSeek}
 									handleNextProject={handleNextProject}
 									handlePreviousProject={handlePreviousProject}
+									setIsActive={setIsActive}
 								/>
 							</Inner>
 						)}
