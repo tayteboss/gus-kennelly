@@ -9,7 +9,18 @@ import { useEffect, useState } from 'react';
 import useBgColourUpdate from '../hooks/useBgColourUpdate';
 import { motion } from 'framer-motion';
 
-const PageWrapper = styled(motion.div)`
+type Props = {
+	siteSettings: SiteSettingsType;
+	productionData: ProductionType[];
+	featuredProductionData: ProductionType[];
+	photographyData: PhotographyType[];
+	featuredPhotographyData: PhotographyType[];
+	pageTransitionVariants: Transitions;
+};
+
+const PageWrapper = styled(motion.div)``;
+
+const Inner = styled.div`
 	height: 100vh;
 	overflow: hidden;
 
@@ -21,15 +32,6 @@ const PageWrapper = styled(motion.div)`
 		justify-content: space-between;
 	}
 `;
-
-type Props = {
-	siteSettings: SiteSettingsType;
-	productionData: ProductionType[];
-	featuredProductionData: ProductionType[];
-	photographyData: PhotographyType[];
-	featuredPhotographyData: PhotographyType[];
-	pageTransitionVariants: Transitions;
-};
 
 // Helper function to format strings
 const formatString = (string: string) => {
@@ -137,46 +139,48 @@ const Page = (props: Props) => {
 					title={`Gus Kennelly | ${siteSettings?.tagline || ''}`}
 					description={siteSettings?.seoDescription || ''}
 				/>
-				<ProjectsIndex
-					photographyData={photographyData}
-					featuredPhotographyData={featuredPhotographyData}
-					productionColour={siteSettings?.productionColour?.hex}
-					photographyColour={siteSettings?.photographyColour?.hex}
-					siteSettings={siteSettings}
-					hasVisited={hasVisited}
+				<Inner className="page-wrapper__inner">
+					<ProjectsIndex
+						photographyData={photographyData}
+						featuredPhotographyData={featuredPhotographyData}
+						productionColour={siteSettings?.productionColour?.hex}
+						photographyColour={siteSettings?.photographyColour?.hex}
+						siteSettings={siteSettings}
+						hasVisited={hasVisited}
+						snippetData={snippetData}
+						activeCategory={activeCategory}
+						projectPills={projectPills}
+						productionIsActive={productionIsActive}
+						setProductionIsActive={setProductionIsActive}
+						setSnippetData={setSnippetData}
+						setIsExpanded={setIsExpanded}
+						setProjectPills={setProjectPills}
+						handleChangeCategory={handleChangeCategory}
+					/>
+					<InformationSection
+						tagline={siteSettings?.tagline}
+						email={siteSettings?.email}
+						phone={siteSettings?.phone}
+						instagram={siteSettings?.instagram}
+						instagramHandle={siteSettings?.instagramHandle}
+						aoc={siteSettings?.aoc}
+						availableForWork={siteSettings?.availableForWork}
+						about={siteSettings?.about}
+						hasVisited={hasVisited}
+						setHasVisited={setHasVisited}
+					/>
+				</Inner>
+				<ProjectSnippet
 					snippetData={snippetData}
-					activeCategory={activeCategory}
-					projectPills={projectPills}
-					productionIsActive={productionIsActive}
-					setProductionIsActive={setProductionIsActive}
-					setSnippetData={setSnippetData}
-					setIsExpanded={setIsExpanded}
-					setProjectPills={setProjectPills}
-					handleChangeCategory={handleChangeCategory}
-				/>
-				<InformationSection
-					tagline={siteSettings?.tagline}
-					email={siteSettings?.email}
-					phone={siteSettings?.phone}
-					instagram={siteSettings?.instagram}
-					instagramHandle={siteSettings?.instagramHandle}
-					aoc={siteSettings?.aoc}
-					availableForWork={siteSettings?.availableForWork}
-					about={siteSettings?.about}
+					isExpanded={isExpanded}
 					hasVisited={hasVisited}
-					setHasVisited={setHasVisited}
+					hasNextProject={!!nextProject}
+					hasPreviousProject={!!previousProject}
+					setIsExpanded={setIsExpanded}
+					handleNextProject={handleNextProject}
+					handlePreviousProject={handlePreviousProject}
 				/>
 			</PageWrapper>
-			<ProjectSnippet
-				snippetData={snippetData}
-				isExpanded={isExpanded}
-				hasVisited={hasVisited}
-				hasNextProject={!!nextProject}
-				hasPreviousProject={!!previousProject}
-				setIsExpanded={setIsExpanded}
-				handleNextProject={handleNextProject}
-				handlePreviousProject={handlePreviousProject}
-			/>
 		</>
 	);
 };

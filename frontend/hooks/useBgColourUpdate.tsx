@@ -3,7 +3,7 @@ import { SiteSettingsType } from '../shared/types/types';
 
 const useBgColourUpdate = (productionIsActive: boolean, siteSettings: SiteSettingsType) => {
 	useEffect(() => {
-		const pageWrapper = document.querySelector('.page-wrapper') as HTMLElement | null;
+		const pageWrapper = document.querySelector('.page-wrapper__inner') as HTMLElement | null;
 		const colourElements = document.querySelectorAll('.colour-change') as NodeListOf<HTMLElement>;
 
 		if (!pageWrapper) return;

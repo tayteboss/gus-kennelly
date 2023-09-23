@@ -62,7 +62,7 @@ export const GlobalStyles = createGlobalStyle`
 		}
 
 		&.project-is-expanded {
-			.page-wrapper {
+			.page-wrapper__inner {
 				filter: brightness(0.1);
 				transform: scale(1.015);
 			}
