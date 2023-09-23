@@ -10,7 +10,9 @@ type StyledProps = {
 type Props = {
 	isPhotographyType?: boolean;
 	isMobile?: boolean;
+	creditsIsActive?: boolean;
 	setIsExpanded?: (isExpanded: boolean) => void;
+	setCreditsIsActive?: (creditsIsActive: boolean) => void;
 };
 
 const CloseTriggerWrapper = styled.button<StyledProps>`
@@ -36,6 +38,8 @@ const CloseProjectTrigger = (props: Props) => {
 	const {
 		isPhotographyType,
 		isMobile,
+		creditsIsActive,
+		setCreditsIsActive,
 		setIsExpanded
 	} = props;
 
@@ -43,11 +47,15 @@ const CloseProjectTrigger = (props: Props) => {
 
 	const handleClick = () => {
 		if (isPhotographyType) {
-			router.push('/');
-		}
-
-		if (setIsExpanded) {
-			setIsExpanded(false);
+			if (creditsIsActive && setCreditsIsActive) {
+				setCreditsIsActive(false);
+			} else {
+				router.push('/');
+			}
+		} else {
+			if (setIsExpanded) {
+				setIsExpanded(false);
+			}
 		}
 	}
 

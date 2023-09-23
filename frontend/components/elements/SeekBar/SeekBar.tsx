@@ -61,6 +61,10 @@ const ProgressWrapper = styled.div`
 	justify-content: flex-end;
 	column-gap: ${pxToRem(4)};
 	min-width: 90px;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		display: none;
+	}
 `;
 
 const Current = styled.div``;

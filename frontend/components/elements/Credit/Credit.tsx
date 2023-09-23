@@ -3,6 +3,10 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import pxToRem from '../../../utils/pxToRem';
 
+type Props = {
+	isMobile: boolean;
+}
+
 const Link = styled(motion.a)`
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
 		margin-top: ${pxToRem(16)};
@@ -28,21 +32,25 @@ const wrapperVariants = {
 	}
 };
 
-const Credit = () => {
+const Credit = (props: Props) => {
+	const {
+		isMobile
+	} = props;
+
 	const [title, setTitle] = useState("Credits");
 
 	return (
 		<Link
 			href="https://tayte.co/"
 			target="_blank"
-			onMouseOver={() => setTitle('tayte.co')}
+			onMouseOver={() => setTitle(isMobile ? 'Built by tayte.co' : 'tayte.co')}
 			onMouseOut={() => setTitle('Credits')}
 			variants={wrapperVariants}
 			initial='hidden'
 			animate='visible'
 			exit='hidden'
 		>
-			{title}
+			{isMobile ? 'Built by tayte.co' : title}
 		</Link>
 	);
 };

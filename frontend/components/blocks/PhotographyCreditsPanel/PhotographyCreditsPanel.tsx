@@ -75,6 +75,7 @@ const PhotographyCreditsPanel = (props: Props) => {
 	const ref = useRef<HTMLDivElement>(null!);
 
 	useClickOutside(ref, () => {
+		if (isMobile) return;
 		setCreditsIsActive(false);
 	});
 

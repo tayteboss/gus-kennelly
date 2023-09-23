@@ -99,6 +99,8 @@ const ProjectHeader = (props: Props) => {
 					/>
 					<CloseProjectTrigger
 						isPhotographyType
+						setCreditsIsActive={setCreditsIsActive}
+						creditsIsActive={creditsIsActive}
 						isMobile={isMobile}
 					/>
 				</Inner>

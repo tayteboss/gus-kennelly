@@ -22,6 +22,7 @@ const PageWrapper = styled(motion.div)``;
 
 const Inner = styled.div`
 	height: 100vh;
+	height: 100dvh;
 	overflow: hidden;
 
 	transition: all var(--transition-speed-extra-slow) var(--transition-ease);

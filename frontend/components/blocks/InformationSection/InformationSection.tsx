@@ -11,6 +11,7 @@ import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useClickOutside } from '../../../hooks/useClickOutside';
+import useViewportWidth from '../../../hooks/useViewportWidth';
 
 type StyledProps = {
 	$hasVisited: boolean;
@@ -45,6 +46,11 @@ const InformationSectionWrapper = styled(motion.section)<StyledProps>`
 		z-index: 20;
 		border-top-left-radius: 0;
 		border-top-right-radius: 0;
+		-webkit-transform: translateZ(0);
+		backface-visibility: hidden;
+		perspective: 1000;
+		transform: translate3d(0,0,0);
+		transform: translateZ(0);
 	}
 `;
 
@@ -231,6 +237,9 @@ const InformationSection = (props: Props) => {
 	} = props;
 
 	const [mobileShowMore, setMobileShowMore] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
+
+	const viewportWidth = useViewportWidth();
 
 	const ref = useRef<HTMLDivElement>(null!);
 
@@ -244,6 +253,14 @@ const InformationSection = (props: Props) => {
 		setHasVisited(true);
 		Cookies.set('visited', 'true', { expires: 1, path: '' });
 	};
+
+	useEffect(() => {
+		if (viewportWidth === 'mobile') {
+			setIsMobile(true);
+		} else {
+			setIsMobile(false);
+		}
+	}, [viewportWidth]);
 
 	useEffect(() => {
 		const hasCookies = Cookies.get('visited');
@@ -279,6 +296,7 @@ const InformationSection = (props: Props) => {
 			animate={!hasVisited ? 'visible' : 'hidden'}
 			onClick={() => handleClick()}
 			$hasVisited={hasVisited}
+			className="performance"
 		>
 			<Inner ref={ref}>
 				<LayoutWrapper>
@@ -294,6 +312,7 @@ const InformationSection = (props: Props) => {
 													initial="Email"
 													swap={email}
 													link={`mailto: ${email}`}
+													isMobile={isMobile}
 												/>
 											)}
 											{phone && (
@@ -301,6 +320,7 @@ const InformationSection = (props: Props) => {
 													initial="Phone"
 													swap={phone}
 													link={`tel:${phone}`}
+													isMobile={isMobile}
 												/>
 											)}
 											{instagram && (
@@ -308,6 +328,7 @@ const InformationSection = (props: Props) => {
 													initial="Instagram"
 													swap={instagramHandle}
 													link={instagram}
+													isMobile={isMobile}
 												/>
 											)}
 										</InformationElement>
@@ -359,7 +380,10 @@ const InformationSection = (props: Props) => {
 												isActive={availableForWork}
 												key={5}
 											/>
-											<Credit key={6} />
+											<Credit
+												key={6}
+												isMobile={isMobile}
+											/>
 										</>
 									)}
 								</RightWrapper>
@@ -374,50 +398,72 @@ const InformationSection = (props: Props) => {
 							)}
 						</MobileTopWrapper>
 						<MobileBottomWrapper>
-							<InformationElement title="Contact + Social">
-								{email && (
-									<LinkSwap
-										initial="Email"
-										swap={email}
-										link={`mailto: ${email}`}
-									/>
-								)}
-								{phone && (
-									<LinkSwap
-										initial="Phone"
-										swap={phone}
-										link={`tel:${phone}`}
-									/>
-								)}
-								{instagram && (
-									<LinkSwap
-										initial="Instagram"
-										swap={instagramHandle}
-										link={instagram}
-									/>
-								)}
-							</InformationElement>
-							<ShowMoreTrigger
-								onClick={() => setMobileShowMore(!mobileShowMore)}
-							>
-								See {mobileShowMore ? 'Less' : 'More'}
-							</ShowMoreTrigger>
-							<MotionOuterWrapper
-								variants={outerVariants}
-								initial='hidden'
-								animate={mobileShowMore ? 'visible' : 'hidden'}
-							>
-								<MotionInnerWrapper variants={innerVariants}>
-									<InformationElement title="About">
-										{about && (
-											<PortableText
-												value={about}
+							{(!hasVisited && aoc) && (
+								<AOCWrapper
+									key={4}
+									variants={childVariants}
+									initial='hidden'
+									animate='visible'
+									exit='hidden'
+								>
+									<AOC>{aoc}</AOC>
+									<Hint>Click anywhere to contiue</Hint>
+								</AOCWrapper>
+							)}
+							{hasVisited && (
+								<>
+									<InformationElement title="Contact + Social">
+										{email && (
+											<LinkSwap
+												initial="Email"
+												swap={email}
+												link={`mailto: ${email}`}
+												isMobile={isMobile}
+											/>
+										)}
+										{phone && (
+											<LinkSwap
+												initial="Phone"
+												swap={phone}
+												link={`tel:${phone}`}
+												isMobile={isMobile}
+											/>
+										)}
+										{instagram && (
+											<LinkSwap
+												initial="Instagram"
+												swap={instagramHandle}
+												link={instagram}
+												isMobile={isMobile}
 											/>
 										)}
 									</InformationElement>
-									<Credit key={6} />
-								</MotionInnerWrapper>
-							</MotionOuterWrapper>
+									<ShowMoreTrigger
+										onClick={() => setMobileShowMore(!mobileShowMore)}
+									>
+										See {mobileShowMore ? 'Less' : 'More'}
+									</ShowMoreTrigger>
+									<MotionOuterWrapper
+										variants={outerVariants}
+										initial='hidden'
+										animate={mobileShowMore ? 'visible' : 'hidden'}
+									>
+										<MotionInnerWrapper variants={innerVariants}>
+											<InformationElement title="About">
+												{about && (
+													<PortableText
+														value={about}
+													/>
+												)}
+											</InformationElement>
+											<Credit
+												key={6}
+												isMobile={isMobile}
+											/>
+										</MotionInnerWrapper>
+									</MotionOuterWrapper>
+								</>
+							)}
 						</MobileBottomWrapper>
 					</MobileWrapper>
 				</LayoutWrapper>

@@ -7,6 +7,7 @@ type Props = {
 	initial: string;
 	swap: string;
 	link: string;
+	isMobile: boolean;
 };
 
 const LinkTag = styled.a`
@@ -20,7 +21,8 @@ const LinkSwap = (props: Props) => {
 	const {
 		initial,
 		swap,
-		link
+		link,
+		isMobile
 	} = props;
 
 	const [title, setTitle] = useState(initial);
@@ -32,7 +34,7 @@ const LinkSwap = (props: Props) => {
 				onMouseOut={() => setTitle(initial)}
 				target="_blank"
 			>
-				{title}
+				{isMobile ? swap : title}
 			</LinkTag>
 		</Link>
 	);

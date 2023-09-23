@@ -56,6 +56,7 @@ const ProjectSnippetWrapper = styled.div<StyledProps>`
 
 const Inner = styled.div<StyledProps>`
 	height: ${(props) => props.$isExpanded ? '100vh' : `${props.$ratioHeight}px`};
+	height: ${(props) => props.$isExpanded ? '100dvh' : `${props.$ratioHeight}px`};
 	width: ${(props) => props.$isExpanded ? '100vw' : '41.6666666667vw'};
 	position: relative;
 	border-radius: ${(props) => props.$isExpanded ? 0 : pxToRem(6)};
@@ -65,11 +66,13 @@ const Inner = styled.div<StyledProps>`
 
 	@media ${(props) => props.theme.mediaBreakpoints.tabletMedium} {
 		height: ${(props) => props.$isExpanded ? '100vh' : `${props.$ratioHeight}px`};
+		height: ${(props) => props.$isExpanded ? '100dvh' : `${props.$ratioHeight}px`};
 		width: ${(props) => props.$isExpanded ? '100vw' : 'calc(66.66vw - 32px)'};
 	}
 
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
 		height: ${(props) => props.$isExpanded ? '100vh' : `${props.$ratioHeight}px`};
+		height: ${(props) => props.$isExpanded ? '100dvh' : `${props.$ratioHeight}px`};
 		width: ${(props) => props.$isExpanded ? '100vw' : 'calc(100vw - 16px)'};
 	}
 `;
