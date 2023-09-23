@@ -102,7 +102,7 @@ const ExpandedVideoControls = (props: Props) => {
 	const viewportWidth = useViewportWidth();
 
 	useEffect(() => {
-		if (viewportWidth === 'mobile') {
+		if (viewportWidth === 'tabletPortrait' || viewportWidth === 'mobile') {
 			setIsMobile(true);
 		} else {
 			setIsMobile(false);
@@ -176,7 +176,7 @@ const ExpandedVideoControls = (props: Props) => {
 			window.removeEventListener('mousemove', handleMouseActive);
 			clearTimeout(timeout);
 		};
-	}, [creditsIsActive, isActive]);
+	}, [creditsIsActive, isActive, isExpanded]);
 
 	return (
 		<AnimatePresence>

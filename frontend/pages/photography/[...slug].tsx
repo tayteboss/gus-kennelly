@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import client from '../../client';
-import { PhotographyType, ProductionType, SiteSettingsType, Transitions } from '../../shared/types/types';
+import { PhotographyType, SiteSettingsType, Transitions } from '../../shared/types/types';
 import ProjectHeader from '../../components/blocks/ProjectHeader';
 import PhotographyGallery from '../../components/blocks/PhotographyGallery';
 import { NextSeo } from 'next-seo';
@@ -38,6 +38,7 @@ const Page = (props: Props) => {
 	const [nextProjectSlug, setNextProjectSlug] = useState('');
 	const [previousProjectSlug, setPreviousProjectSlug] = useState('');
 	const [isMobile, setIsMobile] = useState(false);
+	const [num, setNum] = useState(0);
 
 	const viewportWidth = useViewportWidth();
 	const router = useRouter();
@@ -73,6 +74,10 @@ const Page = (props: Props) => {
 		}
 	}, [data]);
 
+	useEffect(() => {
+		setNum(num + 1);
+	}, [router]);
+
 	return (
 		<PageWrapper
 			$bgColour={siteSettings?.photographyColour?.hex}
@@ -80,6 +85,7 @@ const Page = (props: Props) => {
 			initial='hidden'
 			animate='visible'
 			exit='hidden'
+			key={num}
 		>
 			<NextSeo
 				title={`Gus Kennelly | ${data?.title || ''}}`}

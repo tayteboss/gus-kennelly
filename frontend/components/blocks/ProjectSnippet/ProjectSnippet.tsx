@@ -190,7 +190,7 @@ const ProjectSnippet = (props: Props) => {
 	}, [isExpanded]);
 
 	useEffect(() => {
-		// pause the video when isPLaying is false
+		// pause the video when isPlaying is false
 		if (muxPlayerRef.current) {
 			if (isPlaying) {
 				muxPlayerRef.current.play();

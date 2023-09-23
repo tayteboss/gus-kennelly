@@ -108,6 +108,7 @@ const ProjectHeader = (props: Props) => {
 				creditsIsActive={creditsIsActive}
 				bgColour={bgColour}
 				isMobile={isMobile}
+				setCreditsIsActive={setCreditsIsActive}
 			/>
 		</ProjectHeaderWrapper>
 	);

@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import CreditElement from '../../elements/CreditElement';
 import { ProductionType } from '../../../shared/types/types';
 import CrossSvg from '../../Svgs/CrossSvg';
+import { useClickOutside } from '../../../hooks/useClickOutside';
+import { useRef } from 'react';
 
 type StyledProps = {
 	$creditsIsActive: boolean;
@@ -59,15 +61,19 @@ const PaddingWrapper = styled.div`
 const CreditElementChildren = styled.p``;
 
 const MobileCloseTrigger = styled.button`
+	display: none;
 	position: absolute;
 	top: 8px;
 	right: 8px;
-	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	column-gap: ${pxToRem(8)};
 	color: var(--colour-white);
 	flex: 1;
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		display: flex;
+	}
 
 	.cross-svg {
 		transition: all var(--transition-speed-default) var(--transition-ease);
@@ -119,12 +125,19 @@ const CreditPanel = (props: Props) => {
 		}
 	};
 
+	const ref = useRef<HTMLDivElement>(null!);
+
+	useClickOutside(ref, () => {
+		setCreditsIsActive(false);
+	});
+
 	return (
 		<CreditPanelWrapper
 			$creditsIsActive={creditsIsActive}
 			variants={wrapperVariants}
 			initial='hidden'
 			animate={creditsIsActive ? 'visible' : 'hidden'}
+			ref={ref}
 		>
 			<Inner variants={childVariants}>
 				<MobileCloseTrigger onClick={() => setCreditsIsActive(false)}>

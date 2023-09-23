@@ -3,6 +3,8 @@ import CreditElement from '../../elements/CreditElement';
 import { PhotographyType } from '../../../shared/types/types';
 import pxToRem from '../../../utils/pxToRem';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useRef } from 'react';
+import { useClickOutside } from '../../../hooks/useClickOutside';
 
 type StyledProps = {
 	$bgColour: string;
@@ -14,6 +16,7 @@ type Props = {
 	creditsIsActive: boolean;
 	bgColour: string;
 	isMobile: boolean;
+	setCreditsIsActive: (value: boolean) => void;
 };
 
 const PhotographyCreditsPanelWrapper = styled(motion.div)<StyledProps>`
@@ -65,8 +68,15 @@ const PhotographyCreditsPanel = (props: Props) => {
 		data,
 		creditsIsActive,
 		bgColour,
-		isMobile
+		isMobile,
+		setCreditsIsActive
 	} = props;
+
+	const ref = useRef<HTMLDivElement>(null!);
+
+	useClickOutside(ref, () => {
+		setCreditsIsActive(false);
+	});
 
 	return (
 		<AnimatePresence>
@@ -78,6 +88,7 @@ const PhotographyCreditsPanel = (props: Props) => {
 					exit='hidden'
 					$bgColour={bgColour}
 					$isMobile={isMobile}
+					ref={ref}
 				>
 					{data?.title && (
 						<CreditElement title="Title">
