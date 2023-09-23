@@ -17,6 +17,10 @@ const Inner = styled.div`
 	display: flex;
 	flex-direction: column;
 	row-gap: ${pxToRem(16)};
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		row-gap: ${pxToRem(8)};
+	}
 `;
 
 const PhotographyGallery = (props: Props) => {

@@ -128,7 +128,7 @@ const CreditPanel = (props: Props) => {
 		>
 			<Inner variants={childVariants}>
 				<MobileCloseTrigger onClick={() => setCreditsIsActive(false)}>
-					Close details
+					Hide details
 					<CrossSvg color="#FFFFFF" />
 				</MobileCloseTrigger>
 				<PaddingWrapper>

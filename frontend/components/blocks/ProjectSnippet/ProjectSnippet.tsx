@@ -15,6 +15,7 @@ type StyledProps = {
 	$isExpanded?: boolean;
 	$ratioHeight?: number;
 	$hasVisited?: boolean;
+	$isPhotographyFooter?: boolean;
 };
 
 type Props = {
@@ -23,6 +24,7 @@ type Props = {
 	hasVisited: boolean;
 	hasNextProject?: boolean;
 	hasPreviousProject?: boolean;
+	isPhotographyFooter?: boolean;
 	setIsExpanded?: (isExpanded: boolean | undefined) => void | undefined;
 	handleNextProject?: (() => void | undefined) | undefined;
 	handlePreviousProject?: (() => void | undefined) | undefined;
@@ -43,6 +45,7 @@ const ProjectSnippetWrapper = styled.div<StyledProps>`
 		right: ${(props) => props.$isExpanded ? '0' : '16px)'};
 		bottom: ${(props) => props.$isExpanded ? '0' : 'calc(var(--information-height) + 16px)'};
 		transform: ${(props) => props.$isExpanded ? 'translate(0, 0)' : 'translate(0, 0)'};
+		display: ${(props) => props.$isPhotographyFooter ? 'none' : 'block'};
 	}
 
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
@@ -100,6 +103,7 @@ const ProjectSnippet = (props: Props) => {
 		hasVisited,
 		hasNextProject = false,
 		hasPreviousProject = false,
+		isPhotographyFooter = false,
 		setIsExpanded,
 		handleNextProject,
 		handlePreviousProject
@@ -217,6 +221,7 @@ const ProjectSnippet = (props: Props) => {
 			onMouseOut={() => setIsHovered(false)}
 			$isExpanded={isExpanded}
 			$hasVisited={hasVisited}
+			$isPhotographyFooter={isPhotographyFooter}
 		>
 			<Inner
 				$isExpanded={isExpanded}

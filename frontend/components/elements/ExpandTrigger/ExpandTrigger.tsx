@@ -64,11 +64,7 @@ const ExpandTrigger = (props: Props) => {
 					animate='visible'
 					exit='hidden'
 					onClick={() => {
-						if (setIsExpanded) {
-							setIsExpanded(true);
-						} else {
-							handlePhotographyPush();
-						}
+						isProduction ? setIsExpanded && setIsExpanded(true) : handlePhotographyPush();
 					}}
 				>
 					{isProduction ? 'Expand' : 'View Project'}

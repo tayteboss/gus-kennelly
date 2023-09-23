@@ -6,12 +6,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 type StyledProps = {
 	$bgColour: string;
+	$isMobile: boolean;
 };
 
 type Props = {
 	data: PhotographyType;
 	creditsIsActive: boolean;
 	bgColour: string;
+	isMobile: boolean;
 };
 
 const PhotographyCreditsPanelWrapper = styled(motion.div)<StyledProps>`
@@ -23,6 +25,11 @@ const PhotographyCreditsPanelWrapper = styled(motion.div)<StyledProps>`
 	height: 100dvh;
 	background: ${(props) => props.$bgColour};
 	backdrop-filter: blur(5px);
+	width: ${(props) => props.$isMobile ? '100%' : 'auto'};
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		padding: ${pxToRem(8)};
+	}
 
 	* {
 		color: var(--colour-black);
@@ -57,7 +64,8 @@ const PhotographyCreditsPanel = (props: Props) => {
 	const {
 		data,
 		creditsIsActive,
-		bgColour
+		bgColour,
+		isMobile
 	} = props;
 
 	return (
@@ -69,6 +77,7 @@ const PhotographyCreditsPanel = (props: Props) => {
 					animate='visible'
 					exit='hidden'
 					$bgColour={bgColour}
+					$isMobile={isMobile}
 				>
 					{data?.title && (
 						<CreditElement title="Title">

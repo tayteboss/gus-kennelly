@@ -27,6 +27,10 @@ const PhotographyFooterWrapper = styled.div<StyledProps>`
 const TopSection = styled.div<StyledProps>`
 	position: relative;
 	margin-bottom: ${(props) => `calc(var(--ratio-height) - ${props.$topSectionHeight}px)`};
+
+	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
+		margin-bottom: ${pxToRem(32)};
+	}
 `;
 
 const PhotographyFooter = (props: Props) => {
@@ -113,6 +117,7 @@ const PhotographyFooter = (props: Props) => {
 					handleChangeCategory={handleChangeCategory}
 				/>
 				<ProjectSnippet
+					isPhotographyFooter={true}
 					snippetData={snippetData}
 					hasVisited={true}
 				/>

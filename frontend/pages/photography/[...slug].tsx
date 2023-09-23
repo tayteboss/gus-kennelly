@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PhotographyFooter from '../../components/blocks/PhotographyFooter';
 import { motion } from 'framer-motion';
+import useViewportWidth from '../../hooks/useViewportWidth';
 
 type StyledProps = {
 	$bgColour: string;
@@ -36,7 +37,9 @@ const Page = (props: Props) => {
 
 	const [nextProjectSlug, setNextProjectSlug] = useState('');
 	const [previousProjectSlug, setPreviousProjectSlug] = useState('');
+	const [isMobile, setIsMobile] = useState(false);
 
+	const viewportWidth = useViewportWidth();
 	const router = useRouter();
 
 	const handleNextProject = () => {
@@ -50,6 +53,14 @@ const Page = (props: Props) => {
 			router.push(`/photography/${previousProjectSlug}`);
 		}
 	};
+
+	useEffect(() => {
+		if (viewportWidth === 'mobile') {
+			setIsMobile(true);
+		} else {
+			setIsMobile(false);
+		}
+	}, [viewportWidth]);
 
 	useEffect(() => {
 		if (data) {
@@ -81,6 +92,7 @@ const Page = (props: Props) => {
 				hasPreviousProject={previousProjectSlug?.length > 0}
 				data={data}
 				bgColour={siteSettings?.photographyColour?.hex}
+				isMobile={isMobile}
 			/>
 			<PhotographyGallery data={data} />
 			<PhotographyFooter

@@ -7,6 +7,7 @@ import pxToRem from '../../../utils/pxToRem';
 
 type StyledProps = {
 	$hasVisited: boolean;
+	$isPhotographyFooter?: boolean;
 };
 
 type Props = {
@@ -36,6 +37,7 @@ const ProjectsIndexWrapper = styled.div<StyledProps>`
 
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
 		padding: ${pxToRem(8)} 0;
+		border-top: ${(props) => props.$isPhotographyFooter ? '1px solid var(--colour-black)' : 'none'};
 	}
 `;
 
@@ -60,7 +62,10 @@ const ProjectsIndex = (props: Props) => {
 	} = props;
 
 	return (
-		<ProjectsIndexWrapper $hasVisited={hasVisited}>
+		<ProjectsIndexWrapper
+			$hasVisited={hasVisited}
+			$isPhotographyFooter={isPhotographyFooter}
+		>
 			<LayoutWrapper>
 				<LayoutGrid>
 					<ProjectsDirectory

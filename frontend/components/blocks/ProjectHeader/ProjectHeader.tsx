@@ -19,6 +19,7 @@ type Props = {
 	hasPreviousProject: boolean;
 	data: PhotographyType;
 	bgColour: string;
+	isMobile: boolean;
 	handleNextProject: () => void;
 	handlePreviousProject: () => void;
 }
@@ -47,6 +48,7 @@ const ProjectHeader = (props: Props) => {
 		hasPreviousProject,
 		data,
 		bgColour,
+		isMobile,
 		handleNextProject,
 		handlePreviousProject,
 	} = props;
@@ -85,6 +87,7 @@ const ProjectHeader = (props: Props) => {
 						creditsIsActive={creditsIsActive}
 						setCreditsIsActive={setCreditsIsActive}
 						isPhotographyType
+						isMobile={isMobile}
 					/>
 					<ProjectsNavigationTrigger
 						handleNextProject={handleNextProject}
@@ -92,9 +95,11 @@ const ProjectHeader = (props: Props) => {
 						hasNextProject={hasNextProject}
 						hasPreviousProject={hasPreviousProject}
 						isPhotographyType
+						isMobile={isMobile}
 					/>
 					<CloseProjectTrigger
 						isPhotographyType
+						isMobile={isMobile}
 					/>
 				</Inner>
 			</LayoutWrapper>
@@ -102,6 +107,7 @@ const ProjectHeader = (props: Props) => {
 				data={data}
 				creditsIsActive={creditsIsActive}
 				bgColour={bgColour}
+				isMobile={isMobile}
 			/>
 		</ProjectHeaderWrapper>
 	);
