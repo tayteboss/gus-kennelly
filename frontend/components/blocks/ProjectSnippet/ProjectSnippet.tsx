@@ -119,6 +119,7 @@ const ProjectSnippet = (props: Props) => {
 	const [ratioHeight, setRatioHeight] = useState(350);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [videoLength, setVideoLength] = useState(snippetData?.media?.asset?.data?.duration);
+	const [muxKey, setMuxKey] = useState(0);
 
 	const muxPlayerRef = useRef<any>(null);
 	const snippetWrapperRef = useRef<HTMLDivElement>(null);
@@ -217,6 +218,15 @@ const ProjectSnippet = (props: Props) => {
 
 		return () => clearInterval(interval);
 	}, [snippetData]);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setMuxKey(muxKey + 1);
+		}, 500);
+
+		return () => clearTimeout(timer);
+	}, [hasVisited]);
+	
 
 	return (
 		<ProjectSnippetWrapper
