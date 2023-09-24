@@ -50,7 +50,7 @@ const Page = (props: Props) => {
 	} = props;
 
 	// State variables
-	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType>(featuredProductionData[0]);
+	const [snippetData, setSnippetData] = useState<ProductionType | PhotographyType | undefined>(undefined);
 	const [nextProject, setNextProject] = useState<ProductionType | undefined>(undefined);
 	const [previousProject, setPreviousProject] = useState<ProductionType | undefined>(undefined);
 	const [isExpanded, setIsExpanded] = useState<boolean | undefined>(false);
@@ -80,6 +80,10 @@ const Page = (props: Props) => {
 			setSnippetData(previousProject);
 		}
 	};
+
+	useEffect(() => {
+		setSnippetData(featuredProductionData[0]);
+	}, [])
 
 	// Reset state when productionIsActive changes
 	useEffect(() => {

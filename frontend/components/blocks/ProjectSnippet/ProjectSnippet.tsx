@@ -9,6 +9,7 @@ import ExpandedVideoControls from '../ExpandedVideoControls';
 import MinimisedProgressTimer from '../../elements/MinimisedProgressTimer';
 import Image from 'next/image';
 import useWindowDimensions from '../../../hooks/useWindowDimensions';
+import { PhotographyType, ProductionType } from '../../../shared/types/types';
 
 type StyledProps = {
 	$isLoading?: boolean;
@@ -120,20 +121,13 @@ const ProjectSnippet = (props: Props) => {
 	const [currentTime, setCurrentTime] = useState(0);
 	const [videoLength, setVideoLength] = useState(snippetData?.media?.asset?.data?.duration);
 	const [muxKey, setMuxKey] = useState(0);
+	const [data, setData] = useState<string | undefined>(undefined);
+	const [type, setType] = useState('production');
 
 	const muxPlayerRef = useRef<any>(null);
 	const snippetWrapperRef = useRef<HTMLDivElement>(null);
 
 	const windowDimensions = useWindowDimensions();
-
-	const type = snippetData?._type ? snippetData?._type : 'photography';
-	let data: string = '';
-
-	if (type === 'production') {
-		data = snippetData?.media?.asset?.playbackId;
-	} else {
-		data = snippetData?.featuredImage;
-	}
 
 	const handleSeek = (time: number) => {
 		if (muxPlayerRef?.current) {
@@ -148,22 +142,41 @@ const ProjectSnippet = (props: Props) => {
 			setIsHovered(false);
 		}
 	}, [windowDimensions.width]);
+
+	useEffect(() => {
+		const type = snippetData?._type ? snippetData?._type : 'photography';
+		setType(type);
+
+		let data;
+
+		if (type === 'production') {
+			data = snippetData?.media?.asset?.playbackId;
+		} else {
+			data = snippetData?.featuredImage;
+		}
+
+		setData(data);
+	}, [snippetData]);
 	
 
 	useEffect(() => {
 		// Create 16:9 ratio for video player
-		const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
-		const windowWidth = window.innerWidth;
-
-		if (!snippetWrapperWidth) return;
-
-		const snippetWrapperWidthPercentage = (snippetWrapperWidth / windowWidth) * 100;
-
-		const ratioHeight = (window.innerWidth / 100) * snippetWrapperWidthPercentage * (9 / 16);
-		document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
-		setRatioHeight(ratioHeight);
+		const timer2 = setTimeout(() => {
+			const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
+			const windowWidth = window.innerWidth;
+	
+			if (!snippetWrapperWidth) return;
+	
+			const snippetWrapperWidthPercentage = (snippetWrapperWidth / windowWidth) * 100;
+	
+			const ratioHeight = (window.innerWidth / 100) * snippetWrapperWidthPercentage * (9 / 16);
+			document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
+			
+			setRatioHeight(ratioHeight);
+		}, 100);
 
 		window.addEventListener('resize', () => {
+			const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
 			const windowWidth = window.innerWidth;
 
 			if (!snippetWrapperWidth) return;
@@ -182,6 +195,7 @@ const ProjectSnippet = (props: Props) => {
 		return () => {
 			window.removeEventListener('resize', () => {});
 			clearTimeout(timer);
+			clearTimeout(timer2);
 		}
 	}, []);
 
@@ -285,7 +299,7 @@ const ProjectSnippet = (props: Props) => {
 				/>
 
 
-				{data?.length > 0 && (
+				{data && (
 					<SnippetWrapper
 						$isLoading={isLoading}
 						className="snippet-wrapper"

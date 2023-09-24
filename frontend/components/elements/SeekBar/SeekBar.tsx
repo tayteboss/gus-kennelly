@@ -103,7 +103,7 @@ const SeekBar = (props: Props) => {
 		const videoLengthFormatted = formatTime(Math.floor(videoLength));
 		setCurrentTimeFormated(currentTimeFormatted);
 		setVideoLengthFormated(videoLengthFormatted);
-	}, [currentTime]);
+	}, [currentTime, videoLength]);
 	
 
 	return (
@@ -112,11 +112,13 @@ const SeekBar = (props: Props) => {
 				<FullBar />
 				<CurrentTimeBar style={{ width: `${currentTimePercentage}%` }} />
 			</SeekBarInner>
-			<ProgressWrapper>
-				<Current>{currentTimeFormatted}</Current>
-				<Divider> / </Divider>
-				<VideoLength>{videoLengthFormatted}</VideoLength>
-			</ProgressWrapper>
+			{videoLengthFormatted != 'NaN:NaN' && (
+				<ProgressWrapper>
+					<Current>{currentTimeFormatted}</Current>
+					<Divider> / </Divider>
+					<VideoLength>{videoLengthFormatted}</VideoLength>
+				</ProgressWrapper>
+			)}
 		</SeekBarWrapper>
 	);
 };

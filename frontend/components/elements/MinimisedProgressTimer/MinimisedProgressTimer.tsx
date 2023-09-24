@@ -67,11 +67,13 @@ const MinimisedProgressTimer = (props: Props) => {
 	};
 
 	useEffect(() => {
+		if (!videoLength) return;
+
 		const currentTimeFormatted = formatTime(Math.floor(currentTime));
 		const videoLengthFormatted = formatTime(Math.floor(videoLength));
 		setCurrentTimeFormated(currentTimeFormatted);
 		setVideoLengthFormated(videoLengthFormatted);
-	}, [currentTime]);
+	}, [currentTime, videoLength]);
 
 	return (
 		<AnimatePresence>
