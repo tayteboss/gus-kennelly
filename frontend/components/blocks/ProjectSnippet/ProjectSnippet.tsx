@@ -9,7 +9,6 @@ import ExpandedVideoControls from '../ExpandedVideoControls';
 import MinimisedProgressTimer from '../../elements/MinimisedProgressTimer';
 import Image from 'next/image';
 import useWindowDimensions from '../../../hooks/useWindowDimensions';
-import { PhotographyType, ProductionType } from '../../../shared/types/types';
 
 type StyledProps = {
 	$isLoading?: boolean;
@@ -128,7 +127,6 @@ const ProjectSnippet = (props: Props) => {
 	const [ratioHeight, setRatioHeight] = useState(350);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [videoLength, setVideoLength] = useState(snippetData?.media?.asset?.data?.duration);
-	const [muxKey, setMuxKey] = useState(0);
 	const [data, setData] = useState<string | undefined>(undefined);
 	const [type, setType] = useState('production');
 
@@ -179,7 +177,6 @@ const ProjectSnippet = (props: Props) => {
 	}, [isExpanded]);
 
 	useEffect(() => {
-		// pause the video when isPlaying is false
 		if (muxPlayerRef.current) {
 			if (isPlaying) {
 				muxPlayerRef.current.play();
@@ -205,18 +202,16 @@ const ProjectSnippet = (props: Props) => {
 	}, [snippetData]);
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			setMuxKey(muxKey + 1);
-		}, 500);
+		if (!muxPlayerRef.current) return;
 
-		return () => clearTimeout(timer);
-	}, [hasVisited]);
+		muxPlayerRef.current.play();
+	}, [isLoading]);
 
 	useEffect(() => {
 		muxPlayerRef?.current?.play();
 
 		// Create 16:9 ratio for video player
-		const timer2 = setTimeout(() => {
+		const timer = setTimeout(() => {
 			const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
 			const windowWidth = window.innerWidth;
 	
@@ -228,7 +223,6 @@ const ProjectSnippet = (props: Props) => {
 			document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
 			
 			setRatioHeight(ratioHeight);
-			muxPlayerRef?.current?.play();
 		}, 100);
 
 		window.addEventListener('resize', () => {
@@ -244,15 +238,9 @@ const ProjectSnippet = (props: Props) => {
 			setRatioHeight(ratioHeight);
 		});
 
-		const timer = setTimeout(() => {
-			setIsPlaying(true);
-			muxPlayerRef?.current?.play();
-		}, 2000);
-
 		return () => {
 			window.removeEventListener('resize', () => {});
 			clearTimeout(timer);
-			clearTimeout(timer2);
 		}
 	}, []);
 
@@ -271,11 +259,6 @@ const ProjectSnippet = (props: Props) => {
 
 
 				{/* Minimised Controls */}
-				<PlayTrigger
-					onClick={() => setIsPlaying(!isPlaying)}
-				>
-					Play
-				</PlayTrigger>
 				<Loading isLoading={isLoading} />
 				<MuteControls
 					isMuted={isMuted}
@@ -319,12 +302,10 @@ const ProjectSnippet = (props: Props) => {
 						$isLoading={isLoading}
 						className="snippet-wrapper"
 						ref={snippetWrapperRef}
-						key={muxKey}
 					>
 
 						{type === 'production' && (
 							<MuxPlayer
-								key={muxKey}
 								ref={muxPlayerRef}
 								streamType="on-demand"
 								playbackId={data}

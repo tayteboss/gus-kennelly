@@ -19,6 +19,8 @@ const MinimisedProgressTimerWrapper = styled(motion.div)`
 	justify-content: flex-end;
 	column-gap: ${pxToRem(4)};
 	min-width: 90px;
+	color: var(--colour-white);
+	mix-blend-mode: difference;
 `;
 
 const Current = styled.div`
