@@ -115,7 +115,7 @@ const ProjectSnippet = (props: Props) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isHovered, setIsHovered] = useState(false);
 	const [isMuted, setIsMuted] = useState(true);
-	const [isPlaying, setIsPlaying] = useState(true);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const [ratioHeight, setRatioHeight] = useState(350);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [videoLength, setVideoLength] = useState(snippetData?.media?.asset?.data?.duration);
@@ -176,10 +176,8 @@ const ProjectSnippet = (props: Props) => {
 		});
 
 		const timer = setTimeout(() => {
-			if (muxPlayerRef?.current) {
-				muxPlayerRef.current.play();
-			}
-		}, 500);
+			setIsPlaying(true);
+		}, 2000);
 
 		return () => {
 			window.removeEventListener('resize', () => {});
