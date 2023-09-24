@@ -7,7 +7,7 @@ type Props = {
 	initial: string;
 	swap: string;
 	link: string;
-	isMobile: boolean;
+	isMobile?: boolean;
 };
 
 const LinkTag = styled.a`

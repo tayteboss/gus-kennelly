@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 type Props = {
-	isMobile: boolean;
+	isMobile?: boolean;
 }
 
 const Link = styled(motion.a)``;

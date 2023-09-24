@@ -25,6 +25,12 @@ const FlexBox = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
+
+	@media ${(props) => props.theme.mediaBreakpoints.tabletPortrait} {
+		.information-element {
+			margin-bottom: 0;
+		}
+	}
 `;
 
 const PhotographyBottomFooter = (props: Props) => {

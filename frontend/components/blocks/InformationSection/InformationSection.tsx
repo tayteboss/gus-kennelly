@@ -358,7 +358,7 @@ const InformationSection = (props: Props) => {
 											exit='hidden'
 										>
 											<AOC>{aoc}</AOC>
-											<Hint>Click anywhere to contiue</Hint>
+											<Hint>Click anywhere to continue</Hint>
 										</AOCWrapper>
 									)}
 								</MiddleWrapper>
@@ -396,7 +396,7 @@ const InformationSection = (props: Props) => {
 									exit='hidden'
 								>
 									<AOC>{aoc}</AOC>
-									<Hint>Click anywhere to contiue</Hint>
+									<Hint>Click anywhere to continue</Hint>
 								</AOCWrapper>
 							)}
 							{hasVisited && (
