@@ -163,7 +163,6 @@ const ProjectSnippet = (props: Props) => {
 		document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
 		setRatioHeight(ratioHeight);
 
-
 		window.addEventListener('resize', () => {
 			const windowWidth = window.innerWidth;
 
@@ -176,8 +175,15 @@ const ProjectSnippet = (props: Props) => {
 			setRatioHeight(ratioHeight);
 		});
 
+		const timer = setTimeout(() => {
+			if (muxPlayerRef?.current) {
+				muxPlayerRef.current.play();
+			}
+		}, 500);
+
 		return () => {
 			window.removeEventListener('resize', () => {});
+			clearTimeout(timer);
 		}
 	}, []);
 
@@ -286,6 +292,7 @@ const ProjectSnippet = (props: Props) => {
 						$isLoading={isLoading}
 						className="snippet-wrapper"
 						ref={snippetWrapperRef}
+						key={muxKey}
 					>
 
 						{type === 'production' && (
