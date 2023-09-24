@@ -100,6 +100,14 @@ const SnippetWrapper = styled.div<StyledProps>`
 	}
 `;
 
+const PlayTrigger = styled.button`
+	position: absolute;
+	top: 8px;
+	left: 16px;
+	color: var(--colour-white);
+	z-index: 10;
+`;
+
 const ProjectSnippet = (props: Props) => {
 	const {
 		snippetData,
@@ -263,6 +271,11 @@ const ProjectSnippet = (props: Props) => {
 
 
 				{/* Minimised Controls */}
+				<PlayTrigger
+					onClick={() => setIsPlaying(!isPlaying)}
+				>
+					Play
+				</PlayTrigger>
 				<Loading isLoading={isLoading} />
 				<MuteControls
 					isMuted={isMuted}
