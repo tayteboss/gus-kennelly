@@ -261,12 +261,10 @@ const InformationSection = (props: Props) => {
 			setHasVisited(true);
 		}
 
-		const timer = setTimeout(() => {
-			if (ref?.current) {
-				const height = ref.current.offsetHeight;
-				document.documentElement.style.setProperty('--information-height', `${height}px`);
-			}
-		}, 500);
+		if (ref?.current) {
+			const height = ref.current.offsetHeight;
+			document.documentElement.style.setProperty('--information-height', `${height}px`);
+		}
 
 		window.addEventListener('resize', () => {
 			if (ref?.current) {
@@ -276,10 +274,9 @@ const InformationSection = (props: Props) => {
 		});
 
 		return () => {
-			clearTimeout(timer);
 			window.removeEventListener('resize', () => {});
 		}
-	}, []);
+	}, [hasVisited]);
 
 	return (
 		<InformationSectionWrapper

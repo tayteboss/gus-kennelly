@@ -280,6 +280,7 @@ const ProjectSnippet = (props: Props) => {
 
 						{type === 'production' && (
 							<MuxPlayer
+								key={ratioHeight}
 								ref={muxPlayerRef}
 								streamType="on-demand"
 								playbackId={data}
