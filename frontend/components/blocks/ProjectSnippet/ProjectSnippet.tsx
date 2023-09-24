@@ -157,47 +157,6 @@ const ProjectSnippet = (props: Props) => {
 
 		setData(data);
 	}, [snippetData]);
-	
-
-	useEffect(() => {
-		// Create 16:9 ratio for video player
-		const timer2 = setTimeout(() => {
-			const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
-			const windowWidth = window.innerWidth;
-	
-			if (!snippetWrapperWidth) return;
-	
-			const snippetWrapperWidthPercentage = (snippetWrapperWidth / windowWidth) * 100;
-	
-			const ratioHeight = (window.innerWidth / 100) * snippetWrapperWidthPercentage * (9 / 16);
-			document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
-			
-			setRatioHeight(ratioHeight);
-		}, 100);
-
-		window.addEventListener('resize', () => {
-			const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
-			const windowWidth = window.innerWidth;
-
-			if (!snippetWrapperWidth) return;
-
-			const snippetWrapperWidthPercentage = (snippetWrapperWidth / windowWidth) * 100;
-
-			const ratioHeight = (window.innerWidth / 100) * snippetWrapperWidthPercentage * (9 / 16);
-			document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
-			setRatioHeight(ratioHeight);
-		});
-
-		const timer = setTimeout(() => {
-			setIsPlaying(true);
-		}, 2000);
-
-		return () => {
-			window.removeEventListener('resize', () => {});
-			clearTimeout(timer);
-			clearTimeout(timer2);
-		}
-	}, []);
 
 	useEffect(() => {
 		const body = document.querySelector('body');
@@ -244,7 +203,50 @@ const ProjectSnippet = (props: Props) => {
 
 		return () => clearTimeout(timer);
 	}, [hasVisited]);
+
+	useEffect(() => {
+		muxPlayerRef?.current?.play();
+
+		// Create 16:9 ratio for video player
+		const timer2 = setTimeout(() => {
+			const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
+			const windowWidth = window.innerWidth;
 	
+			if (!snippetWrapperWidth) return;
+	
+			const snippetWrapperWidthPercentage = (snippetWrapperWidth / windowWidth) * 100;
+	
+			const ratioHeight = (window.innerWidth / 100) * snippetWrapperWidthPercentage * (9 / 16);
+			document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
+			
+			setRatioHeight(ratioHeight);
+			muxPlayerRef?.current?.play();
+		}, 100);
+
+		window.addEventListener('resize', () => {
+			const snippetWrapperWidth = snippetWrapperRef?.current?.offsetWidth;
+			const windowWidth = window.innerWidth;
+
+			if (!snippetWrapperWidth) return;
+
+			const snippetWrapperWidthPercentage = (snippetWrapperWidth / windowWidth) * 100;
+
+			const ratioHeight = (window.innerWidth / 100) * snippetWrapperWidthPercentage * (9 / 16);
+			document.documentElement.style.setProperty('--ratio-height', `${ratioHeight}px`);
+			setRatioHeight(ratioHeight);
+		});
+
+		const timer = setTimeout(() => {
+			setIsPlaying(true);
+			muxPlayerRef?.current?.play();
+		}, 2000);
+
+		return () => {
+			window.removeEventListener('resize', () => {});
+			clearTimeout(timer);
+			clearTimeout(timer2);
+		}
+	}, []);
 
 	return (
 		<ProjectSnippetWrapper
