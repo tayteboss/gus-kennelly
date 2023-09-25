@@ -8,7 +8,6 @@ type Props = {
 
 const Wrapper = styled.div`
 	margin: 0 auto;
-	max-width: ${(props) => props.theme.layout.innerWrapper};
 	padding-left: ${pxToRem(16)};
 	padding-right: ${pxToRem(16)};
 
