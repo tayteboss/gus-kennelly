@@ -214,7 +214,6 @@ const ExpandedVideoControls = (props: Props) => {
 									hasNextProject={hasNextProject}
 									hasPreviousProject={hasPreviousProject}
 									isMobile={isMobile}
-									isActive={isActive}
 									setCreditsIsActive={setCreditsIsActive}
 									setIsExpanded={setIsExpanded}
 									setIsMuted={setIsMuted}

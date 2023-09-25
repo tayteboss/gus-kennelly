@@ -88,6 +88,7 @@ const SeekBar = (props: Props) => {
 	const handleSeekBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		const bar = e.currentTarget;
 		const clickX = e.clientX - bar.getBoundingClientRect().left;
+
 		const newTime = (clickX / bar.clientWidth) * videoLength;
 		handleSeek(newTime);
 	};
@@ -107,8 +108,8 @@ const SeekBar = (props: Props) => {
 	
 
 	return (
-		<SeekBarWrapper onClick={handleSeekBarClick}>
-			<SeekBarInner>
+		<SeekBarWrapper>
+			<SeekBarInner onClick={handleSeekBarClick}>
 				<FullBar />
 				<CurrentTimeBar style={{ width: `${currentTimePercentage}%` }} />
 			</SeekBarInner>

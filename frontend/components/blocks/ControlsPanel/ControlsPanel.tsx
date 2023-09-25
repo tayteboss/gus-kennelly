@@ -18,7 +18,6 @@ type Props = {
 	hasNextProject: boolean;
 	hasPreviousProject: boolean;
 	isMobile: boolean;
-	isActive: boolean;
 	setCreditsIsActive: (creditsIsActive: boolean) => void;
 	setIsExpanded?: (isExpanded: boolean | undefined) => void | undefined;
 	setIsMuted: (isMuted: boolean) => void;
@@ -87,7 +86,6 @@ const ControlsPanel = (props: Props) => {
 		hasNextProject,
 		hasPreviousProject,
 		isMobile,
-		isActive,
 		handleNextProject,
 		handlePreviousProject,
 		setCreditsIsActive,
