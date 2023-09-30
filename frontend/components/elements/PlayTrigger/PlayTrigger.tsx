@@ -6,6 +6,7 @@ import pxToRem from '../../../utils/pxToRem';
 type Props = {
 	setIsPlaying: (isPlaying: boolean) => void;
 	isPlaying: boolean;
+	isMobile: boolean;
 }
 
 const PlayTriggerWrapper = styled.button`
@@ -25,16 +26,19 @@ const PlayTriggerWrapper = styled.button`
 const PlayTrigger = (props: Props) => {
 	const {
 		setIsPlaying,
-		isPlaying
+		isPlaying,
+		isMobile
 	} = props;
 
 	return (
 		<PlayTriggerWrapper onClick={() => setIsPlaying(!isPlaying)}>
 			{isPlaying ? 'Pause' : 'Play'}
-			{isPlaying ? (
-				<PauseSvg />
-			) : (
-				<PlaySvg />
+			{!isMobile && (
+				isPlaying ? (
+					<PauseSvg />
+				) : (
+					<PlaySvg />
+				)
 			)}
 		</PlayTriggerWrapper>
 	);

@@ -127,6 +127,7 @@ const ControlsPanel = (props: Props) => {
 				<PlayTrigger
 					setIsPlaying={setIsPlaying}
 					isPlaying={isPlaying}
+					isMobile={isMobile}
 				/>
 				<MuteTrigger
 					setIsMuted={setIsMuted}
