@@ -225,6 +225,7 @@ const InformationSection = (props: Props) => {
 		instagramHandle,
 		aoc,
 		hasVisited,
+		vimeo,
 		setHasVisited
 	} = props;
 
@@ -245,6 +246,17 @@ const InformationSection = (props: Props) => {
 		setHasVisited(true);
 		Cookies.set('visited', 'true', { expires: 1, path: '' });
 	};
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (!hasVisited && aoc) {
+				setHasVisited(true);
+				Cookies.set('visited', 'true', { expires: 1, path: '' });
+			}
+		}, 5000);
+
+		return () => clearTimeout(timer);
+	}, []);
 
 	useEffect(() => {
 		if (viewportWidth === 'mobile') {
@@ -317,6 +329,14 @@ const InformationSection = (props: Props) => {
 													initial="Instagram"
 													swap={instagramHandle}
 													link={instagram}
+													isMobile={isMobile}
+												/>
+											)}
+											{vimeo && (
+												<LinkSwap
+													initial="Vimeo"
+													swap="Vimeo"
+													link={vimeo}
 													isMobile={isMobile}
 												/>
 											)}
@@ -434,6 +454,14 @@ const InformationSection = (props: Props) => {
 														initial="Instagram"
 														swap={instagramHandle}
 														link={instagram}
+														isMobile={isMobile}
+													/>
+												)}
+												{vimeo && (
+													<LinkSwap
+														initial="Vimeo"
+														swap="Vimeo"
+														link={vimeo}
 														isMobile={isMobile}
 													/>
 												)}

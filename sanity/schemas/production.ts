@@ -32,11 +32,6 @@ export default {
 			type: "mux.video",
 		},
 		{
-			title: 'Snippet',
-			name: 'snippet',
-			type: "mux.video",
-		},
-		{
 			title: 'Featured',
 			name: 'featured',
 			type: 'boolean',

@@ -93,6 +93,11 @@ export default {
 									return true;
 								}),
 						},
+						{
+							title: 'Use Landscape Image',
+							name: 'useLandscapeImage',
+							type: 'boolean',
+						}
 					],
 				},
 			],

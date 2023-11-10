@@ -4,6 +4,10 @@ import Image from 'next/image';
 import pxToRem from '../../../utils/pxToRem';
 import { useInView } from 'react-intersection-observer';
 
+type StyledProps = {
+	$useLandscape: boolean;
+};
+
 type Props = {
 	data: ImageType;
 	isPriority: boolean;
@@ -22,7 +26,6 @@ const DoubleImageCardWrapper = styled.div`
 `;
 
 const Outer = styled.div`
-	padding-top: 56.25%;
 	width: 100%;
 	flex: 1;
 	position: relative;
@@ -30,9 +33,8 @@ const Outer = styled.div`
 	border-radius: ${pxToRem(6)};
 `;
 
-const Inner = styled.div`
-	position: absolute;
-	inset: 0;
+const Inner = styled.div<StyledProps>`
+	padding-top: ${(props) => props.$useLandscape ? '56.25%' : '150%'};
 `;
 
 const DoubleImageCard = (props: Props) => {
@@ -59,7 +61,7 @@ const DoubleImageCard = (props: Props) => {
 					}`}
 					key={i}
 				>
-					<Inner>
+					<Inner $useLandscape={data?.useLandscapeImage}>
 						<Image
 							src={item}
 							layout="fill"

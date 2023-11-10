@@ -168,6 +168,7 @@ const Page = (props: Props) => {
 						phone={siteSettings?.phone}
 						instagram={siteSettings?.instagram}
 						instagramHandle={siteSettings?.instagramHandle}
+						vimeo={siteSettings?.vimeo}
 						aoc={siteSettings?.aoc}
 						availableForWork={siteSettings?.availableForWork}
 						about={siteSettings?.about}

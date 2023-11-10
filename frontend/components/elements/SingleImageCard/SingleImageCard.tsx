@@ -4,14 +4,18 @@ import Image from 'next/image';
 import pxToRem from '../../../utils/pxToRem';
 import { useInView } from 'react-intersection-observer';
 
+type StyledProps = {
+	$useLandscape: boolean;
+};
+
 type Props = {
 	data: ImageType;
 	isPriority: boolean;
 };
 
-const SingleImageCardWrapper = styled.div`
+const SingleImageCardWrapper = styled.div<StyledProps>`
 	width: 100%;
-	padding-top: 56.25%;
+	padding-top: ${(props) => props.$useLandscape ? '56.25%' : '150%'};
 	position: relative;
 	overflow: hidden;
 	border-radius: ${pxToRem(6)};
@@ -34,8 +38,14 @@ const SingleImageCard = (props: Props) => {
 		rootMargin: '-50px'
 	});
 
+	console.log('data', data);
+	
+
 	return (
-		<SingleImageCardWrapper ref={ref}>
+		<SingleImageCardWrapper
+			ref={ref}
+			$useLandscape={data?.useLandscapeImage}
+		>
 			{data.singleImageUrl && (
 				<Inner
 					className={`view-element-bottom-top ${

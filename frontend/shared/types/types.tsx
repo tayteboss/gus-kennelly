@@ -46,6 +46,7 @@ export type SiteSettingsType = {
 	}
 	seoDescription: string;
 	tagline: string;
+	vimeo: string;
 };
 
 export type MuxMediaType = {
@@ -76,6 +77,7 @@ export type ImageType = {
 	imageType: string;
 	singleImageUrl?: string;
 	twoImagesUrls: string[];
+	useLandscapeImage: boolean;
 }
 
 export type PhotographyType = {

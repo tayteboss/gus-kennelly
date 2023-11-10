@@ -148,6 +148,7 @@ export async function getStaticProps({ params }: any) {
 				imageType,
 				'singleImageUrl': singleImage.asset->url,
 				'twoImagesUrls': twoImages[].asset->url,
+				'useLandscapeImage': useLandscapeImage,
 			},
 			'featuredImage': featuredImage.asset->url,
 		}
