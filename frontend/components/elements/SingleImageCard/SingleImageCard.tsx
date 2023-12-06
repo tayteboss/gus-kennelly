@@ -15,7 +15,7 @@ type Props = {
 
 const SingleImageCardWrapper = styled.div<StyledProps>`
 	width: 100%;
-	padding-top: ${(props) => props.$useLandscape ? '56.25%' : '150%'};
+	padding-top: ${(props) => (props.$useLandscape ? '56.25%' : '150%')};
 	position: relative;
 	overflow: hidden;
 	border-radius: ${pxToRem(6)};
@@ -27,19 +27,13 @@ const Inner = styled.div`
 `;
 
 const SingleImageCard = (props: Props) => {
-	const {
-		data,
-		isPriority
-	} = props;
+	const { data, isPriority } = props;
 
 	const { ref, inView } = useInView({
 		triggerOnce: true,
 		threshold: 0.2,
 		rootMargin: '-50px'
 	});
-
-	console.log('data', data);
-	
 
 	return (
 		<SingleImageCardWrapper

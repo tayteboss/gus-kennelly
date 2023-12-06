@@ -4,7 +4,8 @@ import { PhotographyType, ProductionType } from '../../../shared/types/types';
 import ArrowSvg from '../../Svgs/ArrowSvg';
 import { useRouter } from 'next/router';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Marquee from 'react-fast-marquee';
 
 type StyledProps = {
 	$isActive: boolean;
@@ -25,7 +26,9 @@ type Props = {
 	handleChangeProjectType?: (isProduction: boolean) => void;
 	handleChangeCategory?: (category: string) => void;
 	handleChangeProject?: (project: string) => void;
-	handleChangeProjectSnippet?: (project: ProductionType | PhotographyType) => void;
+	handleChangeProjectSnippet?: (
+		project: ProductionType | PhotographyType
+	) => void;
 	setIsExpanded?: (isExpanded: boolean) => void;
 };
 
@@ -46,14 +49,15 @@ const PillWrapper = styled.button<StyledProps>`
 	align-items: center;
 	justify-content: space-between;
 	position: relative;
-	
+
 	transition: all var(--transition-speed-slow) var(--transition-ease);
-	
+
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
 		overflow: hidden;
 		column-gap: ${pxToRem(4)};
 		padding: ${pxToRem(2)} ${pxToRem(8)};
-		background: ${(props) => props.$isActive ? 'var(--colour-black)' : 'transparent'};
+		background: ${(props) =>
+			props.$isActive ? 'var(--colour-black)' : 'transparent'};
 		border-radius: 100px;
 
 		transition: all var(--transition-speed-default) var(--transition-ease);
@@ -69,14 +73,21 @@ const Title = styled.div<StyledProps>`
 	position: relative;
 	z-index: 5;
 	text-align: left;
-	color: ${(props) => props.$isActive ? props.$activeColour : 'var(--colour-black)'};
+	color: ${(props) =>
+		props.$isActive ? props.$activeColour : 'var(--colour-black)'};
 	white-space: nowrap;
+	width: 100%;
+	overflow: hidden;
 
 	transition: all var(--transition-speed-slow) var(--transition-ease);
 
 	@media ${(props) => props.theme.mediaBreakpoints.mobile} {
 		font-size: ${pxToRem(13)};
 	}
+`;
+
+const MarqueeInnerTitle = styled.div`
+	margin-right: ${pxToRem(8)};
 `;
 
 const CursorPill = styled(motion.div)`
@@ -145,8 +156,10 @@ const Pill = (props: Props) => {
 	} = props;
 
 	const [isHovered, setIsHovered] = useState(false);
+	const [useMarquee, setUseMarquee] = useState(false);
 
 	const router = useRouter();
+	const ref = useRef<HTMLDivElement>(null);
 
 	const format = (string: string) => {
 		return string.toLowerCase().replace(/\s/g, '-');
@@ -166,49 +179,63 @@ const Pill = (props: Props) => {
 				if (isActive && setIsExpanded) {
 					setIsExpanded(true);
 				} else {
-					handleChangeProjectSnippet(projectData)
+					handleChangeProjectSnippet(projectData);
 				}
 			} else {
 				if (isActive) {
 					router.push(`/photography/${slug}`);
 				} else {
-					handleChangeProjectSnippet(projectData)
+					handleChangeProjectSnippet(projectData);
 				}
 			}
 		}
 	};
+
+	useEffect(() => {
+		if (!ref?.current) return;
+
+		if (ref.current.scrollWidth > ref.current.offsetWidth) {
+			setUseMarquee(true);
+		}
+
+		if (ref.current.scrollWidth <= ref.current.offsetWidth) {
+			setUseMarquee(false);
+		}
+	}, []);
 
 	return (
 		<OuterWrapper
 			onMouseOver={() => setIsHovered(true)}
 			onMouseOut={() => setIsHovered(false)}
 		>
-			<PillWrapper
-				onClick={() => handleClick()}
-				$isActive={isActive}
-			>
+			<PillWrapper onClick={() => handleClick()} $isActive={isActive}>
 				<Title
 					$isActive={isActive}
 					$activeColour={activeColour}
+					ref={ref}
 				>
-					{title && title}
+					{useMarquee ? (
+						<Marquee gradient={false} speed={30} play={isHovered}>
+							<MarqueeInnerTitle>
+								{title && title}
+							</MarqueeInnerTitle>
+						</Marquee>
+					) : (
+						<>{title && title}</>
+					)}
 				</Title>
-				{(isProject && isActive) && (
-					<ArrowSvg color={activeColour} />
-				)}
+				{isProject && isActive && <ArrowSvg color={activeColour} />}
 				{isActive && (
-					<CursorPill
-						layoutId={`cursor-pill-${columnId}`}
-					/>
+					<CursorPill layoutId={`cursor-pill-${columnId}`} />
 				)}
 				<AnimatePresence>
 					{isHovered && (
 						<HoverPill
 							layoutId={`hover-pill-${columnId}`}
 							variants={hoverVariants}
-							initial='hidden'
-							animate='visible'
-							exit='hidden'
+							initial="hidden"
+							animate="visible"
+							exit="hidden"
 						/>
 					)}
 				</AnimatePresence>

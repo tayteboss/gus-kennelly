@@ -5,8 +5,6 @@ import { motion } from 'framer-motion';
 import CreditElement from '../../elements/CreditElement';
 import { ProductionType } from '../../../shared/types/types';
 import CrossSvg from '../../Svgs/CrossSvg';
-import { useClickOutside } from '../../../hooks/useClickOutside';
-import { useRef } from 'react';
 
 type StyledProps = {
 	$creditsIsActive: boolean;
@@ -17,7 +15,7 @@ type Props = {
 	data: ProductionType;
 	isMobile: boolean;
 	setCreditsIsActive: (creditsIsActive: boolean) => void;
-}
+};
 
 const CreditPanelWrapper = styled(motion.div)<StyledProps>`
 	background: rgba(0, 0, 0, 0.9);
@@ -81,12 +79,7 @@ const MobileCloseTrigger = styled.button`
 `;
 
 const CreditPanel = (props: Props) => {
-	const {
-		creditsIsActive,
-		data,
-		isMobile,
-		setCreditsIsActive
-	} = props;
+	const { creditsIsActive, data, isMobile, setCreditsIsActive } = props;
 
 	const wrapperVariants = {
 		hidden: {
@@ -106,7 +99,7 @@ const CreditPanel = (props: Props) => {
 			}
 		}
 	};
-	
+
 	const childVariants = {
 		hidden: {
 			opacity: 0,
@@ -125,19 +118,12 @@ const CreditPanel = (props: Props) => {
 		}
 	};
 
-	const ref = useRef<HTMLDivElement>(null!);
-
-	useClickOutside(ref, () => {
-		setCreditsIsActive(false);
-	});
-
 	return (
 		<CreditPanelWrapper
 			$creditsIsActive={creditsIsActive}
 			variants={wrapperVariants}
-			initial='hidden'
+			initial="hidden"
 			animate={creditsIsActive ? 'visible' : 'hidden'}
-			ref={ref}
 		>
 			<Inner variants={childVariants}>
 				<MobileCloseTrigger onClick={() => setCreditsIsActive(false)}>

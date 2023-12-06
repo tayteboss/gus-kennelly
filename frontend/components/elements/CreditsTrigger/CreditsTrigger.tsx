@@ -14,7 +14,10 @@ type Props = {
 };
 
 const CreditsTriggerWrapper = styled.button<StyledProps>`
-	color: ${(props) => props.$isPhotographyType ? 'var(--colour-black)' : 'var(--colour-white)'};
+	color: ${(props) =>
+		props.$isPhotographyType
+			? 'var(--colour-black)'
+			: 'var(--colour-white)'};
 	display: flex;
 	align-items: center;
 	column-gap: ${pxToRem(8)};
@@ -23,7 +26,10 @@ const CreditsTriggerWrapper = styled.button<StyledProps>`
 
 	&:hover {
 		.credits-trigger__icon {
-			background: ${(props) => props.$isPhotographyType ? 'var(--colour-black)' : 'var(--colour-white)'};
+			background: ${(props) =>
+				props.$isPhotographyType
+					? 'var(--colour-black)'
+					: 'var(--colour-white)'};
 		}
 	}
 `;
@@ -31,36 +37,38 @@ const CreditsTriggerWrapper = styled.button<StyledProps>`
 const Icon = styled.div<StyledProps>`
 	height: ${pxToRem(7)};
 	width: ${pxToRem(7)};
-	border: 1px solid ${(props) => props.$isPhotographyType ? 'var(--colour-black)' : 'var(--colour-white)'};
+	border: 1px solid
+		${(props) =>
+			props.$isPhotographyType
+				? 'var(--colour-black)'
+				: 'var(--colour-white)'};
 	border-radius: 50%;
-	background: ${(props) => props.$creditsIsActive ?  props.$isPhotographyType ? 'var(--colour-black)' : 'var(--colour-white)' : 'transparent'};
+	background: ${(props) =>
+		props.$creditsIsActive
+			? props.$isPhotographyType
+				? 'var(--colour-black)'
+				: 'var(--colour-white)'
+			: 'transparent'};
 
 	transition: all var(--transition-speed-slow) var(--transition-ease);
 `;
 
 const CreditsTrigger = (props: Props) => {
-	const {
-		creditsIsActive,
-		isPhotographyType,
-		isMobile,
-		setCreditsIsActive,
-	} = props;
+	const { creditsIsActive, isPhotographyType, isMobile, setCreditsIsActive } =
+		props;
 
 	return (
 		<CreditsTriggerWrapper
 			onClick={() => setCreditsIsActive(!creditsIsActive)}
 			$isPhotographyType={isPhotographyType}
 		>
-			{isMobile ? (
-				creditsIsActive ? 'Hide Details' : 'Show Details'
-			) : (
-				creditsIsActive ? 'Hide Project Details' : 'Show Project Details'
-			)}
-			{/* <Icon
-				className="credits-trigger__icon"
-				$creditsIsActive={creditsIsActive}
-				$isPhotographyType={isPhotographyType}
-			/> */}
+			{isMobile
+				? creditsIsActive
+					? 'Hide Details'
+					: 'Show Details'
+				: creditsIsActive
+				? 'Hide Project Details'
+				: 'Show Project Details'}
 		</CreditsTriggerWrapper>
 	);
 };
